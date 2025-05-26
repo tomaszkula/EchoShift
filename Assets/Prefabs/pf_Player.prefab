@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 182845616708788662}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.175, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 1682543133151927459}
   - component: {fileID: 1441448460003705066}
   - component: {fileID: -4185952237524169051}
+  - component: {fileID: 5808347515905068505}
   m_Layer: 6
   m_Name: pf_Player
   m_TagString: Untagged
@@ -85,7 +86,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 17b911f624aabbc4b8d1c85b6c26ac56, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -245,6 +246,19 @@ MonoBehaviour:
     m_Bits: 129
   groundCheck: {fileID: 476175012725920557}
   groundCheckRadius: 0.2
+--- !u!114 &5808347515905068505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4478354276051356151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed0aa3fa647eb1243a33c8d8b23419fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 5105132070185255743}
 --- !u!1 &7443489705163792445
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,8 +287,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 3, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.49999997, z: 0.49999997}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5111565678954164577}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -322,7 +336,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 5588408910427857867, guid: 2f4ae69260b388a48ae2aa32731217df, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -367,6 +381,6 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.0041183233}
-  m_Size: {x: 0.1360612, y: 0.14577448}
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 2, y: 2.5}
   m_Direction: 0

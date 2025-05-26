@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 namespace Game
 {
-    public class MoveInput : MonoBehaviour, IMove
+    public class MoveInput : MonoBehaviour, IMove, IOnMove
     {
         [SerializeField] private float speed = 5f;
 
@@ -11,38 +11,39 @@ namespace Game
 
         private Rigidbody2D _rigidbody2D = null;
         private PlayerInput _playerInput = null;
+        private InputAction _moveAction = null;
+
+        public System.Action<Vector2> OnMove { get; set; }
 
         private void Awake()
         {
             _rigidbody2D = GetComponent<Rigidbody2D>();
             _playerInput = GetComponent<PlayerInput>();
+            _moveAction = _playerInput.actions["Move"];
         }
 
         private void OnEnable()
         {
-            _playerInput.actions["Move"].performed += ctx => OnMove(ctx.ReadValue<Vector2>());
-            _playerInput.actions["Move"].canceled += ctx => OnMove(Vector2.zero);
+            _moveAction.performed += ctx => OnMoveAction(ctx.ReadValue<Vector2>());
+            _moveAction.canceled += ctx => OnMoveAction(Vector2.zero);
         }
 
         private void OnDisable()
         {
-            _playerInput.actions["Move"].performed -= ctx => OnMove(ctx.ReadValue<Vector2>());
-            _playerInput.actions["Move"].canceled -= ctx => OnMove(Vector2.zero);
+            _moveAction.performed -= ctx => OnMoveAction(ctx.ReadValue<Vector2>());
+            _moveAction.canceled -= ctx => OnMoveAction(Vector2.zero);
         }
 
-        private void OnMove(Vector2 direction)
+        private void OnMoveAction(Vector2 direction)
         {
             moveDirection = direction.normalized;
+            OnMove?.Invoke(moveDirection);
         }
 
         public void Move()
         {
-            if (_rigidbody2D == null)
-                return;
-
-            // Move horizontally
             Vector2 velocity = moveDirection * speed;
-            velocity.y = _rigidbody2D.linearVelocity.y; // Preserve current vertical velocity (for jump)
+            velocity.y = _rigidbody2D.linearVelocity.y;
 
             _rigidbody2D.linearVelocity = velocity;
         }
