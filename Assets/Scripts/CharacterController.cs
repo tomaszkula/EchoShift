@@ -4,19 +4,25 @@ namespace Game
 {
     public class CharacterController : MonoBehaviour
     {
-        private IMove _move;
-        private IJump _jump; // Assuming you have an IJump interface for jumping
+        public IMove move { get; private set; }
+        public IOnMove onMove { get; private set; } 
+
+        public IJump jump { get; private set; }
+        public IOnJump onJump { get; private set; }
 
         private void Awake()
         {
-            _move = GetComponent<IMove>();
-            _jump = GetComponent<IJump>(); // Assuming you have an IJump interface for jumping
+            move = GetComponent<IMove>();
+            onMove = GetComponent<IOnMove>();
+
+            jump = GetComponent<IJump>();
+            onJump = GetComponent<IOnJump>();
         }
 
         private void Update()
         {
-            _move?.Move();
-            _jump?.Jump(); // Call the Jump method if the IJump interface is implemented
+            move?.Move();
+            jump?.Jump();
         }
     }
 }

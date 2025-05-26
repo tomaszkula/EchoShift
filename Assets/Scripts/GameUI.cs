@@ -6,9 +6,12 @@ namespace Game
 {
     public class GameUI : MonoBehaviour
     {
-        [SerializeField] private Button pauseButton;
-        [SerializeField] private TextMeshProUGUI timeTMP;
-        [SerializeField] private Button volumeButton;
+        [SerializeField] private Button pauseButton = null;
+        [SerializeField] private TextMeshProUGUI timeTMP = null;
+        [SerializeField] private Button volumeButton = null;
+
+        [SerializeField] private Button startRecordingButton = null;
+        [SerializeField] private Button playRecordingButton = null;
 
         private float gameTime = 0f;
 
@@ -17,6 +20,9 @@ namespace Game
             pauseButton.onClick.AddListener(OnPauseButtonClicked);
             volumeButton.onClick.AddListener(OnVolumeButtonClicked);
 
+            startRecordingButton.onClick.AddListener(OnStartRecordingButtonClicked);
+            playRecordingButton.onClick.AddListener(OnPlayRecordingButtonClicked);
+
             TryInitGameManagerEvents();
         }
 
@@ -24,6 +30,9 @@ namespace Game
         {
             pauseButton.onClick.RemoveListener(OnPauseButtonClicked);
             volumeButton.onClick.RemoveListener(OnVolumeButtonClicked);
+
+            startRecordingButton.onClick.RemoveListener(OnStartRecordingButtonClicked);
+            playRecordingButton.onClick.RemoveListener(OnPlayRecordingButtonClicked);
 
             DeinitGameManagerEvents();
         }
@@ -41,6 +50,24 @@ namespace Game
             Debug.Log("Volume button clicked");
 
             ManagersController.Instance.GetManager<AudioManager>().PlayButtonClickSound();
+        }
+
+        private void OnStartRecordingButtonClicked()
+        {
+            Debug.Log("Start Recording button clicked");
+
+            ManagersController.Instance.GetManager<AudioManager>().PlayButtonClickSound();
+
+            GameManager.Instance.GetManager<GhostsManager>().StartRecording();
+        }
+
+        private void OnPlayRecordingButtonClicked()
+        {
+            Debug.Log("Play Recording button clicked");
+
+            ManagersController.Instance.GetManager<AudioManager>().PlayButtonClickSound();
+
+            GameManager.Instance.GetManager<GhostsManager>().PlayRecording();
         }
 
         private void TryInitGameManagerEvents()

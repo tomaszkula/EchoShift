@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,7 +14,7 @@ namespace Game
         private PlayerInput _playerInput = null;
         private InputAction _moveAction = null;
 
-        public System.Action<Vector2> OnMove { get; set; }
+        public Action<Vector2> OnMove { get; set; }
 
         private void Awake()
         {
@@ -37,7 +38,6 @@ namespace Game
         private void OnMoveAction(Vector2 direction)
         {
             moveDirection = direction.normalized;
-            OnMove?.Invoke(moveDirection);
         }
 
         public void Move()
@@ -46,6 +46,8 @@ namespace Game
             velocity.y = _rigidbody2D.linearVelocity.y;
 
             _rigidbody2D.linearVelocity = velocity;
+
+            OnMove?.Invoke(moveDirection);
         }
     }
 }

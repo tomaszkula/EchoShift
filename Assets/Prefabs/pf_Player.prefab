@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35a9d2368b6c9864e9858ec72342782e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7.5
+  speed: 2.5
 --- !u!114 &-4185952237524169051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,7 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d146c1dcce916e848ac9a669499aff55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 300
+  jumpForce: 500
   groundLayer:
     serializedVersion: 2
     m_Bits: 129
@@ -258,7 +258,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed0aa3fa647eb1243a33c8d8b23419fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 5105132070185255743}
+  flipOnRight: 0
+  characterSR: {fileID: 5105132070185255743}
 --- !u!1 &7443489705163792445
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,7 +272,7 @@ GameObject:
   - component: {fileID: 5105132070185255743}
   - component: {fileID: 6327140013814474741}
   m_Layer: 6
-  m_Name: sr_View
+  m_Name: sr_Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -336,12 +337,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 5588408910427857867, guid: 2f4ae69260b388a48ae2aa32731217df, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2f4ae69260b388a48ae2aa32731217df, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.16, y: 0.16}
+  m_Size: {x: 2.56, y: 2.56}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

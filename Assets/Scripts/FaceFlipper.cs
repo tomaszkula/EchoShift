@@ -3,7 +3,11 @@ using UnityEngine;
 
 public class FaceFlipper : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer spriteRenderer = null;
+    [Header("Settings")]
+    [SerializeField] private bool flipOnRight = false;
+
+    [Header("References")]
+    [SerializeField] private SpriteRenderer characterSR = null;
 
     private IOnMove _onMove = null;
 
@@ -28,15 +32,15 @@ public class FaceFlipper : MonoBehaviour
         }
     }
 
-    private void OnMove(Vector2 direction)
+    private void OnMove(Vector2 moveDirection)
     {
-        if (direction.x > 0)
+        if (moveDirection.x > 0)
         {
-            spriteRenderer.flipX = false;
+            characterSR.flipX = flipOnRight;
         }
-        else if (direction.x < 0)
+        else if (moveDirection.x < 0)
         {
-            spriteRenderer.flipX = true;
+            characterSR.flipX = !flipOnRight;
         }
     }
 }

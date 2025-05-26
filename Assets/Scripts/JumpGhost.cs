@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 namespace Game
 {
-    public class JumpInput : MonoBehaviour, IJump, IOnJump
+    public class JumpGhost : MonoBehaviour, IJump, IOnJump
     {
         [SerializeField] private float jumpForce = 5f;
         [Space]
@@ -12,51 +12,30 @@ namespace Game
         [SerializeField] private Transform groundCheck = null;
         [SerializeField] private float groundCheckRadius = 0.2f;
 
-        private bool _jumpRequested = false;
-
         private Rigidbody2D _rigidbody2D = null;
-        private PlayerInput _playerInput = null;
-        private InputAction _jumpAction = null;
+        private Ghost _ghost = null;
 
         public Action OnJump { get; set; }
 
         private void Awake()
         {
             _rigidbody2D = GetComponent<Rigidbody2D>();
-            _playerInput = GetComponent<PlayerInput>();
-            _jumpAction = _playerInput.actions["Jump"];
-        }
-
-        private void OnEnable()
-        {
-            _jumpAction.performed += ctx => OnJumpAction();
-        }
-
-        private void OnDisable()
-        {
-            _jumpAction.performed -= ctx => OnJumpAction();
+            _ghost = GetComponent<Ghost>();
         }
 
         private void OnDrawGizmos()
         {
             if (groundCheck != null)
             {
-                Gizmos.color = Color.green;
+                Gizmos.color = Color.red;
                 Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
             }
         }
 
-        private void OnJumpAction()
-        {
-            _jumpRequested = true;
-        }
-
         public void Jump()
         {
-            if (!_jumpRequested)
+            if (_ghost?.currentFrame == null || !_ghost.currentFrame.isJumping)
                 return;
-
-            _jumpRequested = false;
 
             if (IsGrounded())
             {

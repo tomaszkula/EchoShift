@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Game
@@ -22,7 +23,7 @@ namespace Game
         }
         public event Action<float> OnGameTimeUpdated = null;
 
-        private TimeManager _timeManager = null;
+        private BaseManager[] managers = new BaseManager[0];
 
         private void Awake()
         {
@@ -34,21 +35,49 @@ namespace Game
 
             Instance = this;
 
-            _timeManager = ManagersController.Instance.GetManager<TimeManager>();
+            managers = GetComponentsInChildren<BaseManager>();
 
             IsInitialized = true;
             OnInitialized?.Invoke();
         }
 
-        private void Start()
+        private IEnumerator Start()
         {
             _gameTimeDelay = 0f;
             _gameTime = 0f;
+
+            for (int i = 0; i < managers.Length; i++)
+            {
+                managers[i].Initialize();
+            }
+
+            bool allManagersReady = true;
+            do
+            {
+                allManagersReady = AreAllManagersInitialized();
+
+                if (!allManagersReady)
+                {
+                    yield return new WaitForSeconds(0.1f);
+                }
+            } while (!allManagersReady);
         }
 
         private void Update()
         {
             CountGameTime();
+        }
+
+        public bool AreAllManagersInitialized()
+        {
+            foreach (var manager in managers)
+            {
+                if (!manager.isInitialized)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private void CountGameTime()
@@ -59,6 +88,18 @@ namespace Game
                 _gameTimeDelay--;
                 GameTime++;
             }
+        }
+
+        public T GetManager<T>() where T : BaseManager
+        {
+            foreach (var manager in managers)
+            {
+                if (manager is T)
+                {
+                    return manager as T;
+                }
+            }
+            return null;
         }
     }
 }
