@@ -21,6 +21,8 @@ public class GhostsManager : BaseManager
 
     public event Action<float, float> onRecordingStarted = null;
     public event Action onRecordingStopped = null;
+    public event Action<float, float> onPlayingStarted = null;
+    public event Action onPlayingStopped = null;
 
     private void Update()
     {
@@ -98,9 +100,11 @@ public class GhostsManager : BaseManager
 
         isRecorded = false;
         isPlaying = true;
-        echoData.playTime = GameManager.Instance.GameTime;
+        echoData.playStartTime = GameManager.Instance.GameTime;
 
         _ghost = Instantiate(ghostPrefab, echoData.recordPosition, Quaternion.identity);
+
+        onPlayingStarted?.Invoke(recordingDuration, echoData.playStartTime);
     }
 
     private void OnMove(Vector2 moveDirection)
@@ -159,12 +163,14 @@ public class GhostsManager : BaseManager
             return;
         }
 
-        float offset = echoData.playTime - echoData.recordStartTime;
+        float offset = echoData.playStartTime - echoData.recordStartTime;
         if(echoData.recordStopTime < GameManager.Instance.GameTime - offset)
         {
             isPlaying = false;
             Destroy(_ghost.gameObject);
             _ghost = null;
+
+            onPlayingStopped?.Invoke();
         }
         else if (echoData.frames[0].time < GameManager.Instance.GameTime - offset)
         {
