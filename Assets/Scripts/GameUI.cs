@@ -57,6 +57,8 @@ namespace Game
             Debug.Log("Volume button clicked");
 
             ManagersController.Instance.GetManager<AudioManager>().PlayButtonClickSound();
+
+            ManagersController.Instance.GetManager<AudioManager>().IsMuted = !ManagersController.Instance.GetManager<AudioManager>().IsMuted;
         }
 
         private void OnStartRecordingButtonClicked()
