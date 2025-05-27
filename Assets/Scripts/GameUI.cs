@@ -10,10 +10,12 @@ namespace Game
         [SerializeField] private TextMeshProUGUI timeTMP = null;
         [SerializeField] private Button volumeButton = null;
 
+        [SerializeField] private Slider recordingSlider = null;
         [SerializeField] private Button startRecordingButton = null;
         [SerializeField] private Button playRecordingButton = null;
 
         private float gameTime = 0f;
+        private bool isRecording = false;
 
         private void OnEnable()
         {
@@ -24,6 +26,11 @@ namespace Game
             playRecordingButton.onClick.AddListener(OnPlayRecordingButtonClicked);
 
             TryInitGameManagerEvents();
+        }
+
+        private void Update()
+        {
+            RefreshRecordingSlider();
         }
 
         private void OnDisable()
@@ -58,7 +65,14 @@ namespace Game
 
             ManagersController.Instance.GetManager<AudioManager>().PlayButtonClickSound();
 
-            GameManager.Instance.GetManager<GhostsManager>().StartRecording();
+            if(GameManager.Instance.GetManager<GhostsManager>().isRecording)
+            {
+                GameManager.Instance.GetManager<GhostsManager>().StopRecording();
+            }
+            else
+            {
+                GameManager.Instance.GetManager<GhostsManager>().StartRecording();
+            }
         }
 
         private void OnPlayRecordingButtonClicked()
@@ -85,6 +99,8 @@ namespace Game
         private void InitGameManagerEvents()
         {
             GameManager.Instance.OnGameTimeUpdated += OnGameTimeUpdated;
+            GameManager.Instance.GetManager<GhostsManager>().onRecordingStarted += OnRecordingStarted;
+            GameManager.Instance.GetManager<GhostsManager>().onRecordingStopped += OnRecordingStopped;
 
             OnGameTimeUpdated(GameManager.Instance.GameTime);
         }
@@ -92,12 +108,31 @@ namespace Game
         private void DeinitGameManagerEvents()
         {
             GameManager.Instance.OnGameTimeUpdated -= OnGameTimeUpdated;
+            GameManager.Instance.GetManager<GhostsManager>().onRecordingStarted -= OnRecordingStarted;
+            GameManager.Instance.GetManager<GhostsManager>().onRecordingStopped -= OnRecordingStopped;
         }
 
         private void OnGameTimeUpdated(float gameTime)
         {
             this.gameTime = gameTime;
             RefreshTimeTMP();
+        }
+
+        private void OnRecordingStarted(float recordingDuration, float recordingTime)
+        {
+            isRecording = true;
+
+            //recordingSlider.gameObject.SetActive(true);
+            recordingSlider.maxValue = recordingTime + recordingDuration;
+            recordingSlider.minValue = recordingTime;
+            recordingSlider.value = recordingTime;
+        }
+
+        private void OnRecordingStopped()
+        {
+            isRecording = false;
+
+            //recordingSlider.gameObject.SetActive(false);
         }
 
         private void RefreshTimeTMP()
@@ -107,6 +142,16 @@ namespace Game
             int seconds = totalSeconds % 60;
 
             timeTMP.text = $"{minutes}:{seconds:D2}";
+        }
+
+        private void RefreshRecordingSlider()
+        {
+            if (!isRecording)
+            {
+                return;
+            }
+
+            recordingSlider.value = GameManager.Instance.GameTime;
         }
     }
 }

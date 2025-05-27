@@ -1,16 +1,32 @@
 using Game;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GhostsManager : BaseManager
 {
+    [Header("Settings")]
+    [SerializeField] private float recordingDuration = 5f;
     [SerializeField] private Ghost ghostPrefab = null;
 
-    private bool isRecording = false;
     private EchoData echoData = new EchoData();
+    public bool isRecording { get; private set; } = false;
+    public bool isRecorded {  get; private set; } = false;
+    public bool isPlaying { get; private set; } = false;
+
+    private Ghost _ghost = null;
 
     private IOnMove _onMove = null;
     private IOnJump _onJump = null;
+
+    public event Action<float, float> onRecordingStarted = null;
+    public event Action onRecordingStopped = null;
+
+    private void Update()
+    {
+        CheckRecording();
+        Play();
+    }
 
     public void Setup(IOnMove onMove, IOnJump onJump)
     {
@@ -47,11 +63,14 @@ public class GhostsManager : BaseManager
         }
 
         isRecording = true;
+        isRecorded = false;
 
         echoData = new EchoData();
         echoData.recordPosition = GameManager.Instance.GetManager<PlayerManager>().player.transform.position;
-        echoData.recordTime = GameManager.Instance.GameTime;
+        echoData.recordStartTime = GameManager.Instance.GameTime;
         echoData.frames = new List<EchoFrameData>();
+
+        onRecordingStarted?.Invoke(recordingDuration, echoData.recordStartTime);
     }
 
     public void StopRecording()
@@ -63,21 +82,25 @@ public class GhostsManager : BaseManager
         }
 
         isRecording = false;
+        isRecorded = true;
+
+        echoData.recordStopTime = GameManager.Instance.GameTime;
+
+        onRecordingStopped?.Invoke();
     }
 
     public void PlayRecording()
     {
-        if (!isRecording)
+        if (isRecording || !isRecorded)
         {
             return;
         }
 
-        isRecording = false;
-
+        isRecorded = false;
+        isPlaying = true;
         echoData.playTime = GameManager.Instance.GameTime;
 
-        Ghost ghost = Instantiate(ghostPrefab, echoData.recordPosition, Quaternion.identity);
-        ghost.Play(echoData);
+        _ghost = Instantiate(ghostPrefab, echoData.recordPosition, Quaternion.identity);
     }
 
     private void OnMove(Vector2 moveDirection)
@@ -110,5 +133,43 @@ public class GhostsManager : BaseManager
         echoData.frames.Add(frame);
 
         Debug.Log($"Recorded frame at time {frame.time}: Jump = {frame.isJumping}");
+    }
+
+    private void CheckRecording()
+    {
+        if (!isRecording)
+            return;
+
+        if (GameManager.Instance.GameTime - echoData.recordStartTime >= recordingDuration)
+        {
+            StopRecording();
+            Debug.Log("Recording duration reached. Stopping recording.");
+        }
+    }
+
+    private void Play()
+    {
+        if(!isPlaying)
+        {
+            return;
+        }
+
+        if (echoData?.frames?.Count < 1)
+        {
+            return;
+        }
+
+        float offset = echoData.playTime - echoData.recordStartTime;
+        if(echoData.recordStopTime < GameManager.Instance.GameTime - offset)
+        {
+            isPlaying = false;
+            Destroy(_ghost.gameObject);
+            _ghost = null;
+        }
+        else if (echoData.frames[0].time < GameManager.Instance.GameTime - offset)
+        {
+            _ghost.SetEchoFrameData(echoData.frames[0]);
+            echoData.frames.RemoveAt(0);
+        }
     }
 }

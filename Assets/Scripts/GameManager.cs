@@ -11,17 +11,10 @@ namespace Game
         public static Action OnInitialized = null;
 
         private float _gameTimeDelay = 0f;
-        private float _gameTime = 0f;
-        public float GameTime
-        {
-            get => _gameTime;
-            set
-            {
-                _gameTime = value;
-                OnGameTimeUpdated?.Invoke(_gameTime);
-            }
-        }
+        public float GameTime { get; private set; }
         public event Action<float> OnGameTimeUpdated = null;
+
+        public bool IsPlaying { get; private set; } = false;
 
         private BaseManager[] managers = new BaseManager[0];
 
@@ -44,7 +37,7 @@ namespace Game
         private IEnumerator Start()
         {
             _gameTimeDelay = 0f;
-            _gameTime = 0f;
+            GameTime = 0f;
 
             for (int i = 0; i < managers.Length; i++)
             {
@@ -61,11 +54,27 @@ namespace Game
                     yield return new WaitForSeconds(0.1f);
                 }
             } while (!allManagersReady);
+
+            IsPlaying = true;
         }
 
         private void Update()
         {
             CountGameTime();
+        }
+
+        private void OnDestroy()
+        {
+            if(Instance == this)
+            {
+                Instance = null;
+                IsInitialized = false;
+
+                for (int i = 0; i < managers.Length; i++)
+                {
+                    managers[i].Deinitialize();
+                }
+            }
         }
 
         public bool AreAllManagersInitialized()
@@ -82,11 +91,19 @@ namespace Game
 
         private void CountGameTime()
         {
-            _gameTimeDelay += Time.deltaTime;
+            if (!IsPlaying)
+            {
+                return;
+            }
+
+            float deltaTime = Time.deltaTime;
+            _gameTimeDelay += deltaTime;
+            GameTime += deltaTime;
+
             if (_gameTimeDelay >= 1f)
             {
                 _gameTimeDelay--;
-                GameTime++;
+                OnGameTimeUpdated?.Invoke(GameTime);
             }
         }
 
