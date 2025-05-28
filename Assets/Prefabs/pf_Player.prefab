@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 1441448460003705066}
   - component: {fileID: -4185952237524169051}
   - component: {fileID: 5808347515905068505}
+  - component: {fileID: 4016080094634458836}
   m_Layer: 6
   m_Name: pf_Player
   m_TagString: Untagged
@@ -260,6 +261,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flipOnRight: 0
   characterSR: {fileID: 5105132070185255743}
+--- !u!114 &4016080094634458836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4478354276051356151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0af7416dd1c0bf745ae9ff3a43f765a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7443489705163792445
 GameObject:
   m_ObjectHideFlags: 0
