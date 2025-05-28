@@ -1,7 +1,7 @@
-namespace Game
+using System;
+
+public interface IJump
 {
-    public interface IJump
-    {
-        void Jump();
-    }
+    void Jump();
+    event Action OnJump;
 }

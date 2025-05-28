@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class ShootDefault : MonoBehaviour, IShoot, IOnShoot
+public class ShootDefault : MonoBehaviour, IShoot
 {
     [Header("Settings")]
     [SerializeField] private GameObject projectilePrefab = null;
@@ -12,7 +12,7 @@ public class ShootDefault : MonoBehaviour, IShoot, IOnShoot
     private IHand iHand = null;
     private IFace iFace = null;
 
-    public Action OnShoot { get; set; } = null;
+    public event Action OnShoot = null;
 
     private void Awake()
     {
@@ -32,6 +32,8 @@ public class ShootDefault : MonoBehaviour, IShoot, IOnShoot
     {
         if (shootDelay > 0f)
             return;
+
+        shootDelay = projectileCooldown;
 
         Quaternion projectileRotation  = iFace.FaceDirection switch
         {

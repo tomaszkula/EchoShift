@@ -14,11 +14,12 @@ public class GhostsManager : BaseManager
     public bool isRecorded {  get; private set; } = false;
     public bool isPlaying { get; private set; } = false;
 
-    private Ghost _ghost = null;
+    private Vector2 lastDirection = Vector2.zero;
 
-    private IOnMove onMove = null;
-    private IOnJump onJump = null;
-    private IOnShoot onShoot = null;
+    private Ghost ghost = null;
+    private IMove iMove = null;
+    private IJump iJump = null;
+    private IShoot iShoot = null;
 
     public event Action<float, float> onRecordingStarted = null;
     public event Action onRecordingStopped = null;
@@ -31,40 +32,40 @@ public class GhostsManager : BaseManager
         Play();
     }
 
-    public void Setup(IOnMove onMove, IOnJump onJump, IOnShoot onShoot)
+    public void Setup(IMove iMove, IJump iJump, IShoot iShoot)
     {
-        if (this.onMove != null)
+        if (this.iMove != null)
         {
-            this.onMove.OnMove -= OnMove;
+            this.iMove.OnMove -= OnMove;
         }
 
-        if (this.onJump != null)
+        if (this.iJump != null)
         {
-            this.onJump.OnJump -= OnJump;
+            this.iJump.OnJump -= OnJump;
         }
 
-        if (this.onShoot != null)
+        if (this.iShoot != null)
         {
-            this.onShoot.OnShoot -= OnShoot;
+            this.iShoot.OnShoot -= OnShoot;
         }
 
-        this.onMove = onMove;
-        this.onJump = onJump;
-        this.onShoot = onShoot;
+        this.iMove = iMove;
+        this.iJump = iJump;
+        this.iShoot = iShoot;
 
-        if (this.onMove != null)
+        if (this.iMove != null)
         {
-            this.onMove.OnMove += OnMove;
+            this.iMove.OnMove += OnMove;
         }
 
-        if (this.onJump != null)
+        if (this.iJump != null)
         {
-            this.onJump.OnJump += OnJump;
+            this.iJump.OnJump += OnJump;
         }
 
-        if (this.onShoot != null)
+        if (this.iShoot != null)
         {
-            this.onShoot.OnShoot += OnShoot;
+            this.iShoot.OnShoot += OnShoot;
         }
     }
 
@@ -114,20 +115,22 @@ public class GhostsManager : BaseManager
         isPlaying = true;
         echoData.playStartTime = GameManager.Instance.GameTime;
 
-        _ghost = Instantiate(ghostPrefab, echoData.recordPosition, Quaternion.identity);
+        ghost = Instantiate(ghostPrefab, echoData.recordPosition, Quaternion.identity);
 
         onPlayingStarted?.Invoke(recordingDuration, echoData.playStartTime);
     }
 
-    private void OnMove(Vector2 moveDirection)
+    private void OnMove(Vector2 direction)
     {
         if (!isRecording)
             return;
 
+        lastDirection = direction;
+
         EchoFrameData frame = new EchoFrameData
         {
             time = GameManager.Instance.GameTime,
-            moveDirection = moveDirection
+            moveDirection = direction
         };
 
         echoData.frames.Add(frame);
@@ -143,6 +146,7 @@ public class GhostsManager : BaseManager
         EchoFrameData frame = new EchoFrameData
         {
             time = GameManager.Instance.GameTime,
+            moveDirection = lastDirection,
             isJumping = true
         };
 
@@ -159,6 +163,7 @@ public class GhostsManager : BaseManager
         EchoFrameData frame = new EchoFrameData
         {
             time = GameManager.Instance.GameTime,
+            moveDirection = lastDirection,
             isShooting = true
         };
 
@@ -186,28 +191,26 @@ public class GhostsManager : BaseManager
             return;
         }
 
-        if (echoData?.frames?.Count < 1)
-        {
-            return;
-        }
-
         float offset = echoData.playStartTime - echoData.recordStartTime;
         if(echoData.recordStopTime < GameManager.Instance.GameTime - offset)
         {
             isPlaying = false;
-            Destroy(_ghost.gameObject);
-            _ghost = null;
+            Destroy(ghost.gameObject);
+            ghost = null;
 
             onPlayingStopped?.Invoke();
         }
-        else if (echoData.frames[0].time < GameManager.Instance.GameTime - offset)
+        else
         {
-            _ghost.SetEchoFrameData(echoData.frames[0]);
-            echoData.frames.RemoveAt(0);
+            for (int i = 0; i < echoData.frames.Count; i++)
+            {
+                if (echoData.frames[0].time < GameManager.Instance.GameTime - offset)
+                {
+                    ghost.SetEchoFrameData(echoData.frames[0]);
+                    echoData.frames.RemoveAt(0);
+                    i--;
+                }
+            }
         }
-        //else
-        //{
-        //    _ghost.SetEchoFrameData(null);
-        //}
     }
 }

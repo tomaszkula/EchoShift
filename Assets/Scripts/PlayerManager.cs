@@ -24,7 +24,7 @@ namespace Game
             }
             player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
 
-            GameManager.Instance.GetManager<GhostsManager>().Setup(player.onMove, player.onJump, player.onShoot);
+            GameManager.Instance.GetManager<GhostsManager>().Setup(player.iMove, player.iJump, player.iShoot);
 
             base.Initialize();
         }

@@ -1,56 +1,43 @@
 using System;
 using UnityEngine;
 
-namespace Game
+public class JumpGhost : MonoBehaviour
 {
-    public class JumpGhost : MonoBehaviour, IJump, IOnJump
+    private IJump iJump = null;
+    private Ghost ghost = null;
+
+    private void Awake()
     {
-        [SerializeField] private float jumpForce = 5f;
-        [Space]
-        [SerializeField] private LayerMask groundLayer = default;
-        [SerializeField] private Transform groundCheck = null;
-        [SerializeField] private float groundCheckRadius = 0.2f;
+        iJump = GetComponent<IJump>();
+        ghost = GetComponent<Ghost>();
+    }
 
-        private Rigidbody2D rigidbody = null;
-        private Ghost ghost = null;
-
-        public Action OnJump { get; set; }
-
-        private void Awake()
+    private void OnEnable()
+    {
+        if (ghost != null)
         {
-            rigidbody = GetComponent<Rigidbody2D>();
-            ghost = GetComponent<Ghost>();
+            ghost.onFrameUpdated += OnFrameUpdated;
         }
+    }
 
-        private void OnDrawGizmos()
+    private void OnDisable()
+    {
+        if (ghost != null)
         {
-            if (groundCheck != null)
-            {
-                Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
-            }
+            ghost.onFrameUpdated -= OnFrameUpdated;
         }
+    }
 
-        public void Jump()
-        {
-            if (ghost?.currentFrame == null || !ghost.currentFrame.isJumping)
-                return;
+    private void OnFrameUpdated(EchoFrameData frameData)
+    {
+        Jump();
+    }
 
-            if (IsGrounded())
-            {
-                rigidbody.linearVelocity = new Vector2(rigidbody.linearVelocity.x, 0f);
-                rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+    private void Jump()
+    {
+        if (ghost?.currentFrame == null || !ghost.currentFrame.isJumping)
+            return;
 
-                OnJump?.Invoke();
-            }
-        }
-
-        private bool IsGrounded()
-        {
-            if (groundCheck == null)
-                return false;
-
-            return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-        }
+        iJump?.Jump();
     }
 }

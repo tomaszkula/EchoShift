@@ -1,4 +1,3 @@
-using Game;
 using System;
 using UnityEngine;
 
@@ -7,7 +6,7 @@ public class FaceDefault : MonoBehaviour, IFace
     [Header("Settings")]
     [SerializeField] private Direction defaultDirection = Direction.Right;
 
-    private IOnMove onMove = null;
+    private IMove iMove = null;
 
     public Direction FaceDirection { get; private set; } = Direction.Right;
 
@@ -15,7 +14,7 @@ public class FaceDefault : MonoBehaviour, IFace
 
     private void Awake()
     {
-        onMove = GetComponent<IOnMove>();
+        iMove = GetComponent<IMove>();
     }
 
     private void Start()
@@ -26,17 +25,17 @@ public class FaceDefault : MonoBehaviour, IFace
 
     private void OnEnable()
     {
-        if (onMove != null)
+        if (iMove != null)
         {
-            onMove.OnMove += OnMove;
+            iMove.OnMove += OnMove;
         }
     }
 
     private void OnDisable()
     {
-        if (onMove != null)
+        if (iMove != null)
         {
-            onMove.OnMove -= OnMove;
+            iMove.OnMove -= OnMove;
         }
     }
 

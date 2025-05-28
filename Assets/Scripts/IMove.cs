@@ -1,7 +1,8 @@
-namespace Game
+using System;
+using UnityEngine;
+
+public interface IMove
 {
-    public interface IMove
-    {
-        void Move();
-    }
+    void Move(Vector2 direction);
+    event Action<Vector2> OnMove;
 }

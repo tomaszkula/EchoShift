@@ -1,34 +1,45 @@
 using System;
 using UnityEngine;
 
-namespace Game
+public class MoveGhost : MonoBehaviour
 {
-    public class MoveGhost : MonoBehaviour, IMove, IOnMove
+    private IMove iMove = null;
+    private Ghost ghost = null;
+
+    public Action<Vector2> OnMove { get; set; }
+
+    private void Awake()
     {
-        [SerializeField] private float speed = 5f;
+        iMove = GetComponent<IMove>();
+        ghost = GetComponent<Ghost>();
+    }
 
-        private Rigidbody2D rigidbody = null;
-        private Ghost ghost = null;
-
-        public Action<Vector2> OnMove { get; set; }
-
-        private void Awake()
+    private void OnEnable()
+    {
+        if (ghost != null)
         {
-            rigidbody = GetComponent<Rigidbody2D>();
-            ghost = GetComponent<Ghost>();
+            ghost.onFrameUpdated += OnFrameUpdated;
         }
+    }
 
-        public void Move()
+    private void OnDisable()
+    {
+        if (ghost != null)
         {
-            if (ghost?.currentFrame == null)
-                return;
-
-            Vector2 velocity = ghost.currentFrame.moveDirection * speed;
-            velocity.y = rigidbody.linearVelocity.y;
-
-            rigidbody.linearVelocity = velocity;
-
-            OnMove?.Invoke(ghost.currentFrame.moveDirection);
+            ghost.onFrameUpdated -= OnFrameUpdated;
         }
+    }
+
+    private void OnFrameUpdated(EchoFrameData frameData)
+    {
+        Move();
+    }
+
+    public void Move()
+    {
+        if (ghost?.currentFrame == null)
+            return;
+
+        iMove?.Move(ghost.currentFrame.moveDirection);
     }
 }
