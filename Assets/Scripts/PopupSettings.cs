@@ -7,14 +7,18 @@ public class PopupSettings : Popup
     [SerializeField] private Button mainMenuButton = null;
     [SerializeField] private Button quitButton = null;
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
+
         mainMenuButton.onClick.AddListener(OnMainMenuButtonClicked);
         quitButton.onClick.AddListener(OnQuitButtonClicked);
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
+
         mainMenuButton.onClick.RemoveListener(OnMainMenuButtonClicked);
         quitButton.onClick.RemoveListener(OnQuitButtonClicked);
     }

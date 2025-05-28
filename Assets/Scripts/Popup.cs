@@ -1,20 +1,22 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Popup : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private GameObject container = null;
+    [SerializeField] private Button fullScreenCloseButton = null;
 
     private PopupsManager popupsManager = null;
 
-    public void Register(PopupsManager manager)
+    protected virtual void OnEnable()
     {
-        popupsManager = manager;
+        fullScreenCloseButton?.onClick.AddListener(Hide);
     }
 
-    public void Unregister()
+    protected virtual void OnDisable()
     {
-        popupsManager = null;
+        fullScreenCloseButton?.onClick.RemoveListener(Hide);
     }
 
     public virtual void Show()
@@ -25,5 +27,15 @@ public class Popup : MonoBehaviour
     public virtual void Hide()
     {
         container.SetActive(false);
+    }
+
+    public void Register(PopupsManager manager)
+    {
+        popupsManager = manager;
+    }
+
+    public void Unregister()
+    {
+        popupsManager = null;
     }
 }
