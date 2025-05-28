@@ -61,11 +61,12 @@ public class ManagersController : MonoBehaviour
     {
         foreach (var manager in managers)
         {
-            if (manager is T)
+            if (manager is T typedManager)
             {
-                return manager as T;
+                return typedManager;
             }
         }
+
         return null;
     }
 }

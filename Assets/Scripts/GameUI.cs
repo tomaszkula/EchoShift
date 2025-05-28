@@ -52,7 +52,8 @@ namespace Game
             Debug.Log("Pause button clicked");
 
             ManagersController.Instance.GetManager<AudioManager>().PlayButtonClickSound();
-            ManagersController.Instance.GetManager<ScenesManager>().LoadScene(ScenesManager.MAIN_MENU_SCENE_NAME);
+
+            GameManager.Instance.GetManager<PopupsManager>().GetPopup<PopupSettings>().Show();
         }
 
         private void OnVolumeButtonClicked()
