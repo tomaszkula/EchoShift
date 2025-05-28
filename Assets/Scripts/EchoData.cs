@@ -18,4 +18,5 @@ public class EchoFrameData
     public float time = 0f;
     public Vector2 moveDirection = Vector2.zero;
     public bool isJumping = false;
+    public bool isShooting = false;
 }

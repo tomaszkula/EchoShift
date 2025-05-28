@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Game
 {
@@ -12,15 +11,15 @@ namespace Game
         [SerializeField] private Transform groundCheck = null;
         [SerializeField] private float groundCheckRadius = 0.2f;
 
-        private Rigidbody2D _rigidbody2D = null;
-        private Ghost _ghost = null;
+        private Rigidbody2D rigidbody = null;
+        private Ghost ghost = null;
 
         public Action OnJump { get; set; }
 
         private void Awake()
         {
-            _rigidbody2D = GetComponent<Rigidbody2D>();
-            _ghost = GetComponent<Ghost>();
+            rigidbody = GetComponent<Rigidbody2D>();
+            ghost = GetComponent<Ghost>();
         }
 
         private void OnDrawGizmos()
@@ -34,13 +33,13 @@ namespace Game
 
         public void Jump()
         {
-            if (_ghost?.currentFrame == null || !_ghost.currentFrame.isJumping)
+            if (ghost?.currentFrame == null || !ghost.currentFrame.isJumping)
                 return;
 
             if (IsGrounded())
             {
-                _rigidbody2D.linearVelocity = new Vector2(_rigidbody2D.linearVelocity.x, 0f);
-                _rigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                rigidbody.linearVelocity = new Vector2(rigidbody.linearVelocity.x, 0f);
+                rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 
                 OnJump?.Invoke();
             }

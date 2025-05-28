@@ -7,28 +7,28 @@ namespace Game
     {
         [SerializeField] private float speed = 5f;
 
-        private Rigidbody2D _rigidbody2D = null;
-        private Ghost _ghost = null;
+        private Rigidbody2D rigidbody = null;
+        private Ghost ghost = null;
 
         public Action<Vector2> OnMove { get; set; }
 
         private void Awake()
         {
-            _rigidbody2D = GetComponent<Rigidbody2D>();
-            _ghost = GetComponent<Ghost>();
+            rigidbody = GetComponent<Rigidbody2D>();
+            ghost = GetComponent<Ghost>();
         }
 
         public void Move()
         {
-            if (_ghost?.currentFrame == null)
+            if (ghost?.currentFrame == null)
                 return;
 
-            Vector2 velocity = _ghost.currentFrame.moveDirection * speed;
-            velocity.y = _rigidbody2D.linearVelocity.y;
+            Vector2 velocity = ghost.currentFrame.moveDirection * speed;
+            velocity.y = rigidbody.linearVelocity.y;
 
-            _rigidbody2D.linearVelocity = velocity;
+            rigidbody.linearVelocity = velocity;
 
-            OnMove?.Invoke(_ghost.currentFrame.moveDirection);
+            OnMove?.Invoke(ghost.currentFrame.moveDirection);
         }
     }
 }

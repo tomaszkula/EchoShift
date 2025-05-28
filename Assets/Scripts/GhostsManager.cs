@@ -16,8 +16,9 @@ public class GhostsManager : BaseManager
 
     private Ghost _ghost = null;
 
-    private IOnMove _onMove = null;
-    private IOnJump _onJump = null;
+    private IOnMove onMove = null;
+    private IOnJump onJump = null;
+    private IOnShoot onShoot = null;
 
     public event Action<float, float> onRecordingStarted = null;
     public event Action onRecordingStopped = null;
@@ -30,29 +31,40 @@ public class GhostsManager : BaseManager
         Play();
     }
 
-    public void Setup(IOnMove onMove, IOnJump onJump)
+    public void Setup(IOnMove onMove, IOnJump onJump, IOnShoot onShoot)
     {
-        if (_onMove != null)
+        if (this.onMove != null)
         {
-            _onMove.OnMove -= OnMove;
+            this.onMove.OnMove -= OnMove;
         }
 
-        if (_onJump != null)
+        if (this.onJump != null)
         {
-            _onJump.OnJump -= OnJump;
+            this.onJump.OnJump -= OnJump;
         }
 
-        _onMove = onMove;
-        _onJump = onJump;
-
-        if (_onMove != null)
+        if (this.onShoot != null)
         {
-            _onMove.OnMove += OnMove;
+            this.onShoot.OnShoot -= OnShoot;
         }
 
-        if (_onJump != null)
+        this.onMove = onMove;
+        this.onJump = onJump;
+        this.onShoot = onShoot;
+
+        if (this.onMove != null)
         {
-            _onJump.OnJump += OnJump;
+            this.onMove.OnMove += OnMove;
+        }
+
+        if (this.onJump != null)
+        {
+            this.onJump.OnJump += OnJump;
+        }
+
+        if (this.onShoot != null)
+        {
+            this.onShoot.OnShoot += OnShoot;
         }
     }
 
@@ -139,6 +151,22 @@ public class GhostsManager : BaseManager
         Debug.Log($"Recorded frame at time {frame.time}: Jump = {frame.isJumping}");
     }
 
+    private void OnShoot()
+    {
+        if (!isRecording)
+            return;
+
+        EchoFrameData frame = new EchoFrameData
+        {
+            time = GameManager.Instance.GameTime,
+            isShooting = true
+        };
+
+        echoData.frames.Add(frame);
+
+        Debug.Log($"Recorded frame at time {frame.time}: Shoot = {frame.isShooting}");
+    }
+
     private void CheckRecording()
     {
         if (!isRecording)
@@ -177,5 +205,9 @@ public class GhostsManager : BaseManager
             _ghost.SetEchoFrameData(echoData.frames[0]);
             echoData.frames.RemoveAt(0);
         }
+        //else
+        //{
+        //    _ghost.SetEchoFrameData(null);
+        //}
     }
 }

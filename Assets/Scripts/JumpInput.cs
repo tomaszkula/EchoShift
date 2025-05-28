@@ -12,29 +12,29 @@ namespace Game
         [SerializeField] private Transform groundCheck = null;
         [SerializeField] private float groundCheckRadius = 0.2f;
 
-        private bool _jumpRequested = false;
+        private bool jumpRequested = false;
 
-        private Rigidbody2D _rigidbody2D = null;
-        private PlayerInput _playerInput = null;
-        private InputAction _jumpAction = null;
+        private Rigidbody2D rigidbody2D = null;
+        private PlayerInput playerInput = null;
+        private InputAction jumpAction = null;
 
         public Action OnJump { get; set; }
 
         private void Awake()
         {
-            _rigidbody2D = GetComponent<Rigidbody2D>();
-            _playerInput = GetComponent<PlayerInput>();
-            _jumpAction = _playerInput.actions["Jump"];
+            rigidbody2D = GetComponent<Rigidbody2D>();
+            playerInput = GetComponent<PlayerInput>();
+            jumpAction = playerInput.actions["Jump"];
         }
 
         private void OnEnable()
         {
-            _jumpAction.performed += ctx => OnJumpAction();
+            jumpAction.performed += ctx => OnJumpAction();
         }
 
         private void OnDisable()
         {
-            _jumpAction.performed -= ctx => OnJumpAction();
+            jumpAction.performed -= ctx => OnJumpAction();
         }
 
         private void OnDrawGizmos()
@@ -48,20 +48,20 @@ namespace Game
 
         private void OnJumpAction()
         {
-            _jumpRequested = true;
+            jumpRequested = true;
         }
 
         public void Jump()
         {
-            if (!_jumpRequested)
+            if (!jumpRequested)
                 return;
 
-            _jumpRequested = false;
+            jumpRequested = false;
 
             if (IsGrounded())
             {
-                _rigidbody2D.linearVelocity = new Vector2(_rigidbody2D.linearVelocity.x, 0f);
-                _rigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                rigidbody2D.linearVelocity = new Vector2(rigidbody2D.linearVelocity.x, 0f);
+                rigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 
                 OnJump?.Invoke();
             }

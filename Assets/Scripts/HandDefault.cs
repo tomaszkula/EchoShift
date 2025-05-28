@@ -1,14 +1,14 @@
 using UnityEngine;
 
-public class FaceFlipper : MonoBehaviour
+public class HandDefault : MonoBehaviour, IHand
 {
-    [Header("Settings")]
-    [SerializeField] private bool flipOnRight = false;
-
     [Header("References")]
-    [SerializeField] private SpriteRenderer characterSR = null;
+    [SerializeField] private Transform rightHand = null;
+    [SerializeField] private Transform leftHand = null;
 
     private IFace iFace = null;
+
+    public Transform Hand { get; private set; }
 
     private void Awake()
     {
@@ -33,11 +33,11 @@ public class FaceFlipper : MonoBehaviour
 
     private void OnFaceDirectionChanged(Direction direction)
     {
-        characterSR.flipX = direction switch
+        Hand = direction switch
         {
-            Direction.Right => flipOnRight,
-            Direction.Left => !flipOnRight,
-            _ => characterSR.flipX
+            Direction.Right => rightHand,
+            Direction.Left => leftHand,
+            _ => rightHand
         };
     }
 }
