@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class JumpDefault : MonoBehaviour, IJump
 {
+    [Header("Temporary Settings")]
+    [SerializeField] private bool skipGroundCheck = false; // TODO: improve ghost frame shooting logic
+
     [Header("Settings")]
     [SerializeField] private float jumpForce = 5f;
 
@@ -43,8 +46,8 @@ public class JumpDefault : MonoBehaviour, IJump
 
     private bool IsGrounded()
     {
-        if (groundCheck == null)
-            return false;
+        if (skipGroundCheck)
+            return true;
 
         return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
     }

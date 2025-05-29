@@ -83,7 +83,16 @@ public class GhostsManager : BaseManager
         echoData = new EchoData();
         echoData.recordPosition = GameManager.Instance.GetManager<PlayerManager>().player.transform.position;
         echoData.recordStartTime = GameManager.Instance.GameTime;
-        echoData.frames = new List<EchoFrameData>();
+        echoData.frames = new List<EchoFrameData>()
+        {
+            new EchoFrameData
+            {
+                time = GameManager.Instance.GameTime,
+                moveDirection = lastDirection,
+                isJumping = false,
+                isShooting = false
+            }
+        };
 
         onRecordingStarted?.Invoke(recordingDuration, echoData.recordStartTime);
     }
@@ -122,10 +131,10 @@ public class GhostsManager : BaseManager
 
     private void OnMove(Vector2 direction)
     {
+        lastDirection = direction;
+
         if (!isRecording)
             return;
-
-        lastDirection = direction;
 
         EchoFrameData frame = new EchoFrameData
         {

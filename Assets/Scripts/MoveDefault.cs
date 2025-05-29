@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class MoveDefault : MonoBehaviour, IMove
 {
+    [Header("Settings")]
     [SerializeField] private float speed = 5f;
 
     private Rigidbody2D rigidbody = null;

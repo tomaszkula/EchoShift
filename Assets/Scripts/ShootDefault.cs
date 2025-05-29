@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class ShootDefault : MonoBehaviour, IShoot
 {
+    [Header("Temporary Settings")]
+    [SerializeField] private bool skipCooldown = false; // TODO: improve ghost frame shooting logic
+
     [Header("Settings")]
     [SerializeField] private GameObject projectilePrefab = null;
     [SerializeField] private float projectileCooldown = 0.5f;
@@ -30,7 +33,7 @@ public class ShootDefault : MonoBehaviour, IShoot
 
     public void Shoot()
     {
-        if (shootDelay > 0f)
+        if (!skipCooldown && shootDelay > 0f)
             return;
 
         shootDelay = projectileCooldown;

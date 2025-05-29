@@ -367,6 +367,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c696ca97e6fc9e5479ed76deccfadc44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skipGroundCheck: 1
   jumpForce: 350
   groundLayer:
     serializedVersion: 2
@@ -397,6 +398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 561b3ec531e77c54fa6166b16a9aecca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skipCooldown: 1
   projectilePrefab: {fileID: 7507911746810332007, guid: b8941d50bcf948a4da9c9dfd5ec03197, type: 3}
   projectileCooldown: 0.5
 --- !u!114 &7894739752959219404
