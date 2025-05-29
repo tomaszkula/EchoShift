@@ -1,19 +1,27 @@
 using UnityEngine;
 
-public class PressurePlate : MonoBehaviour, IInteractable
+
+public class PressurePlate : MonoBehaviour, ITriggerable
 {
+    [Header("Settings")]
+    [SerializeField] private Interactable target = null;
+
     [Header("References")]
     [SerializeField] private Animator animator = null;
 
-    private const string ANIMATOR_INTERACT_BOOL_KEY = "IsPressed";
+    private const string ANIMATOR_IS_PRESSED_BOOL_KEY = "IsPressed";
 
-    public void Interact()
+    public void Trigger()
     {
-        animator.SetBool(ANIMATOR_INTERACT_BOOL_KEY, true);
+        animator.SetBool(ANIMATOR_IS_PRESSED_BOOL_KEY, true);
+
+        target?.Interact();
     }
 
-    public void DeInteract()
+    public void UnTrigger()
     {
-        animator.SetBool(ANIMATOR_INTERACT_BOOL_KEY, false);
+        animator.SetBool(ANIMATOR_IS_PRESSED_BOOL_KEY, false);
+
+        target?.Deinteract();
     }
 }
