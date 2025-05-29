@@ -15,11 +15,12 @@ public class FaceDefault : MonoBehaviour, IFace
     private void Awake()
     {
         iMove = GetComponent<IMove>();
+
+        FaceDirection = defaultDirection;
     }
 
     private void Start()
     {
-        FaceDirection = defaultDirection;
         OnFaceDirectionChanged?.Invoke(FaceDirection);
     }
 
