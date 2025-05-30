@@ -29,7 +29,7 @@ public class PlayerManager : BaseManager
             player.transform.position = spawnPosition;
             player.transform.rotation = Quaternion.identity;
 
-            GameManager.Instance.GetManager<GhostsManager>().Setup(player.iMove, player.iJump, player.iShoot);
+            GameManager.Instance.GetManager<GhostsManager>().Setup(player.iMove, player.iJump, player.iShoot, player.iActivator);
 
             base.Initialize();
         }

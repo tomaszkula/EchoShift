@@ -18,6 +18,7 @@ public class GhostsManager : BaseManager
     private IMove iMove = null;
     private IJump iJump = null;
     private IShoot iShoot = null;
+    private IActivator iActivator = null;
 
     public event Action<float, float> onRecordingStarted = null;
     public event Action onRecordingStopped = null;
@@ -30,7 +31,7 @@ public class GhostsManager : BaseManager
         Play();
     }
 
-    public void Setup(IMove iMove, IJump iJump, IShoot iShoot)
+    public void Setup(IMove iMove, IJump iJump, IShoot iShoot, IActivator iActivator)
     {
         if (this.iMove != null)
         {
@@ -47,9 +48,15 @@ public class GhostsManager : BaseManager
             this.iShoot.OnShoot -= OnShoot;
         }
 
+        if (this.iActivator != null)
+        {
+            this.iActivator.OnActivate -= OnActivate;
+        }
+
         this.iMove = iMove;
         this.iJump = iJump;
         this.iShoot = iShoot;
+        this.iActivator = iActivator;
 
         if (this.iMove != null)
         {
@@ -64,6 +71,11 @@ public class GhostsManager : BaseManager
         if (this.iShoot != null)
         {
             this.iShoot.OnShoot += OnShoot;
+        }
+
+        if (this.iActivator != null)
+        {
+            this.iActivator.OnActivate += OnActivate;
         }
     }
 
@@ -182,6 +194,22 @@ public class GhostsManager : BaseManager
         echoData.frames.Add(frame);
 
         Debug.Log($"Recorded frame at time {frame.time}: Shoot = {frame.isShooting}");
+    }
+
+    private void OnActivate()
+    {
+        if (!isRecording)
+            return;
+
+        EchoFrameData frame = new EchoFrameData
+        {
+            time = GameManager.Instance.GameTime,
+            moveDirection = lastDirection,
+            isActivating = true
+        };
+        echoData.frames.Add(frame);
+
+        Debug.Log($"Recorded frame at time {frame.time}: Activate");
     }
 
     private void CheckRecording()
