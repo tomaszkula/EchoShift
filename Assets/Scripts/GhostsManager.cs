@@ -80,6 +80,7 @@ public class GhostsManager : BaseManager
 
         echoData = new EchoData();
         echoData.recordPosition = GameManager.Instance.GetManager<PlayerManager>().player.transform.position;
+        echoData.recordFaceDirection = GameManager.Instance.GetManager<PlayerManager>().player.iFace.FaceDirection;
         echoData.recordStartTime = GameManager.Instance.GameTime;
         echoData.frames = new List<EchoFrameData>()
         {
@@ -87,8 +88,6 @@ public class GhostsManager : BaseManager
             {
                 time = GameManager.Instance.GameTime,
                 moveDirection = lastDirection,
-                isJumping = false,
-                isShooting = false
             }
         };
 
@@ -125,6 +124,10 @@ public class GhostsManager : BaseManager
         GameObject ghostGo = GameManager.Instance.GetManager<ObjectPoolsManager>().GetPool(ObjectPoolsManager.PoolType.Ghost).Get();
         ghost = ghostGo.GetComponent<Ghost>();
         ghost.transform.position = echoData.recordPosition;
+        if(ghost.TryGetComponent(out IFace iFace))
+        {
+            iFace.FaceDirection = echoData.recordFaceDirection;
+        }
 
         onPlayingStarted?.Invoke(recordingDuration, echoData.playStartTime);
     }

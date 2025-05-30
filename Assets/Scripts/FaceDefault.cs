@@ -8,7 +8,7 @@ public class FaceDefault : MonoBehaviour, IFace
 
     private IMove iMove = null;
 
-    public Direction FaceDirection { get; private set; } = Direction.Right;
+    public Direction FaceDirection { get; set; } = Direction.Right;
 
     public event Action<Direction> OnFaceDirectionChanged = null;
 

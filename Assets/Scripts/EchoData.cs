@@ -6,6 +6,7 @@ using UnityEngine;
 public class EchoData
 {
     public Vector3 recordPosition = Vector3.zero;
+    public Direction recordFaceDirection = Direction.Right;
     public float recordStartTime = 0f;
     public float recordStopTime = 0f;
     public float playStartTime = 0f;
