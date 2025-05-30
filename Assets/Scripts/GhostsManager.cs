@@ -1,4 +1,3 @@
-using Game;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +6,6 @@ public class GhostsManager : BaseManager
 {
     [Header("Settings")]
     [SerializeField] private float recordingDuration = 5f;
-    [SerializeField] private Ghost ghostPrefab = null;
 
     private EchoData echoData = new EchoData();
     public bool isRecording { get; private set; } = false;
@@ -124,7 +122,9 @@ public class GhostsManager : BaseManager
         isPlaying = true;
         echoData.playStartTime = GameManager.Instance.GameTime;
 
-        ghost = Instantiate(ghostPrefab, echoData.recordPosition, Quaternion.identity);
+        GameObject ghostGo = GameManager.Instance.GetManager<ObjectPoolsManager>().GetPool(ObjectPoolsManager.PoolType.Ghost).Get();
+        ghost = ghostGo.GetComponent<Ghost>();
+        ghost.transform.position = echoData.recordPosition;
 
         onPlayingStarted?.Invoke(recordingDuration, echoData.playStartTime);
     }
@@ -204,7 +204,14 @@ public class GhostsManager : BaseManager
         if(echoData.recordStopTime < GameManager.Instance.GameTime - offset)
         {
             isPlaying = false;
-            Destroy(ghost.gameObject);
+            if(ghost.TryGetComponent(out IPooledObject pooledObject))
+            {
+                pooledObject.Pool.Release(ghost.gameObject);
+            }
+            else
+            {
+                Destroy(ghost.gameObject);
+            }
             ghost = null;
 
             onPlayingStopped?.Invoke();

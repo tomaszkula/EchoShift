@@ -8,17 +8,35 @@ public class Projectile : MonoBehaviour
 
     private float timer = 0f;
 
+    private IPooledObject iPooledObject = null;
     private Rigidbody2D rigidbody = null;
 
     private void Awake()
     {
+        iPooledObject = GetComponent<IPooledObject>();
         rigidbody = GetComponent<Rigidbody2D>();
+    }
+
+    private void OnEnable()
+    {
+        iPooledObject.OnGet += OnPooledObjectGet;
     }
 
     private void Update()
     {
         Move();
         CheckLifeime();
+    }
+
+    private void OnDisable()
+    {
+        iPooledObject.OnGet -= OnPooledObjectGet;
+    }
+
+    private void OnPooledObjectGet(GameObject go)
+    {
+        rigidbody.linearVelocity = Vector2.zero;
+        timer = 0f;
     }
 
     private void Move()
@@ -31,7 +49,7 @@ public class Projectile : MonoBehaviour
         timer += Time.deltaTime;
         if (timer >= lifetime)
         {
-            Destroy(gameObject);
+            iPooledObject.Pool.Release(gameObject);
         }
     }
 }

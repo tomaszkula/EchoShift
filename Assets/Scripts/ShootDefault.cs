@@ -7,7 +7,6 @@ public class ShootDefault : MonoBehaviour, IShoot
     [SerializeField] private bool skipCooldown = false; // TODO: improve ghost frame shooting logic
 
     [Header("Settings")]
-    [SerializeField] private Projectile projectilePrefab = null;
     [SerializeField] private float projectileCooldown = 0.5f;
 
     private float shootDelay = 0f;
@@ -38,14 +37,18 @@ public class ShootDefault : MonoBehaviour, IShoot
 
         shootDelay = projectileCooldown;
 
-        Quaternion projectileRotation  = iFace.FaceDirection switch
+        GameObject projectileGo = GameManager.Instance.GetManager<ObjectPoolsManager>().GetPool(ObjectPoolsManager.PoolType.Projectile).Get();
+        if (projectileGo.TryGetComponent(out Projectile projectile))
         {
-            Direction.Right => Quaternion.Euler(0, 0, 0),
-            Direction.Left => Quaternion.Euler(0, 180, 0),
-            _ => Quaternion.identity
-        };
-        Projectile projectile = Instantiate(projectilePrefab, iHand.Hand.position, projectileRotation);
-        projectile.GetComponent<IOwner>().Owner = gameObject;
+            projectile.transform.position = iHand.Hand.position;
+            projectile.transform.rotation = iFace.FaceDirection switch
+            {
+                Direction.Right => Quaternion.Euler(0, 0, 0),
+                Direction.Left => Quaternion.Euler(0, 180, 0),
+                _ => Quaternion.identity
+            };
+            projectile.GetComponent<IOwner>().Owner = gameObject;
+        }
 
         OnShoot?.Invoke();
     }

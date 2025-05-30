@@ -289,6 +289,7 @@ GameObject:
   - component: {fileID: 1604210386223206049}
   - component: {fileID: 3460919062926368027}
   - component: {fileID: 7894739752959219404}
+  - component: {fileID: 5171721995597605566}
   m_Layer: 6
   m_Name: pf_Ghost
   m_TagString: Untagged
@@ -445,7 +446,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skipCooldown: 1
-  projectilePrefab: {fileID: 7052004268969205890, guid: b8941d50bcf948a4da9c9dfd5ec03197, type: 3}
   projectileCooldown: 0.5
 --- !u!114 &2808939330338235006
 MonoBehaviour:
@@ -498,6 +498,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0af7416dd1c0bf745ae9ff3a43f765a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5171721995597605566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8454032129097840581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d17c0e3245ed49b4eb91230b7b67b2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8937262351222869387

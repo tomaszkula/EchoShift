@@ -1,32 +1,50 @@
+using System.Collections;
 using UnityEngine;
 
-namespace Game
+public class PlayerManager : BaseManager
 {
-    public class PlayerManager : BaseManager
+    public Game.CharacterController player { get; private set; }
+
+    private PlayerSpawner playerSpawner = null;
+
+    private void Awake()
     {
-        [SerializeField] private CharacterController playerPrefab = null;
+        playerSpawner = FindAnyObjectByType<PlayerSpawner>();
+    }
 
-        public CharacterController player { get; private set; }
-
-        private PlayerSpawner _playerSpawner = null;
-
-        private void Awake()
+    public override void Initialize()
+    {
+        IEnumerator InitializeCoroutine()
         {
-            _playerSpawner = FindAnyObjectByType<PlayerSpawner>();
-        }
+            yield return new WaitUntil(() => GameManager.Instance.GetManager<ObjectPoolsManager>().isInitialized);
 
-        public override void Initialize()
-        {
             Vector3 spawnPosition = Vector3.zero;
-            if(_playerSpawner != null)
+            if (playerSpawner != null)
             {
-                spawnPosition = _playerSpawner.spawnPosition;
+                spawnPosition = playerSpawner.spawnPosition;
             }
-            player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
+
+            GameObject playerGo = GameManager.Instance.GetManager<ObjectPoolsManager>().GetPool(ObjectPoolsManager.PoolType.Player).Get();
+            player = playerGo.GetComponent<Game.CharacterController>();
+            player.transform.position = spawnPosition;
+            player.transform.rotation = Quaternion.identity;
 
             GameManager.Instance.GetManager<GhostsManager>().Setup(player.iMove, player.iJump, player.iShoot);
 
             base.Initialize();
         }
+
+        StartCoroutine(InitializeCoroutine());
+    }
+
+    public override void Deinitialize()
+    {
+        if(GameManager.IsInitialized &&
+            GameManager.Instance.GetManager<ObjectPoolsManager>().isInitialized)
+        {
+            GameManager.Instance.GetManager<ObjectPoolsManager>().GetPool(ObjectPoolsManager.PoolType.Player).Release(player.gameObject);
+        }
+
+        base.Deinitialize();
     }
 }
