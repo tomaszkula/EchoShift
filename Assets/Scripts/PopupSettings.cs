@@ -45,6 +45,15 @@ public class PopupSettings : Popup
         soundVolumeSlider.maxValue = 100;
         soundVolumeSlider.minValue = 0;
         soundVolumeSlider.value = ManagersController.Instance.GetManager<AudioManager>().SoundVolume;
+
+        ManagersController.Instance.GetManager<PauseManager>().Pause();
+    }
+
+    public override void Hide()
+    {
+        base.Hide();
+
+        ManagersController.Instance.GetManager<PauseManager>().Resume();
     }
 
     private void OnMusicVolumeSliderChanged(float value)
@@ -69,6 +78,8 @@ public class PopupSettings : Popup
 
         ManagersController.Instance.GetManager<AudioManager>().PlayButtonClickSound();
 
+        Hide();
+
         ManagersController.Instance.GetManager<ScenesManager>().LoadScene(ScenesManager.MAIN_MENU_SCENE_NAME);
     }
 
@@ -77,6 +88,8 @@ public class PopupSettings : Popup
         Debug.Log("Quitting Game");
 
         ManagersController.Instance.GetManager<AudioManager>().PlayButtonClickSound();
+
+        Hide();
 
         Application.Quit();
     }

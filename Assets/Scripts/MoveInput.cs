@@ -1,36 +1,45 @@
-using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class MoveInput : MonoBehaviour
 {
-    private IMove iMove = null;
-    private PlayerInput playerInput = null;
-    private InputAction moveAction = null;
+    private bool isMoveRequested = false;
+    private Vector2 moveDirection = Vector2.zero;
 
-    public Action<Vector2> OnMove { get; set; }
+    private IMove iMove = null;
 
     private void Awake()
     {
         iMove = GetComponent<IMove>();
-        playerInput = GetComponent<PlayerInput>();
-        moveAction = playerInput.actions["Move"];
     }
 
     private void OnEnable()
     {
-        moveAction.performed += ctx => OnMoveAction(ctx.ReadValue<Vector2>());
-        moveAction.canceled += ctx => OnMoveAction(Vector2.zero);
+        ManagersController.Instance.GetManager<PlayerInputManager>().OnMove += OnMoveAction;
+    }
+
+    private void Update()
+    {
+        Move();
     }
 
     private void OnDisable()
     {
-        moveAction.performed -= ctx => OnMoveAction(ctx.ReadValue<Vector2>());
-        moveAction.canceled -= ctx => OnMoveAction(Vector2.zero);
+        ManagersController.Instance.GetManager<PlayerInputManager>().OnMove -= OnMoveAction;
     }
 
     private void OnMoveAction(Vector2 direction)
     {
-        iMove?.Move(direction);
+        isMoveRequested = true;
+        moveDirection = direction;
+    }
+
+    private void Move()
+    {
+        if (!isMoveRequested)
+            return;
+
+        isMoveRequested = false;
+
+        iMove?.Move(moveDirection);
     }
 }

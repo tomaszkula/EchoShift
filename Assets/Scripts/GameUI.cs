@@ -115,7 +115,8 @@ namespace Game
 
         private void DeinitGameManagerEvents()
         {
-            if (GameManager.IsInitialized)
+            if (GameManager.IsInitialized &&
+                GameManager.Instance.GetManager<GhostsManager>().isInitialized)
             {
                 GameManager.Instance.OnGameTimeUpdated -= OnGameTimeUpdated;
                 GameManager.Instance.GetManager<GhostsManager>().onRecordingStarted -= OnRecordingStarted;

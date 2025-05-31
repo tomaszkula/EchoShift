@@ -1,31 +1,43 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class JumpInput : MonoBehaviour
 {
+    private bool isJumpRequested = false;
+
     private IJump iJump = null;
-    private PlayerInput playerInput = null;
-    private InputAction jumpAction = null;
 
     private void Awake()
     {
         iJump = GetComponent<IJump>();
-        playerInput = GetComponent<PlayerInput>();
-        jumpAction = playerInput.actions["Jump"];
     }
 
     private void OnEnable()
     {
-        jumpAction.performed += ctx => OnJumpAction();
+        ManagersController.Instance.GetManager<PlayerInputManager>().OnJump += OnJumpAction;
+    }
+
+    private void Update()
+    {
+        Jump();
     }
 
     private void OnDisable()
     {
-        jumpAction.performed -= ctx => OnJumpAction();
+        ManagersController.Instance.GetManager<PlayerInputManager>().OnJump -= OnJumpAction;
     }
 
     private void OnJumpAction()
     {
+        isJumpRequested = true;
+    }
+
+    private void Jump()
+    {
+        if (!isJumpRequested)
+            return;
+
+        isJumpRequested = false;
+
         iJump?.Jump();
     }
 }

@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 
 public class ShootInput : MonoBehaviour
 {
@@ -9,20 +8,16 @@ public class ShootInput : MonoBehaviour
     private bool isCancelShootingRequested = false;
 
     private IShoot iShoot = null;
-    private PlayerInput playerInput = null;
-    private InputAction shootAction = null;
 
     private void Awake()
     {
         iShoot = GetComponent<IShoot>();
-        playerInput = GetComponent<PlayerInput>();
-        shootAction = playerInput.actions["Attack"];
     }
 
     private void OnEnable()
     {
-        shootAction.started += ctx => OnShootActionStarted();
-        shootAction.canceled += ctx => OnShootActionCanceled();
+        ManagersController.Instance.GetManager<PlayerInputManager>().OnShootStart += OnShootActionStarted;
+        ManagersController.Instance.GetManager<PlayerInputManager>().OnShootEnd += OnShootActionCanceled;
     }
 
     private void Update()
@@ -34,8 +29,8 @@ public class ShootInput : MonoBehaviour
 
     private void OnDisable()
     {
-        shootAction.started -= ctx => OnShootActionStarted();
-        shootAction.canceled -= ctx => OnShootActionCanceled();
+        ManagersController.Instance.GetManager<PlayerInputManager>().OnShootStart -= OnShootActionStarted;
+        ManagersController.Instance.GetManager<PlayerInputManager>().OnShootEnd -= OnShootActionCanceled;
     }
 
     private void OnShootActionStarted()
