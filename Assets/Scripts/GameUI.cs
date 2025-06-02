@@ -12,22 +12,30 @@ namespace Game
 
         [SerializeField] private Slider recordingSlider = null;
         [SerializeField] private Slider playingSlider = null;
-        [SerializeField] private Button startRecordingButton = null;
-        [SerializeField] private Button playRecordingButton = null;
+        [SerializeField] private Button toggleActionsRecordingButton = null;
+        [SerializeField] private Image toggleActionsRecordingIconImage = null;
+        [SerializeField] private Button playRecordedActionsButton = null;
+        [SerializeField] private Image playRecordedActionsIconImage = null;
 
         private float gameTime = 0f;
-        private bool isRecording = false;
-        private bool isPlaying = false;
 
         private void OnEnable()
         {
             pauseButton.onClick.AddListener(OnPauseButtonClicked);
             volumeButton.onClick.AddListener(OnVolumeButtonClicked);
 
-            startRecordingButton.onClick.AddListener(OnStartRecordingButtonClicked);
-            playRecordingButton.onClick.AddListener(OnPlayRecordingButtonClicked);
+            toggleActionsRecordingButton.onClick.AddListener(OnToggleActionsRecordingButtonClicked);
+            playRecordedActionsButton.onClick.AddListener(OnPlayRecordedActionsButtonClicked);
 
             TryInitGameManagerEvents();
+        }
+
+        private void Start()
+        {
+            RefreshRecordingSlider();
+            RefreshPlayingSlider();
+            RefreshToggleActionsRecordingButton();
+            RefreshPlayRecordedActionsButton();
         }
 
         private void Update()
@@ -41,8 +49,8 @@ namespace Game
             pauseButton.onClick.RemoveListener(OnPauseButtonClicked);
             volumeButton.onClick.RemoveListener(OnVolumeButtonClicked);
 
-            startRecordingButton.onClick.RemoveListener(OnStartRecordingButtonClicked);
-            playRecordingButton.onClick.RemoveListener(OnPlayRecordingButtonClicked);
+            toggleActionsRecordingButton.onClick.RemoveListener(OnToggleActionsRecordingButtonClicked);
+            playRecordedActionsButton.onClick.RemoveListener(OnPlayRecordedActionsButtonClicked);
 
             DeinitGameManagerEvents();
         }
@@ -65,9 +73,9 @@ namespace Game
             ManagersController.Instance.GetManager<AudioManager>().IsMuted = !ManagersController.Instance.GetManager<AudioManager>().IsMuted;
         }
 
-        private void OnStartRecordingButtonClicked()
+        private void OnToggleActionsRecordingButtonClicked()
         {
-            Debug.Log("Start Recording button clicked");
+            Debug.Log("Toggle Actions Recording button clicked");
 
             ManagersController.Instance.GetManager<AudioManager>().PlayButtonClickSound();
 
@@ -81,9 +89,9 @@ namespace Game
             }
         }
 
-        private void OnPlayRecordingButtonClicked()
+        private void OnPlayRecordedActionsButtonClicked()
         {
-            Debug.Log("Play Recording button clicked");
+            Debug.Log("Play Recorded Actions button clicked");
 
             ManagersController.Instance.GetManager<AudioManager>().PlayButtonClickSound();
 
@@ -136,36 +144,40 @@ namespace Game
         {
             ResetSliders();
 
-            isRecording = true;
-
             recordingSlider.gameObject.SetActive(true);
             recordingSlider.maxValue = recordingTime + recordingDuration;
             recordingSlider.minValue = recordingTime;
             recordingSlider.value = recordingTime;
+
+            RefreshToggleActionsRecordingButton();
+            RefreshPlayRecordedActionsButton();
         }
 
         private void OnRecordingStopped()
         {
-            isRecording = false;
-
             //recordingSlider.gameObject.SetActive(false);
+
+            RefreshToggleActionsRecordingButton();
+            RefreshPlayRecordedActionsButton();
         }
 
         private void OnPlayingStarted(float recordingDuration, float recordingTime)
         {
-            isPlaying = true;
-
             playingSlider.gameObject.SetActive(true);
             playingSlider.maxValue = recordingTime + recordingDuration;
             playingSlider.minValue = recordingTime;
             playingSlider.value = recordingTime;
+
+            RefreshToggleActionsRecordingButton();
+            RefreshPlayRecordedActionsButton();
         }
 
         private void OnPlayingStopped()
         {
-            isPlaying = false;
-
             //playingSlider.gameObject.SetActive(false);
+
+            RefreshToggleActionsRecordingButton();
+            RefreshPlayRecordedActionsButton();
         }
 
         private void ResetSliders()
@@ -193,7 +205,7 @@ namespace Game
 
         private void RefreshRecordingSlider()
         {
-            if (!isRecording)
+            if (!GameManager.Instance.GetManager<GhostsManager>().isRecording)
                 return;
 
             recordingSlider.value = GameManager.Instance.GameTime;
@@ -201,10 +213,48 @@ namespace Game
 
         private void RefreshPlayingSlider()
         {
-            if (!isPlaying)
+            if (!GameManager.Instance.GetManager<GhostsManager>().isPlaying)
                 return;
 
             playingSlider.value = GameManager.Instance.GameTime;
+        }
+
+        private void RefreshToggleActionsRecordingButton()
+        {
+            if (GameManager.Instance.GetManager<GhostsManager>().isPlaying)
+            {
+                toggleActionsRecordingButton.interactable = false;
+            }
+            else
+            {
+                toggleActionsRecordingButton.interactable = true;
+            }
+
+            if (GameManager.Instance.GetManager<GhostsManager>().isRecording)
+            {
+                toggleActionsRecordingIconImage.sprite =
+                    ManagersController.Instance.GetManager<SpriteAtlasesManager>().GetUiSprite(SpriteAtlasesManager.UI_SPRITE_ICON_STOP_NAME);
+            }
+            else
+            {
+                toggleActionsRecordingIconImage.sprite =
+                    ManagersController.Instance.GetManager<SpriteAtlasesManager>().GetUiSprite(SpriteAtlasesManager.UI_SPRITE_ICON_RECORD_NAME);
+            }
+        }
+
+        private void RefreshPlayRecordedActionsButton()
+        {
+            if (GameManager.Instance.GetManager<GhostsManager>().isRecording)
+            {
+                playRecordedActionsButton.interactable = false;
+            }
+            else
+            {
+                playRecordedActionsButton.interactable = true;
+            }
+
+            playRecordedActionsIconImage.sprite =
+                ManagersController.Instance.GetManager<SpriteAtlasesManager>().GetUiSprite(SpriteAtlasesManager.UI_SPRITE_ICON_PLAY_NAME);
         }
     }
 }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8477188684830097210}
   - component: {fileID: 4913254830674978936}
   m_Layer: 5
-  m_Name: btn_PlayRecording
+  m_Name: btn_PlayRecordedActions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1101,7 +1101,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 2530564911472380330, guid: 2d393c9c06b728947b0bb29bec796cef, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -1421,8 +1421,10 @@ MonoBehaviour:
   volumeButton: {fileID: 9211072717144710181}
   recordingSlider: {fileID: 8193979852641458330}
   playingSlider: {fileID: 2976866462785397447}
-  startRecordingButton: {fileID: 240817049366302076}
-  playRecordingButton: {fileID: 4913254830674978936}
+  toggleActionsRecordingButton: {fileID: 240817049366302076}
+  toggleActionsRecordingIconImage: {fileID: 4066381030240717901}
+  playRecordedActionsButton: {fileID: 4913254830674978936}
+  playRecordedActionsIconImage: {fileID: 6963549380396092083}
 --- !u!1 &7727615509419663339
 GameObject:
   m_ObjectHideFlags: 0
@@ -1586,7 +1588,7 @@ GameObject:
   - component: {fileID: 2845683043153788641}
   - component: {fileID: 240817049366302076}
   m_Layer: 5
-  m_Name: btn_StartRecording
+  m_Name: btn_ToggleActionsRecording
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
