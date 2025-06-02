@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class ObjectPoolsManager : BaseManager
+public class ObjectPoolsManager : BaseGameManager
 {
     [Serializable]
     public class PoolData
@@ -25,26 +25,26 @@ public class ObjectPoolsManager : BaseManager
     [Header("Settings")]
     [SerializeField] private List<PoolData> poolsData = new List<PoolData>();
 
-    //public override void Initialize()
-    //{
-    //    for (int i = 0; i < poolsData.Count; i++)
-    //    {
-    //        PoolData poolData = poolsData[i];
-    //        poolData.pool = new ObjectPool<GameObject>(() => OnCreatePool(poolData), OnGetPooledObject, OnReleasePooledObject);
-    //    }
+    protected override void InitializeInternal()
+    {
+        base.InitializeInternal();
 
-    //    base.Initialize();
-    //}
+        for (int i = 0; i < poolsData.Count; i++)
+        {
+            PoolData poolData = poolsData[i];
+            poolData.pool = new ObjectPool<GameObject>(() => OnCreatePool(poolData), OnGetPooledObject, OnReleasePooledObject);
+        }
+    }
 
-    //public override void Deinitialize()
-    //{
-    //    for (int i = 0; i < poolsData.Count; i++)
-    //    {
-    //        poolsData[i].pool.Clear();
-    //    }
+    protected override void DeinitializeInternal()
+    {
+        base.DeinitializeInternal();
 
-    //    base.Deinitialize();
-    //}
+        for (int i = 0; i < poolsData.Count; i++)
+        {
+            poolsData[i].pool.Clear();
+        }
+    }
 
     public IObjectPool<GameObject> GetPool(PoolType type)
     {

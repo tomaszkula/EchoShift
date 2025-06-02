@@ -22,6 +22,10 @@ public class Manager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         managers = GetComponentsInChildren<BaseManager>();
+    }
+
+    private void Start()
+    {
         for (int i = 0; i < managers.Length; i++)
         {
             managers[i].Initialize();

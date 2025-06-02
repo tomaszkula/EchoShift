@@ -1,49 +1,50 @@
-using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine;
 
-public class TimeManager : BaseManager
+public class TimeManager : BaseGameManager
 {
-    private float serverTimeDelay = 0f;
-    public float ServerTime { get; private set; } = 0f;
+    private float gameTimeDelay = 0f;
+    public float GameTime { get; private set; } = 0f;
 
-    public event Action<float> OnServerTimeUpdated = null;
+    public event Action<float> OnGameTimeUpdated = null;
 
     protected override void InitializeInternal()
     {
         base.InitializeInternal();
 
-        serverTimeDelay = 0f;
-        ServerTime = 0f;
+        gameTimeDelay = 0f;
+        GameTime = 0f;
     }
 
     protected override void DeinitializeInternal()
     {
         base.DeinitializeInternal();
 
-        OnServerTimeUpdated = null;
+        OnGameTimeUpdated = null;
 
-        serverTimeDelay = 0f;
-        ServerTime = 0f;
+        gameTimeDelay = 0f;
+        GameTime = 0f;
     }
 
     private void Update()
     {
-        if (!IsInitialized)
-            return;
-
         CountTime();
     }
 
     private void CountTime()
     {
-        serverTimeDelay += Time.deltaTime;
-        if (serverTimeDelay >= 1f)
-        {
-            serverTimeDelay--;
+        if (!IsInitialized)
+            return;
 
-            ServerTime++;
-            OnServerTimeUpdated?.Invoke(ServerTime);
+        float deltaTime = Time.deltaTime;
+        gameTimeDelay += deltaTime;
+        GameTime += deltaTime;
+
+        if (gameTimeDelay >= 1f)
+        {
+            gameTimeDelay--;
+
+            OnGameTimeUpdated?.Invoke(GameTime);
         }
     }
 }

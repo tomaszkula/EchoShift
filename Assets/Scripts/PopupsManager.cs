@@ -1,4 +1,4 @@
-public class PopupsManager : BaseManager
+public class PopupsManager : BaseGameManager
 {
     private Popup[] popups = new Popup[0];
 
@@ -7,25 +7,25 @@ public class PopupsManager : BaseManager
         popups = GetComponentsInChildren<Popup>(true);
     }
 
-    //public override void Initialize()
-    //{
-    //    for (int i = 0; i < popups.Length; i++)
-    //    {
-    //        popups[i].Register(this);
-    //    }
+    protected override void InitializeInternal()
+    {
+        base.InitializeInternal();
 
-    //    base.Initialize();
-    //}
+        for (int i = 0; i < popups.Length; i++)
+        {
+            popups[i].Register(this);
+        }
+    }
 
-    //public override void Deinitialize()
-    //{
-    //    for (int i = 0; i < popups.Length; i++)
-    //    {
-    //        popups[i].Unregister();
-    //    }
+    protected override void DeinitializeInternal()
+    {
+        base.DeinitializeInternal();
 
-    //    base.Deinitialize();
-    //}
+        for (int i = 0; i < popups.Length; i++)
+        {
+            popups[i].Unregister();
+        }
+    }
 
     public T GetPopup<T>() where T : Popup
     {
