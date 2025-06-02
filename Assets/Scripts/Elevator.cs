@@ -13,12 +13,8 @@ public class Elevator : MonoBehaviour
     private Vector3 startPos = Vector3.zero;
     private Vector3 endPos = Vector3.zero;
 
-    private Rigidbody2D rigidbody = null;
-
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
-
         startPos = startPosition.position;
         endPos = endPosition.position;
     }
@@ -31,7 +27,7 @@ public class Elevator : MonoBehaviour
     private void FixedUpdate()
     {
         Vector3 targetPosition = Vector3.Lerp(startPos, endPos, Mathf.PingPong(Time.time * speed, 1f));
-        rigidbody.MovePosition(targetPosition);
+        elevatorPlatform.position = targetPosition;
     }
 
     private void OnDrawGizmosSelected()

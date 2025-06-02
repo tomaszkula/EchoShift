@@ -28,6 +28,7 @@ public class PlayerManager : BaseManager
             player = playerGo.GetComponent<Game.CharacterController>();
             player.transform.position = spawnPosition;
             player.transform.rotation = Quaternion.identity;
+            playerGo.transform.SetParent(null);
 
             GameManager.Instance.GetManager<GhostsManager>().Setup(player.iMove, player.iJump, player.iShoot, player.iActivator);
 

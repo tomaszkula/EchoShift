@@ -13,11 +13,11 @@ public class TriggerDestroyer : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        GameObject collisionCollider = collision.gameObject;
-        if(collisionCollider.TryGetComponent(out IOwner ownerComponent))
-            collisionCollider = ownerComponent.Owner;
+        GameObject collisionTarget = collision.gameObject;
+        if(collisionTarget.TryGetComponent(out IOwner ownerComponent))
+            collisionTarget = ownerComponent.Owner;
 
-        if (collisionCollider == iOwner.Owner)
+        if (collisionTarget == iOwner.Owner)
             return;
 
         if(iPooledObject != null)
