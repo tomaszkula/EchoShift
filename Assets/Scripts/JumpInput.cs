@@ -13,7 +13,7 @@ public class JumpInput : MonoBehaviour
 
     private void OnEnable()
     {
-        ManagersController.Instance.GetManager<PlayerInputManager>().OnJump += OnJumpAction;
+        Manager.Instance.GetManager<PlayerInputManager>().OnJump += OnJumpAction;
     }
 
     private void Update()
@@ -23,7 +23,7 @@ public class JumpInput : MonoBehaviour
 
     private void OnDisable()
     {
-        ManagersController.Instance.GetManager<PlayerInputManager>().OnJump -= OnJumpAction;
+        Manager.Instance.GetManager<PlayerInputManager>().OnJump -= OnJumpAction;
     }
 
     private void OnJumpAction()

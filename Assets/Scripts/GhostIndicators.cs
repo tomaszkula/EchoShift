@@ -16,7 +16,7 @@ public class GhostIndicators : MonoBehaviour
     private void OnDisable()
     {
         if(GameManager.Instance == null
-            || !GameManager.Instance.GetManager<GhostsManager>().isInitialized)
+            || !GameManager.Instance.GetManager<GhostsManager>().IsInitialized)
             return;
 
         GameManager.Instance.GetManager<GhostsManager>().onRecordingStarted -= OnRecordingStarted;

@@ -1,18 +1,34 @@
+using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine;
 
 public class PauseManager : BaseManager
 {
+    [Header("Settings")]
+    [SerializeField] private float defaultTimeScale = 1f;
+
     public bool IsPaused { get; private set; } = false;
 
     public event Action OnPause = null;
     public event Action OnResume = null;
 
-    public override void Initialize()
+    protected override void InitializeInternal()
     {
-        Time.timeScale = 1f;
+        base.InitializeInternal();
 
-        base.Initialize();
+        IsPaused = false;
+        Time.timeScale = defaultTimeScale;
+    }
+
+    protected override void DeinitializeInternal()
+    {
+        base.DeinitializeInternal();
+
+        OnPause = null;
+        OnResume = null;
+
+        IsPaused = false;
+        Time.timeScale = defaultTimeScale;
     }
 
     public void Pause()
@@ -30,7 +46,7 @@ public class PauseManager : BaseManager
         Debug.Log("Game Resumed");
 
         IsPaused = false;
-        Time.timeScale = 1f;
+        Time.timeScale = defaultTimeScale;
 
         OnResume?.Invoke();
     }

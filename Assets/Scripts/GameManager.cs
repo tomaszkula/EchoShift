@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (var manager in managers)
         {
-            if (!manager.isInitialized)
+            if (!manager.IsInitialized)
             {
                 return false;
             }

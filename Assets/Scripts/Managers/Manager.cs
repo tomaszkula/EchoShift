@@ -1,9 +1,10 @@
-using System.Collections;
+using System;
 using UnityEngine;
 
-public class ManagersController : MonoBehaviour
+public class Manager : MonoBehaviour
 {
-    public static ManagersController Instance { get; private set; }
+    public static Manager Instance { get; private set; } = null;
+    public static bool IsInitialized { get; private set; } = false;
 
     private BaseManager[] managers = new BaseManager[0];
 
@@ -16,40 +17,36 @@ public class ManagersController : MonoBehaviour
         }
 
         Instance = this;
+        IsInitialized = true;
+
         DontDestroyOnLoad(gameObject);
 
         managers = GetComponentsInChildren<BaseManager>();
-    }
-
-    public void InitializeManagers()
-    {
-        StartCoroutine(InitializeManagersCoroutine());
-    }
-
-    private IEnumerator InitializeManagersCoroutine()
-    {
         for (int i = 0; i < managers.Length; i++)
         {
             managers[i].Initialize();
         }
+    }
 
-        bool allManagersReady = true;
-        do
+    private void OnDestroy()
+    {
+        if (Instance != this)
+            return;
+
+        for (int i = 0; i < managers.Length; i++)
         {
-            allManagersReady = AreAllManagersInitialized();
+            managers[i].Deinitialize();
+        }
 
-            if (!allManagersReady)
-            {
-                yield return new WaitForSeconds(0.1f);
-            }
-        } while (!allManagersReady);
+        Instance = null;
+        IsInitialized = false;
     }
 
     public bool AreAllManagersInitialized()
     {
         foreach (var manager in managers)
         {
-            if (!manager.isInitialized)
+            if (!manager.IsInitialized)
             {
                 return false;
             }

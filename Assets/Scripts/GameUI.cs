@@ -66,7 +66,7 @@ namespace Game
         {
             Debug.Log("Pause button clicked");
 
-            ManagersController.Instance.GetManager<AudioManager>().PlayButtonClickSound();
+            Manager.Instance.GetManager<AudioManager>().PlayButtonClickSound();
 
             GameManager.Instance.GetManager<PopupsManager>().GetPopup<PopupSettings>().Show();
         }
@@ -75,16 +75,16 @@ namespace Game
         {
             Debug.Log("Volume button clicked");
 
-            ManagersController.Instance.GetManager<AudioManager>().PlayButtonClickSound();
+            Manager.Instance.GetManager<AudioManager>().PlayButtonClickSound();
 
-            ManagersController.Instance.GetManager<AudioManager>().IsMuted = !ManagersController.Instance.GetManager<AudioManager>().IsMuted;
+            Manager.Instance.GetManager<AudioManager>().IsMuted = !Manager.Instance.GetManager<AudioManager>().IsMuted;
         }
 
         private void OnToggleActionsRecordingButtonClicked()
         {
             Debug.Log("Toggle Actions Recording button clicked");
 
-            ManagersController.Instance.GetManager<AudioManager>().PlayButtonClickSound();
+            Manager.Instance.GetManager<AudioManager>().PlayButtonClickSound();
 
             if (GameManager.Instance.GetManager<GhostsManager>().isRecording)
             {
@@ -100,7 +100,7 @@ namespace Game
         {
             Debug.Log("Play Recorded Actions button clicked");
 
-            ManagersController.Instance.GetManager<AudioManager>().PlayButtonClickSound();
+            Manager.Instance.GetManager<AudioManager>().PlayButtonClickSound();
 
             GameManager.Instance.GetManager<GhostsManager>().PlayRecording();
         }
@@ -131,7 +131,7 @@ namespace Game
         private void DeinitGameManagerEvents()
         {
             if (GameManager.IsInitialized &&
-                GameManager.Instance.GetManager<GhostsManager>().isInitialized)
+                GameManager.Instance.GetManager<GhostsManager>().IsInitialized)
             {
                 GameManager.Instance.OnGameTimeUpdated -= OnGameTimeUpdated;
                 GameManager.Instance.GetManager<GhostsManager>().onRecordingStarted -= OnRecordingStarted;
@@ -241,12 +241,12 @@ namespace Game
             if (GameManager.Instance.GetManager<GhostsManager>().isRecording)
             {
                 toggleActionsRecordingIconImage.sprite =
-                    ManagersController.Instance.GetManager<SpriteAtlasesManager>().GetUiSprite(SpriteAtlasesManager.UI_SPRITE_ICON_STOP_NAME);
+                    Manager.Instance.GetManager<SpriteAtlasesManager>().GetUiSprite(SpriteAtlasesManager.UI_SPRITE_ICON_STOP_NAME);
             }
             else
             {
                 toggleActionsRecordingIconImage.sprite =
-                    ManagersController.Instance.GetManager<SpriteAtlasesManager>().GetUiSprite(SpriteAtlasesManager.UI_SPRITE_ICON_RECORD_NAME);
+                    Manager.Instance.GetManager<SpriteAtlasesManager>().GetUiSprite(SpriteAtlasesManager.UI_SPRITE_ICON_RECORD_NAME);
             }
         }
 
@@ -263,7 +263,7 @@ namespace Game
             }
 
             playRecordedActionsIconImage.sprite =
-                ManagersController.Instance.GetManager<SpriteAtlasesManager>().GetUiSprite(SpriteAtlasesManager.UI_SPRITE_ICON_PLAY_NAME);
+                Manager.Instance.GetManager<SpriteAtlasesManager>().GetUiSprite(SpriteAtlasesManager.UI_SPRITE_ICON_PLAY_NAME);
         }
     }
 }

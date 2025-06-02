@@ -3,29 +3,19 @@ using UnityEngine;
 
 public class Launcher : MonoBehaviour
 {
-    private ManagersController _managersController = null;
+    private Manager manager = null;
 
     private void Awake()
     {
-        _managersController = FindAnyObjectByType<ManagersController>();
+        manager = FindAnyObjectByType<Manager>();
     }
 
     private IEnumerator Start()
     {
-        if (_managersController == null)
-        {
-            Debug.LogError("ManagersController not found in the scene. Please ensure it is present.");
-            yield break;
-        }
-
-        _managersController.InitializeManagers();
-        while (!_managersController.AreAllManagersInitialized())
-        {
-            yield return null;
-        }
+        yield return new WaitUntil(() => manager.AreAllManagersInitialized());
 
         Debug.Log("ManagersController initialized successfully. Starting game...");
 
-        ManagersController.Instance.GetManager<ScenesManager>().LoadScene(ScenesManager.MAIN_MENU_SCENE_NAME);
+        Manager.Instance.GetManager<ScenesManager>().LoadScene(ScenesManager.MAIN_MENU_SCENE_NAME);
     }
 }

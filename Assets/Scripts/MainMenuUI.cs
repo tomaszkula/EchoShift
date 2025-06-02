@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class MainMenuUI : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private Button playButton = null;
 
     private void OnEnable()
@@ -19,7 +20,8 @@ public class MainMenuUI : MonoBehaviour
     {
         Debug.Log("Play button clicked! Starting game...");
 
-        ManagersController.Instance.GetManager<AudioManager>().PlayButtonClickSound();
-        ManagersController.Instance.GetManager<ScenesManager>().LoadScene(ScenesManager.GAME_SCENE_NAME);
+        Manager.Instance.GetManager<AudioManager>().PlayButtonClickSound();
+
+        Manager.Instance.GetManager<ScenesManager>().LoadScene(ScenesManager.GAME_SCENE_NAME);
     }
 }

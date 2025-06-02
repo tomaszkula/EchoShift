@@ -1,10 +1,12 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Audio;
-using static UnityEngine.Rendering.DebugUI;
 
 public class AudioManager : BaseManager
 {
     [Header("Settings")]
+    [SerializeField] private int defaultMusicVolume = 50;
+    [SerializeField] private int defaultSoundVolume = 50;
     [SerializeField] private AudioClip musicClip = null;
     [SerializeField] private AudioClip buttonClickSound = null;
 
@@ -32,7 +34,7 @@ public class AudioManager : BaseManager
 
     public int MusicVolume
     {
-        get => PlayerPrefs.GetInt(MUSIC_VOLUME_KEY, 50);
+        get => PlayerPrefs.GetInt(MUSIC_VOLUME_KEY, defaultMusicVolume);
         set 
         {
             PlayerPrefs.SetInt(MUSIC_VOLUME_KEY, value);
@@ -42,7 +44,7 @@ public class AudioManager : BaseManager
 
     public int SoundVolume
     {
-        get => PlayerPrefs.GetInt(SOUND_VOLUME_KEY, 50);
+        get => PlayerPrefs.GetInt(SOUND_VOLUME_KEY, defaultSoundVolume);
         set 
         {
             PlayerPrefs.SetInt(SOUND_VOLUME_KEY, value);
@@ -50,21 +52,33 @@ public class AudioManager : BaseManager
         }
     }
 
-    public override void Initialize()
+    protected override void InitializeInternal()
     {
+        base.InitializeInternal();
+
         audioMixer.SetFloat(AUDIO_MIXER_VOLUME_KEY, IsMuted ? -80f : 0f);
         audioMixer.SetFloat(AUDIO_MIXER_MUSIC_VOLUME_KEY, LinearToDecibel(MusicVolume, 0, 100));
         audioMixer.SetFloat(AUDIO_MIXER_SOUND_VOLUME_KEY, LinearToDecibel(SoundVolume, 0, 100));
 
         PlayMusic();
+    }
 
-        base.Initialize();
+    protected override void DeinitializeInternal()
+    {
+        base.DeinitializeInternal();
+
+        StopMusic();
     }
 
     public void PlayMusic()
     {
         musicAudioSource.clip = musicClip;
         musicAudioSource.Play();
+    }
+
+    public void StopMusic()
+    {
+        musicAudioSource.Stop();
     }
 
     public void PlayButtonClickSound()
@@ -82,5 +96,4 @@ public class AudioManager : BaseManager
 
         return 20f * Mathf.Log10(value);
     }
-
 }

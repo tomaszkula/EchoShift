@@ -22,15 +22,22 @@ public class SpriteAtlasesManager : BaseManager
 
     private Dictionary<AtlasType, Data> spriteAtlases = new Dictionary<AtlasType, Data>();
 
-    public override void Initialize()
+    protected override void InitializeInternal()
     {
+        base.InitializeInternal();
+
         for (int i = 0; i < spriteAtlasesData.Length; i++)
         {
             Data data = spriteAtlasesData[i];
             spriteAtlases.Add(data.atlasType, data);
         }
+    }
 
-        base.Initialize();
+    protected override void DeinitializeInternal()
+    {
+        base.DeinitializeInternal();
+
+        spriteAtlases.Clear();
     }
 
     public const string UI_SPRITE_ICON_MENU_NAME = "sp_Icon_Menu";

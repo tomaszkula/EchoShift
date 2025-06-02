@@ -230,7 +230,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9179324171199320335, guid: 5b4e11ab64960c64ebc95f8a9bcee75f, type: 3}
       propertyPath: m_Name
-      value: pf_ManagersController
+      value: pf_Manager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -299,5 +299,5 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 856827782}
-  - {fileID: 3961584797058521022}
   - {fileID: 7030505681852280878}
+  - {fileID: 3961584797058521022}

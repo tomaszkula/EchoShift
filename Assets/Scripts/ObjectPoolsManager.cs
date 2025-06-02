@@ -25,26 +25,26 @@ public class ObjectPoolsManager : BaseManager
     [Header("Settings")]
     [SerializeField] private List<PoolData> poolsData = new List<PoolData>();
 
-    public override void Initialize()
-    {
-        for (int i = 0; i < poolsData.Count; i++)
-        {
-            PoolData poolData = poolsData[i];
-            poolData.pool = new ObjectPool<GameObject>(() => OnCreatePool(poolData), OnGetPooledObject, OnReleasePooledObject);
-        }
+    //public override void Initialize()
+    //{
+    //    for (int i = 0; i < poolsData.Count; i++)
+    //    {
+    //        PoolData poolData = poolsData[i];
+    //        poolData.pool = new ObjectPool<GameObject>(() => OnCreatePool(poolData), OnGetPooledObject, OnReleasePooledObject);
+    //    }
 
-        base.Initialize();
-    }
+    //    base.Initialize();
+    //}
 
-    public override void Deinitialize()
-    {
-        for (int i = 0; i < poolsData.Count; i++)
-        {
-            poolsData[i].pool.Clear();
-        }
+    //public override void Deinitialize()
+    //{
+    //    for (int i = 0; i < poolsData.Count; i++)
+    //    {
+    //        poolsData[i].pool.Clear();
+    //    }
 
-        base.Deinitialize();
-    }
+    //    base.Deinitialize();
+    //}
 
     public IObjectPool<GameObject> GetPool(PoolType type)
     {

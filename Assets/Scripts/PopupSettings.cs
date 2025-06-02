@@ -39,28 +39,28 @@ public class PopupSettings : Popup
         musicVolumeSlider.wholeNumbers = true;
         musicVolumeSlider.maxValue = 100;
         musicVolumeSlider.minValue = 0;
-        musicVolumeSlider.value = ManagersController.Instance.GetManager<AudioManager>().MusicVolume;
+        musicVolumeSlider.value = Manager.Instance.GetManager<AudioManager>().MusicVolume;
 
         soundVolumeSlider.wholeNumbers = true;
         soundVolumeSlider.maxValue = 100;
         soundVolumeSlider.minValue = 0;
-        soundVolumeSlider.value = ManagersController.Instance.GetManager<AudioManager>().SoundVolume;
+        soundVolumeSlider.value = Manager.Instance.GetManager<AudioManager>().SoundVolume;
 
-        ManagersController.Instance.GetManager<PauseManager>().Pause();
+        Manager.Instance.GetManager<PauseManager>().Pause();
     }
 
     public override void Hide()
     {
         base.Hide();
 
-        ManagersController.Instance.GetManager<PauseManager>().Resume();
+        Manager.Instance.GetManager<PauseManager>().Resume();
     }
 
     private void OnMusicVolumeSliderChanged(float value)
     {
         Debug.Log($"Music Volume Changed: {value}");
 
-        ManagersController.Instance.GetManager<AudioManager>().MusicVolume = (int)value;
+        Manager.Instance.GetManager<AudioManager>().MusicVolume = (int)value;
         musicVolumeValueTMP.text = $"{value}%";
     }
 
@@ -68,7 +68,7 @@ public class PopupSettings : Popup
     {
         Debug.Log($"Sound Volume Changed: {value}");
 
-        ManagersController.Instance.GetManager<AudioManager>().SoundVolume = (int)value;
+        Manager.Instance.GetManager<AudioManager>().SoundVolume = (int)value;
         soundVolumeValueTMP.text = $"{value}%";
     }
 
@@ -76,18 +76,18 @@ public class PopupSettings : Popup
     {
         Debug.Log("Returning to Main Menu");
 
-        ManagersController.Instance.GetManager<AudioManager>().PlayButtonClickSound();
+        Manager.Instance.GetManager<AudioManager>().PlayButtonClickSound();
 
         Hide();
 
-        ManagersController.Instance.GetManager<ScenesManager>().LoadScene(ScenesManager.MAIN_MENU_SCENE_NAME);
+        Manager.Instance.GetManager<ScenesManager>().LoadScene(ScenesManager.MAIN_MENU_SCENE_NAME);
     }
 
     private void OnQuitButtonClicked()
     {
         Debug.Log("Quitting Game");
 
-        ManagersController.Instance.GetManager<AudioManager>().PlayButtonClickSound();
+        Manager.Instance.GetManager<AudioManager>().PlayButtonClickSound();
 
         Hide();
 

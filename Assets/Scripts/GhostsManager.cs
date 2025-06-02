@@ -30,15 +30,15 @@ public class GhostsManager : BaseManager
     public event Action<float, float> onPlayingStarted = null;
     public event Action onPlayingStopped = null;
 
-    public override void Deinitialize()
-    {
-        onRecordingStarted = null;
-        onRecordingStopped = null;
-        onPlayingStarted = null;
-        onPlayingStopped = null;
+    //public override void Deinitialize()
+    //{
+    //    onRecordingStarted = null;
+    //    onRecordingStopped = null;
+    //    onPlayingStarted = null;
+    //    onPlayingStopped = null;
 
-        base.Deinitialize();
-    }
+    //    base.Deinitialize();
+    //}
 
     private void Update()
     {
