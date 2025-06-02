@@ -51,3 +51,5 @@ MonoBehaviour:
     prefab: {fileID: 8454032129097840581, guid: b65ccd3bd549c894d9c14bf424639767, type: 3}
   - poolType: 2
     prefab: {fileID: 4478354276051356151, guid: 1283a0ba4e567d8489400bc429a17e77, type: 3}
+  - poolType: 3
+    prefab: {fileID: 6992657278901709304, guid: f61842612cb655b4eb782a7f95ce3b38, type: 3}

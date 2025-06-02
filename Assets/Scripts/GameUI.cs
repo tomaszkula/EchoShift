@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,13 +10,15 @@ namespace Game
         [SerializeField] private Button pauseButton = null;
         [SerializeField] private TextMeshProUGUI timeTMP = null;
         [SerializeField] private Button volumeButton = null;
-
+        [Space]
         [SerializeField] private Slider recordingSlider = null;
         [SerializeField] private Slider playingSlider = null;
         [SerializeField] private Button toggleActionsRecordingButton = null;
         [SerializeField] private Image toggleActionsRecordingIconImage = null;
         [SerializeField] private Button playRecordedActionsButton = null;
         [SerializeField] private Image playRecordedActionsIconImage = null;
+        [Space]
+        [SerializeField] private GhostIndicators ghostIndicators = null;
 
         private float gameTime = 0f;
 
@@ -30,12 +33,16 @@ namespace Game
             TryInitGameManagerEvents();
         }
 
-        private void Start()
+        private IEnumerator Start()
         {
+            yield return new WaitUntil(() => GameManager.Instance.AreAllManagersInitialized());
+
             RefreshRecordingSlider();
             RefreshPlayingSlider();
             RefreshToggleActionsRecordingButton();
             RefreshPlayRecordedActionsButton();
+
+            ghostIndicators.Init();
         }
 
         private void Update()
@@ -221,7 +228,8 @@ namespace Game
 
         private void RefreshToggleActionsRecordingButton()
         {
-            if (GameManager.Instance.GetManager<GhostsManager>().isPlaying)
+            if (GameManager.Instance.GetManager<GhostsManager>().isRecorded
+                || GameManager.Instance.GetManager<GhostsManager>().isPlaying)
             {
                 toggleActionsRecordingButton.interactable = false;
             }
@@ -244,7 +252,8 @@ namespace Game
 
         private void RefreshPlayRecordedActionsButton()
         {
-            if (GameManager.Instance.GetManager<GhostsManager>().isRecording)
+            if (!GameManager.Instance.GetManager<GhostsManager>().isRecorded
+                || GameManager.Instance.GetManager<GhostsManager>().isPlaying || GameManager.Instance.GetManager<GhostsManager>().isPlayed)
             {
                 playRecordedActionsButton.interactable = false;
             }

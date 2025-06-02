@@ -5,12 +5,16 @@ using UnityEngine;
 public class GhostsManager : BaseManager
 {
     [Header("Settings")]
+    [SerializeField] private int _maxGhostsCount = 5;
     [SerializeField] private float recordingDuration = 5f;
 
     private EchoData echoData = new EchoData();
+    public int maxGhostsCount => _maxGhostsCount;
+    public int ghostsCount { get; private set; } = 0;
     public bool isRecording { get; private set; } = false;
     public bool isRecorded {  get; private set; } = false;
     public bool isPlaying { get; private set; } = false;
+    public bool isPlayed { get; private set; } = false;
 
     private Vector2 lastDirection = Vector2.zero;
 
@@ -20,6 +24,7 @@ public class GhostsManager : BaseManager
     private IShoot iShoot = null;
     private IActivator iActivator = null;
 
+    public event Action<int> onGhostsCountChanged = null;
     public event Action<float, float> onRecordingStarted = null;
     public event Action onRecordingStopped = null;
     public event Action<float, float> onPlayingStarted = null;
@@ -97,8 +102,21 @@ public class GhostsManager : BaseManager
             return;
         }
 
+        if (isRecorded)
+        {
+            Debug.LogWarning("Already recorded. Please play the recording before starting a new one.");
+            return;
+        }
+
+        if (ghostsCount >= _maxGhostsCount)
+        {
+            Debug.LogWarning("Maximum number of ghosts reached. Cannot start a new recording.");
+            return;
+        }
+
+        ghostsCount++;
         isRecording = true;
-        isRecorded = false;
+        isPlayed = false;
 
         echoData = new EchoData();
         echoData.recordPosition = GameManager.Instance.GetManager<PlayerManager>().player.transform.position;
@@ -245,7 +263,9 @@ public class GhostsManager : BaseManager
         if(echoData.recordStopTime < GameManager.Instance.GameTime - offset)
         {
             isPlaying = false;
-            if(ghost.TryGetComponent(out IPooledObject pooledObject))
+            isPlayed = true;
+
+            if (ghost.TryGetComponent(out IPooledObject pooledObject))
             {
                 pooledObject.Pool.Release(ghost.gameObject);
             }

@@ -19,6 +19,7 @@ public class ObjectPoolsManager : BaseManager
         Projectile,
         Ghost,
         Player,
+        GhostIndicatorEntry,
     }
 
     [Header("Settings")]
@@ -30,7 +31,6 @@ public class ObjectPoolsManager : BaseManager
         {
             PoolData poolData = poolsData[i];
             poolData.pool = new ObjectPool<GameObject>(() => OnCreatePool(poolData), OnGetPooledObject, OnReleasePooledObject);
-            //poolData.pool.Release(poolsData[i].pool.Get());
         }
 
         base.Initialize();
