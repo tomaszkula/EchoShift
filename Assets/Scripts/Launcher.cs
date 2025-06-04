@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using UnityEngine;
 
@@ -10,12 +11,12 @@ public class Launcher : MonoBehaviour
         manager = FindAnyObjectByType<Manager>();
     }
 
-    private IEnumerator Start()
+    private async void Start()
     {
-        yield return new WaitUntil(() => manager.AreAllManagersInitialized());
+        await new WaitUntil(() => manager.AreAllManagersInitialized());
 
         Debug.Log("ManagersController initialized successfully. Starting game...");
 
-        Manager.Instance.GetManager<ScenesManager>().LoadScene(ScenesManager.MAIN_MENU_SCENE_NAME);
+        await Manager.Instance.GetManager<ScenesManager>().LoadMainMenuScene();
     }
 }

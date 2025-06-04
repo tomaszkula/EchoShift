@@ -22,6 +22,6 @@ public class MainMenuUI : MonoBehaviour
 
         Manager.Instance.GetManager<AudioManager>().PlayButtonClickSound();
 
-        Manager.Instance.GetManager<ScenesManager>().LoadScene(ScenesManager.GAME_SCENE_NAME);
+        Manager.Instance.GetManager<LevelsManager>().Load();
     }
 }

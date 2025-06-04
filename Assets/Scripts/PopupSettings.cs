@@ -72,7 +72,7 @@ public class PopupSettings : Popup
         soundVolumeValueTMP.text = $"{value}%";
     }
 
-    private void OnMainMenuButtonClicked()
+    private async void OnMainMenuButtonClicked()
     {
         Debug.Log("Returning to Main Menu");
 
@@ -80,7 +80,7 @@ public class PopupSettings : Popup
 
         Hide();
 
-        Manager.Instance.GetManager<ScenesManager>().LoadScene(ScenesManager.MAIN_MENU_SCENE_NAME);
+        await Manager.Instance.GetManager<ScenesManager>().LoadMainMenuScene();
     }
 
     private void OnQuitButtonClicked()

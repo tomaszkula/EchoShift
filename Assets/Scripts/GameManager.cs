@@ -35,6 +35,9 @@ public class GameManager : MonoBehaviour
         yield return new WaitUntil(() => AreAllManagersInitialized());
 
         IsPlaying = true;
+
+        yield return new WaitUntil(() => Manager.Instance.GetManager<LevelsManager>().IsLevelLoaded);
+        GetManager<PlayerManager>().Spawn();
     }
 
     private void OnDestroy()
