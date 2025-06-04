@@ -1,27 +1,68 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MainMenuUI : MonoBehaviour
 {
+    [Serializable]
+    public class Data
+    {
+        public ScreenType screenType = ScreenType.LevelSelect;
+        public BaseScreen screen = null;
+    }
+
+    public enum ScreenType
+    {
+        None,
+        MainMenu,
+        LevelSelect,
+    }
+
     [Header("References")]
-    [SerializeField] private Button playButton = null;
+    [SerializeField] private List<Data> screensData = new List<Data>();
 
-    private void OnEnable()
+    private Dictionary<ScreenType, Data> screensDictionary = new Dictionary<ScreenType, Data>();
+
+    public ScreenType currentScreenType { get; private set; } = ScreenType.None;
+    public Data currentScreenData { get; private set; } = null;
+
+    private void Awake()
     {
-        playButton.onClick.AddListener(OnPlayButtonClicked);
+        for (int i = 0; i < screensData.Count; i++)
+        {
+            screensData[i].screen.Initialize(this);
+            screensDictionary.Add(screensData[i].screenType, screensData[i]);
+        }
     }
 
-    private void OnDisable()
+    private void Start()
     {
-        playButton.onClick.RemoveListener(OnPlayButtonClicked);
+        SelectScreen(ScreenType.MainMenu);
     }
 
-    private void OnPlayButtonClicked()
+    public void SelectScreen(ScreenType screenType)
     {
-        Debug.Log("Play button clicked! Starting game...");
+        if (currentScreenData != null)
+        {
+            currentScreenData.screen?.Hide();
+        }
 
-        Manager.Instance.GetManager<AudioManager>().PlayButtonClickSound();
+        currentScreenType = screenType;
+        currentScreenData = GetScreen(screenType);
 
-        Manager.Instance.GetManager<LevelsManager>().Load();
+        if (currentScreenData != null)
+        {
+            currentScreenData.screen?.Show();
+        }
+    }
+
+    public Data GetScreen(ScreenType screenType)
+    {
+        if(screensDictionary.TryGetValue(screenType, out Data screenData))
+        {
+            return screenData;
+        }
+
+        return null;
     }
 }
