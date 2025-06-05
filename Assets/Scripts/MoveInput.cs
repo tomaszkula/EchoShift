@@ -14,7 +14,7 @@ public class MoveInput : MonoBehaviour
 
     private void OnEnable()
     {
-        Manager.Instance.GetManager<PlayerInputManager>().OnMove += OnMoveAction;
+        Manager.Instance.GetManager<InputsManager>().OnMove += OnMoveAction;
     }
 
     private void Update()
@@ -24,7 +24,7 @@ public class MoveInput : MonoBehaviour
 
     private void OnDisable()
     {
-        Manager.Instance.GetManager<PlayerInputManager>().OnMove -= OnMoveAction;
+        Manager.Instance.GetManager<InputsManager>().OnMove -= OnMoveAction;
     }
 
     private void OnMoveAction(Vector2 direction)

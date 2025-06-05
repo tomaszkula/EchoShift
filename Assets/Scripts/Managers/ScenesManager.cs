@@ -1,26 +1,24 @@
 using Cysharp.Threading.Tasks;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ScenesManager : BaseManager
 {
-    [Header("Settings")]
-    [SerializeField] private SceneAsset launcherSceneAsset = null;
-    [SerializeField] private SceneAsset mainMenuSceneAsset = null;
+    private const string LAUNCHER_SCENE_NAME = "LauncherScene";
+    private const string MAIN_MENU_SCENE_NAME = "MainMenuScene";
 
-    public async UniTask LoadMainMenuScene()
+    public async UniTask LoadLauncherAsync()
     {
-        await SceneManager.LoadSceneAsync(mainMenuSceneAsset.name, LoadSceneMode.Single);
+        await LoadAsync(LAUNCHER_SCENE_NAME, LoadSceneMode.Single);
     }
 
-    public async UniTask LoadMainScene(string sceneName)
+    public async UniTask LoadMainMenuAsync()
     {
-        await SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
+        await LoadAsync(MAIN_MENU_SCENE_NAME, LoadSceneMode.Single);
     }
 
-    public async UniTask LoadAdditionalScene(string sceneName)
+    public async UniTask LoadAsync(string sceneName, LoadSceneMode mode)
     {
-        await SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        await SceneManager.LoadSceneAsync(sceneName, mode);
     }
 }

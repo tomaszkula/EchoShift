@@ -55,7 +55,8 @@ public class GhostIndicators : MonoBehaviour
     {
         for (int i = 0; i < GameManager.Instance.GetManager<GhostsManager>().MaxGhostsCount; i++)
         {
-            GameObject ghostIndicatorEntryGo = GameManager.Instance.GetManager<ObjectPoolsManager>().GetPool(ObjectPoolsManager.PoolType.GhostIndicatorEntry).Get();
+            ObjectsPoolType uiGhostIndicatorEntryOPT = Manager.Instance.GetManager<ObjectsPoolsManager>().UiGhostIndicatorEntryOPT;
+            GameObject ghostIndicatorEntryGo = Manager.Instance.GetManager<ObjectsPoolsManager>().GetPool(uiGhostIndicatorEntryOPT).Get();
             ghostIndicatorEntryGo.transform.SetParent(ghostIndicatorEntriesContainer.transform, false);
             if (ghostIndicatorEntryGo.TryGetComponent(out GhostIndicatorEntry ghostIndicatorEntry))
             {

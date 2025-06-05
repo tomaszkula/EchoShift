@@ -1,19 +1,24 @@
 using System;
 using UnityEngine;
 
-public class TimeManager : BaseGameManager
+public class TimeManager : BaseManager
 {
-    private float gameTimeDelay = 0f;
+    public bool IsCounting { get; set; } = false;
+    public float GameTimeDelay { get; private set; } = 0f;
     public float GameTime { get; private set; } = 0f;
 
     public event Action<float> OnGameTimeUpdated = null;
 
-    protected override void InitializeInternal()
+    private void Update()
+    {
+        CountTime();
+    }
+
+    protected override async void InitializeInternal()
     {
         base.InitializeInternal();
 
-        gameTimeDelay = 0f;
-        GameTime = 0f;
+        ResetTimer();
     }
 
     protected override void DeinitializeInternal()
@@ -21,30 +26,30 @@ public class TimeManager : BaseGameManager
         base.DeinitializeInternal();
 
         OnGameTimeUpdated = null;
-
-        gameTimeDelay = 0f;
-        GameTime = 0f;
-    }
-
-    private void Update()
-    {
-        CountTime();
     }
 
     private void CountTime()
     {
-        if (!IsInitialized)
+        if (!IsInitialized || !IsCounting ||
+            Manager.Instance.GetManager<PauseManager>().IsPaused)
             return;
 
         float deltaTime = Time.deltaTime;
-        gameTimeDelay += deltaTime;
+        GameTimeDelay += deltaTime;
         GameTime += deltaTime;
 
-        if (gameTimeDelay >= 1f)
+        if (GameTimeDelay >= 1f)
         {
-            gameTimeDelay--;
+            GameTimeDelay--;
 
             OnGameTimeUpdated?.Invoke(GameTime);
         }
+    }
+
+    public void ResetTimer()
+    {
+        IsCounting = false;
+        GameTimeDelay = 0f;
+        GameTime = 0f;
     }
 }

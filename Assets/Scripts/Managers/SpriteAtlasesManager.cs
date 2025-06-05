@@ -8,19 +8,17 @@ public class SpriteAtlasesManager : BaseManager
     [Serializable]
     public class Data
     {
-        public AtlasType atlasType = AtlasType.UI;
+        public SpriteAtlasType type = null;
         public SpriteAtlas spriteAtlas = null;
-    }
-
-    public enum AtlasType
-    {
-        UI,
     }
 
     [Header("Settings")]
     [SerializeField] private Data[] spriteAtlasesData = new Data[0];
 
-    private Dictionary<AtlasType, Data> spriteAtlases = new Dictionary<AtlasType, Data>();
+    [Header("References")]
+    [SerializeField] private SpriteAtlasType uiSAT = null;
+
+    private Dictionary<SpriteAtlasType, Data> spriteAtlases = new Dictionary<SpriteAtlasType, Data>();
 
     protected override void InitializeInternal()
     {
@@ -29,7 +27,7 @@ public class SpriteAtlasesManager : BaseManager
         for (int i = 0; i < spriteAtlasesData.Length; i++)
         {
             Data data = spriteAtlasesData[i];
-            spriteAtlases.Add(data.atlasType, data);
+            spriteAtlases.Add(data.type, data);
         }
     }
 
@@ -47,6 +45,6 @@ public class SpriteAtlasesManager : BaseManager
     public const string UI_SPRITE_ICON_VOLUME_NAME = "sp_Icon_Volume";
     public Sprite GetUiSprite(string spriteName)
     {
-        return spriteAtlases[AtlasType.UI].spriteAtlas.GetSprite(spriteName);
+        return spriteAtlases[uiSAT].spriteAtlas.GetSprite(spriteName);
     }
 }

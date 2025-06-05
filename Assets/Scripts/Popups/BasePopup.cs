@@ -1,13 +1,25 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Popup : MonoBehaviour
+public class BasePopup : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private GameObject container = null;
     [SerializeField] private Button fullScreenCloseButton = null;
 
     private PopupsManager popupsManager = null;
+
+    private void Awake()
+    {
+        popupsManager = Manager.Instance.GetManager<PopupsManager>();
+
+        popupsManager.Register(this);
+    }
+
+    private void OnDestroy()
+    {
+        popupsManager.Unregister(this);
+    }
 
     protected virtual void OnEnable()
     {

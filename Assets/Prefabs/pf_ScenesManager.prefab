@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfe58e99638da514e8d6cb7bcd846fb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launcherSceneAsset: {fileID: 102900000, guid: 7aecff7ccb072064ba7ce3d2dcbd5ce9, type: 3}
-  mainMenuSceneAsset: {fileID: 102900000, guid: 8c9cfa26abfee488c85f1582747f6a02, type: 3}
+  launcherSA: {fileID: 102900000, guid: 7aecff7ccb072064ba7ce3d2dcbd5ce9, type: 3}
+  mainMenuSA: {fileID: 102900000, guid: 8c9cfa26abfee488c85f1582747f6a02, type: 3}

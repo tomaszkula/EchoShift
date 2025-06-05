@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PopupSettings : Popup
+public class PopupSettings : BasePopup
 {
     [Header("Settings Popup")]
     [SerializeField] private Slider musicVolumeSlider = null;
@@ -80,7 +80,7 @@ public class PopupSettings : Popup
 
         Hide();
 
-        await Manager.Instance.GetManager<ScenesManager>().LoadMainMenuScene();
+        await Manager.Instance.GetManager<ScenesManager>().LoadMainMenuAsync();
     }
 
     private void OnQuitButtonClicked()

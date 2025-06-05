@@ -13,7 +13,7 @@ public class ActivatorInput : MonoBehaviour
 
     private void OnEnable()
     {
-        Manager.Instance.GetManager<PlayerInputManager>().OnActivate += OnActivateAction;
+        Manager.Instance.GetManager<InputsManager>().OnActivate += OnActivateAction;
     }
 
     private void Update()
@@ -23,7 +23,7 @@ public class ActivatorInput : MonoBehaviour
 
     private void OnDisable()
     {
-        Manager.Instance.GetManager<PlayerInputManager>().OnActivate -= OnActivateAction;
+        Manager.Instance.GetManager<InputsManager>().OnActivate -= OnActivateAction;
     }
 
     private void OnActivateAction()

@@ -119,14 +119,14 @@ public class GhostsManager : BaseGameManager
         IsPlayed = false;
 
         echoData = new EchoData();
-        echoData.recordPosition = GameManager.Instance.GetManager<PlayerManager>().player.transform.position;
-        echoData.recordFaceDirection = GameManager.Instance.GetManager<PlayerManager>().player.iFace.FaceDirection;
-        echoData.recordStartTime = GameManager.Instance.GetManager<TimeManager>().GameTime;
+        echoData.recordPosition = Manager.Instance.GetManager<PlayerManager>().player.transform.position;
+        echoData.recordFaceDirection = Manager.Instance.GetManager<PlayerManager>().player.iFace.FaceDirection;
+        echoData.recordStartTime = Manager.Instance.GetManager<TimeManager>().GameTime;
         echoData.frames = new List<EchoFrameData>()
         {
             new EchoFrameData
             {
-                time = GameManager.Instance.GetManager<TimeManager>().GameTime,
+                time = Manager.Instance.GetManager<TimeManager>().GameTime,
                 moveDirection = lastDirection,
             }
         };
@@ -145,7 +145,7 @@ public class GhostsManager : BaseGameManager
         IsRecording = false;
         IsRecorded = true;
 
-        echoData.recordStopTime = GameManager.Instance.GetManager<TimeManager>().GameTime;
+        echoData.recordStopTime = Manager.Instance.GetManager<TimeManager>().GameTime;
 
         onRecordingStopped?.Invoke();
     }
@@ -159,11 +159,13 @@ public class GhostsManager : BaseGameManager
 
         IsRecorded = false;
         IsPlaying = true;
-        echoData.playStartTime = GameManager.Instance.GetManager<TimeManager>().GameTime;
+        echoData.playStartTime = Manager.Instance.GetManager<TimeManager>().GameTime;
 
-        GameObject ghostGo = GameManager.Instance.GetManager<ObjectPoolsManager>().GetPool(ObjectPoolsManager.PoolType.Ghost).Get();
+        ObjectsPoolType ghostOPT = Manager.Instance.GetManager<ObjectsPoolsManager>().GhostOPT;
+        GameObject ghostGo = Manager.Instance.GetManager<ObjectsPoolsManager>().GetPool(ghostOPT).Get();
         ghost = ghostGo.GetComponent<Ghost>();
-        ghost.transform.position = echoData.recordPosition;
+        ghost.transform.SetParent(null);
+        ghost.transform.SetPositionAndRotation(echoData.recordPosition, Quaternion.identity);
         if(ghost.TryGetComponent(out IFace iFace))
         {
             iFace.FaceDirection = echoData.recordFaceDirection;
@@ -181,7 +183,7 @@ public class GhostsManager : BaseGameManager
 
         EchoFrameData frame = new EchoFrameData
         {
-            time = GameManager.Instance.GetManager<TimeManager>().GameTime,
+            time = Manager.Instance.GetManager<TimeManager>().GameTime,
             moveDirection = direction
         };
 
@@ -197,7 +199,7 @@ public class GhostsManager : BaseGameManager
 
         EchoFrameData frame = new EchoFrameData
         {
-            time = GameManager.Instance.GetManager<TimeManager>().GameTime,
+            time = Manager.Instance.GetManager<TimeManager>().GameTime,
             moveDirection = lastDirection,
             isJumping = true
         };
@@ -214,7 +216,7 @@ public class GhostsManager : BaseGameManager
 
         EchoFrameData frame = new EchoFrameData
         {
-            time = GameManager.Instance.GetManager<TimeManager>().GameTime,
+            time = Manager.Instance.GetManager<TimeManager>().GameTime,
             moveDirection = lastDirection,
             isShooting = true
         };
@@ -231,7 +233,7 @@ public class GhostsManager : BaseGameManager
 
         EchoFrameData frame = new EchoFrameData
         {
-            time = GameManager.Instance.GetManager<TimeManager>().GameTime,
+            time = Manager.Instance.GetManager<TimeManager>().GameTime,
             moveDirection = lastDirection,
             isActivating = true
         };
@@ -245,7 +247,7 @@ public class GhostsManager : BaseGameManager
         if (!IsRecording)
             return;
 
-        if (GameManager.Instance.GetManager<TimeManager>().GameTime - echoData.recordStartTime >= recordingDuration)
+        if (Manager.Instance.GetManager<TimeManager>().GameTime - echoData.recordStartTime >= recordingDuration)
         {
             StopRecording();
             Debug.Log("Recording duration reached. Stopping recording.");
@@ -260,7 +262,7 @@ public class GhostsManager : BaseGameManager
         }
 
         float offset = echoData.playStartTime - echoData.recordStartTime;
-        if(echoData.recordStopTime < GameManager.Instance.GetManager<TimeManager>().GameTime - offset)
+        if(echoData.recordStopTime < Manager.Instance.GetManager<TimeManager>().GameTime - offset)
         {
             IsPlaying = false;
             IsPlayed = true;
@@ -281,7 +283,7 @@ public class GhostsManager : BaseGameManager
         {
             for (int i = 0; i < echoData.frames.Count; i++)
             {
-                if (echoData.frames[0].time < GameManager.Instance.GetManager<TimeManager>().GameTime - offset)
+                if (echoData.frames[0].time < Manager.Instance.GetManager<TimeManager>().GameTime - offset)
                 {
                     ghost.SetEchoFrameData(echoData.frames[0]);
                     echoData.frames.RemoveAt(0);

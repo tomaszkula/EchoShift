@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -7,13 +6,13 @@ public class AudioManager : BaseManager
     [Header("Settings")]
     [SerializeField] private int defaultMusicVolume = 50;
     [SerializeField] private int defaultSoundVolume = 50;
-    [SerializeField] private AudioClip musicClip = null;
-    [SerializeField] private AudioClip buttonClickSound = null;
+    [SerializeField] private AudioClip musicAC = null;
+    [SerializeField] private AudioClip buttonClickAC = null;
 
     [Header("References")]
     [SerializeField] private AudioMixer audioMixer = null;
-    [SerializeField] private AudioSource musicAudioSource = null;
-    [SerializeField] private AudioSource soundAudioSource = null;
+    [SerializeField] private AudioSource musicAS = null;
+    [SerializeField] private AudioSource soundAS = null;
 
     private const string AUDIO_MIXER_VOLUME_KEY = "Volume";
     private const string AUDIO_MIXER_MUSIC_VOLUME_KEY = "MusicVolume";
@@ -72,18 +71,18 @@ public class AudioManager : BaseManager
 
     public void PlayMusic()
     {
-        musicAudioSource.clip = musicClip;
-        musicAudioSource.Play();
+        musicAS.clip = musicAC;
+        musicAS.Play();
     }
 
     public void StopMusic()
     {
-        musicAudioSource.Stop();
+        musicAS.Stop();
     }
 
     public void PlayButtonClickSound()
     {
-        soundAudioSource.PlayOneShot(buttonClickSound);
+        soundAS.PlayOneShot(buttonClickAC);
     }
 
     public static float LinearToDecibel(float value, float min, float max)

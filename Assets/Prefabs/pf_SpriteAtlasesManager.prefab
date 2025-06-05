@@ -45,5 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteAtlasesData:
-  - atlasType: 0
+  - type: {fileID: 11400000, guid: b8d60bad88c30354dbc15c3db40e1dcc, type: 2}
     spriteAtlas: {fileID: 100100200, guid: 477d30817d21fcf42a1f3b85fde8e49e, type: 3}
+  uiSAT: {fileID: 11400000, guid: b8d60bad88c30354dbc15c3db40e1dcc, type: 2}

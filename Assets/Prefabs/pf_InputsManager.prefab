@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8233109965978571168}
-  - component: {fileID: 7883983609922243760}
+  - component: {fileID: 9108839308041945}
   m_Layer: 0
-  m_Name: pf_PlayerInputManager
+  m_Name: pf_InputsManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 5132758602802967501}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7883983609922243760
+--- !u!114 &9108839308041945
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,7 +42,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 13952145161728903}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b32f1f840640d5d4db4ce7c245f0d2e6, type: 3}
+  m_Script: {fileID: 11500000, guid: d5ba0fa8115e9b44a80dea93530b3b9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerInput: {fileID: 2017756898214714347}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 5132758602802967501}
   - component: {fileID: 2017756898214714347}
   m_Layer: 0
-  m_Name: input_Player
+  m_Name: pi_Default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -31,25 +31,27 @@ namespace Game
             toggleActionsRecordingButton.onClick.AddListener(OnToggleActionsRecordingButtonClicked);
             playRecordedActionsButton.onClick.AddListener(OnPlayRecordedActionsButtonClicked);
 
+            Manager.Instance.GetManager<TimeManager>().OnGameTimeUpdated += OnGameTimeUpdated;
+
             await new WaitUntil(() => GameManager.IsInitialized);
 
-            GameManager.Instance.GetManager<TimeManager>().OnGameTimeUpdated += OnGameTimeUpdated;
             GameManager.Instance.GetManager<GhostsManager>().onRecordingStarted += OnRecordingStarted;
             GameManager.Instance.GetManager<GhostsManager>().onRecordingStopped += OnRecordingStopped;
             GameManager.Instance.GetManager<GhostsManager>().onPlayingStarted += OnPlayingStarted;
             GameManager.Instance.GetManager<GhostsManager>().onPlayingStopped += OnPlayingStopped;
         }
 
-        private IEnumerator Start()
+        private async void Start()
         {
-            yield return new WaitUntil(() => GameManager.Instance.AreAllManagersInitialized());
+            OnGameTimeUpdated(Manager.Instance.GetManager<TimeManager>().GameTime);
+
+            await new WaitUntil(() => GameManager.Instance.AreAllManagersInitialized());
 
             RefreshRecordingSlider();
             RefreshPlayingSlider();
             RefreshToggleActionsRecordingButton();
             RefreshPlayRecordedActionsButton();
 
-            OnGameTimeUpdated(GameManager.Instance.GetManager<TimeManager>().GameTime);
             ghostIndicators.Init();
         }
 
@@ -67,11 +69,11 @@ namespace Game
             toggleActionsRecordingButton.onClick.RemoveListener(OnToggleActionsRecordingButtonClicked);
             playRecordedActionsButton.onClick.RemoveListener(OnPlayRecordedActionsButtonClicked);
 
-            if (GameManager.IsInitialized
-                && GameManager.Instance.GetManager<TimeManager>().IsInitialized
-                && GameManager.Instance.GetManager<GhostsManager>().IsInitialized)
+            Manager.Instance.GetManager<TimeManager>().OnGameTimeUpdated -= OnGameTimeUpdated;
+
+            if (GameManager.IsInitialized &&
+                GameManager.Instance.GetManager<GhostsManager>().IsInitialized)
             {
-                GameManager.Instance.GetManager<TimeManager>().OnGameTimeUpdated -= OnGameTimeUpdated;
                 GameManager.Instance.GetManager<GhostsManager>().onRecordingStarted -= OnRecordingStarted;
                 GameManager.Instance.GetManager<GhostsManager>().onRecordingStopped -= OnRecordingStopped;
                 GameManager.Instance.GetManager<GhostsManager>().onPlayingStarted -= OnPlayingStarted;
@@ -85,7 +87,7 @@ namespace Game
 
             Manager.Instance.GetManager<AudioManager>().PlayButtonClickSound();
 
-            GameManager.Instance.GetManager<PopupsManager>().GetPopup<PopupSettings>().Show();
+            Manager.Instance.GetManager<PopupsManager>().GetPopup<PopupSettings>().Show();
         }
 
         private void OnVolumeButtonClicked()
@@ -196,7 +198,7 @@ namespace Game
             if (!GameManager.Instance.GetManager<GhostsManager>().IsRecording)
                 return;
 
-            recordingSlider.value = GameManager.Instance.GetManager<TimeManager>().GameTime;
+            recordingSlider.value = Manager.Instance.GetManager<TimeManager>().GameTime;
         }
 
         private void RefreshPlayingSlider()
@@ -204,7 +206,7 @@ namespace Game
             if (!GameManager.Instance.GetManager<GhostsManager>().IsPlaying)
                 return;
 
-            playingSlider.value = GameManager.Instance.GetManager<TimeManager>().GameTime;
+            playingSlider.value = Manager.Instance.GetManager<TimeManager>().GameTime;
         }
 
         private void RefreshToggleActionsRecordingButton()

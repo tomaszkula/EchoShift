@@ -1,5 +1,4 @@
-using System;
-using System.Collections;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -25,19 +24,19 @@ public class GameManager : MonoBehaviour
         managers = GetComponentsInChildren<BaseGameManager>();
     }
 
-    private IEnumerator Start()
+    private async void Start()
     {
-        for (int i = 0; i < managers.Length; i++)
-        {
-            managers[i].Initialize();
-        }
+        Manager.Instance.GetManager<TimeManager>().ResetTimer();
 
-        yield return new WaitUntil(() => AreAllManagersInitialized());
+        InitializeManagers();
+        await new WaitUntil(() => AreAllManagersInitialized());
 
         IsPlaying = true;
 
-        yield return new WaitUntil(() => Manager.Instance.GetManager<LevelsManager>().IsLevelLoaded);
-        GetManager<PlayerManager>().Spawn();
+        await new WaitUntil(() => Manager.Instance.GetManager<LevelsManager>().IsLevelLoaded);
+
+        Manager.Instance.GetManager<TimeManager>().IsCounting = true;
+        Manager.Instance.GetManager<PlayerManager>().Spawn();
     }
 
     private void OnDestroy()
@@ -45,13 +44,26 @@ public class GameManager : MonoBehaviour
         if (Instance != this)
             return;
 
+        DeinitializeManagers();
+
+        Instance = null;
+        IsInitialized = false;
+    }
+
+    public void InitializeManagers()
+    {
+        for (int i = 0; i < managers.Length; i++)
+        {
+            managers[i].Initialize();
+        }
+    }
+
+    public void DeinitializeManagers()
+    {
         for (int i = 0; i < managers.Length; i++)
         {
             managers[i].Deinitialize();
         }
-
-        Instance = null;
-        IsInitialized = false;
     }
 
     public bool AreAllManagersInitialized()
@@ -63,6 +75,7 @@ public class GameManager : MonoBehaviour
                 return false;
             }
         }
+
         return true;
     }
 

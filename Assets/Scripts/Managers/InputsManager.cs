@@ -1,11 +1,9 @@
 using Cysharp.Threading.Tasks;
 using System;
-using System.Collections;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInputManager : BaseManager
+public class InputsManager : BaseManager
 {
     [Header("References")]
     [SerializeField] private PlayerInput playerInput = null;
@@ -42,8 +40,8 @@ public class PlayerInputManager : BaseManager
 
         await new WaitUntil(() => Manager.Instance.GetManager<PauseManager>().IsInitialized);
 
-        Manager.Instance.GetManager<PauseManager>().OnPause += () => playerInput.DeactivateInput();
-        Manager.Instance.GetManager<PauseManager>().OnResume += () => playerInput.ActivateInput();
+        Manager.Instance.GetManager<PauseManager>().OnPaused += OnPaused;
+        Manager.Instance.GetManager<PauseManager>().OnResumed += OnResumed;
     }
 
     protected override void DeinitializeInternal()
@@ -64,10 +62,20 @@ public class PlayerInputManager : BaseManager
         OnActivate = null;
 
         if (Manager.IsInitialized &&
-           Manager.Instance.GetManager<PauseManager>().IsInitialized)
+            Manager.Instance.GetManager<PauseManager>().IsInitialized)
         {
-            Manager.Instance.GetManager<PauseManager>().OnPause -= () => playerInput.DeactivateInput();
-            Manager.Instance.GetManager<PauseManager>().OnResume -= () => playerInput.ActivateInput();
+            Manager.Instance.GetManager<PauseManager>().OnPaused -= OnPaused;
+            Manager.Instance.GetManager<PauseManager>().OnResumed -= OnResumed;
         }
+    }
+
+    private void OnPaused()
+    {
+        playerInput.DeactivateInput();
+    }
+
+    private void OnResumed()
+    {
+        playerInput.ActivateInput();
     }
 }

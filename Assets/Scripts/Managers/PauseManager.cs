@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine;
 
@@ -9,8 +8,8 @@ public class PauseManager : BaseManager
 
     public bool IsPaused { get; private set; } = false;
 
-    public event Action OnPause = null;
-    public event Action OnResume = null;
+    public event Action OnPaused = null;
+    public event Action OnResumed = null;
 
     protected override void InitializeInternal()
     {
@@ -24,11 +23,8 @@ public class PauseManager : BaseManager
     {
         base.DeinitializeInternal();
 
-        OnPause = null;
-        OnResume = null;
-
-        IsPaused = false;
-        Time.timeScale = defaultTimeScale;
+        OnPaused = null;
+        OnResumed = null;
     }
 
     public void Pause()
@@ -38,7 +34,7 @@ public class PauseManager : BaseManager
         IsPaused = true;
         Time.timeScale = 0f;
 
-        OnPause?.Invoke();
+        OnPaused?.Invoke();
     }
 
     public void Resume()
@@ -48,6 +44,6 @@ public class PauseManager : BaseManager
         IsPaused = false;
         Time.timeScale = defaultTimeScale;
 
-        OnResume?.Invoke();
+        OnResumed?.Invoke();
     }
 }

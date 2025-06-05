@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2f4ae69260b388a48ae2aa32731217df, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 180a525f347a6834ea4a7874d1919ad0, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -125,6 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recordingColor: {r: 0, g: 0.75, b: 0, a: 1}
+  recordedColor: {r: 1, g: 1, b: 0, a: 1}
   playingColor: {r: 0, g: 0.75, b: 1, a: 1}
   playedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   iconImage: {fileID: 4675675152763746458}

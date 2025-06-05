@@ -16,8 +16,8 @@ public class ShootInput : MonoBehaviour
 
     private void OnEnable()
     {
-        Manager.Instance.GetManager<PlayerInputManager>().OnShootStart += OnShootActionStarted;
-        Manager.Instance.GetManager<PlayerInputManager>().OnShootEnd += OnShootActionCanceled;
+        Manager.Instance.GetManager<InputsManager>().OnShootStart += OnShootActionStarted;
+        Manager.Instance.GetManager<InputsManager>().OnShootEnd += OnShootActionCanceled;
     }
 
     private void Update()
@@ -29,8 +29,8 @@ public class ShootInput : MonoBehaviour
 
     private void OnDisable()
     {
-        Manager.Instance.GetManager<PlayerInputManager>().OnShootStart -= OnShootActionStarted;
-        Manager.Instance.GetManager<PlayerInputManager>().OnShootEnd -= OnShootActionCanceled;
+        Manager.Instance.GetManager<InputsManager>().OnShootStart -= OnShootActionStarted;
+        Manager.Instance.GetManager<InputsManager>().OnShootEnd -= OnShootActionCanceled;
     }
 
     private void OnShootActionStarted()

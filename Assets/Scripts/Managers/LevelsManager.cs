@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelsManager : BaseManager
 {
@@ -14,11 +15,11 @@ public class LevelsManager : BaseManager
     {
         IsLevelLoaded = false;
 
-        await Manager.Instance.GetManager<ScenesManager>().LoadMainScene(levelData.GameSceneAsset.name);
+        await Manager.Instance.GetManager<ScenesManager>().LoadAsync(levelData.GameSceneName, LoadSceneMode.Single);
 
-        for (int i = 0; i < levelData.LevelSceneAssets.Count; i++)
+        for (int i = 0; i < levelData.LevelSceneNames.Count; i++)
         {
-            await Manager.Instance.GetManager<ScenesManager>().LoadAdditionalScene(levelData.LevelSceneAssets[i].name);
+            await Manager.Instance.GetManager<ScenesManager>().LoadAsync(levelData.LevelSceneNames[i], LoadSceneMode.Additive);
         }
 
         IsLevelLoaded = true;

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class Manager : MonoBehaviour
@@ -24,7 +23,16 @@ public class Manager : MonoBehaviour
         managers = GetComponentsInChildren<BaseManager>();
     }
 
-    private void Start()
+    private void OnDestroy()
+    {
+        if (Instance != this)
+            return;
+
+        Instance = null;
+        IsInitialized = false;
+    }
+
+    public void InitializeManagers()
     {
         for (int i = 0; i < managers.Length; i++)
         {
@@ -32,21 +40,15 @@ public class Manager : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    public void DeinitializeManagers()
     {
-        if (Instance != this)
-            return;
-
         for (int i = 0; i < managers.Length; i++)
         {
             managers[i].Deinitialize();
         }
-
-        Instance = null;
-        IsInitialized = false;
     }
 
-    public bool AreAllManagersInitialized()
+    public bool AreManagersInitialized()
     {
         foreach (var manager in managers)
         {
@@ -55,6 +57,7 @@ public class Manager : MonoBehaviour
                 return false;
             }
         }
+
         return true;
     }
 

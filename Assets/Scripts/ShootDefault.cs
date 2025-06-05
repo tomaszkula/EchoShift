@@ -37,7 +37,8 @@ public class ShootDefault : MonoBehaviour, IShoot
 
         shootDelay = projectileCooldown;
 
-        GameObject projectileGo = GameManager.Instance.GetManager<ObjectPoolsManager>().GetPool(ObjectPoolsManager.PoolType.Projectile).Get();
+        ObjectsPoolType projectileOPT = Manager.Instance.GetManager<ObjectsPoolsManager>().ProjectileOPT;
+        GameObject projectileGo = Manager.Instance.GetManager<ObjectsPoolsManager>().GetPool(projectileOPT).Get();
         if (projectileGo.TryGetComponent(out Projectile projectile))
         {
             projectile.transform.position = iHand.Hand.position;
