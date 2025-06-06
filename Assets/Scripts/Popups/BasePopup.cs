@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,13 +8,14 @@ public class BasePopup : MonoBehaviour
     [SerializeField] private GameObject container = null;
     [SerializeField] private Button fullScreenCloseButton = null;
 
-    private PopupsManager popupsManager = null;
+    public Transform DefaultParent { get; private set; } = null;
+
+    public event Action<BasePopup> OnShowed = null;
+    public event Action<BasePopup> OnHidden = null;
 
     private void Awake()
     {
-        popupsManager = Manager.Instance.GetManager<PopupsManager>();
-
-        popupsManager.Register(this);
+        DefaultParent = transform.parent;
     }
 
     protected virtual void OnEnable()
@@ -26,28 +28,17 @@ public class BasePopup : MonoBehaviour
         fullScreenCloseButton?.onClick.RemoveListener(Hide);
     }
 
-    private void OnDestroy()
-    {
-        popupsManager.Unregister(this);
-    }
-
     public virtual void Show()
     {
         container.SetActive(true);
+
+        OnShowed?.Invoke(this);
     }
 
     public virtual void Hide()
     {
         container.SetActive(false);
-    }
 
-    public void Register(PopupsManager manager)
-    {
-        popupsManager = manager;
-    }
-
-    public void Unregister()
-    {
-        popupsManager = null;
+        OnHidden?.Invoke(this);
     }
 }

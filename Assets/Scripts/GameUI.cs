@@ -9,7 +9,6 @@ namespace Game
         [Header("References")]
         [SerializeField] private Button pauseButton = null;
         [SerializeField] private TextMeshProUGUI timeTMP = null;
-        [SerializeField] private Button volumeButton = null;
         [Space]
         [SerializeField] private Slider recordingSlider = null;
         [SerializeField] private Slider playingSlider = null;
@@ -34,7 +33,6 @@ namespace Game
         private void OnEnable()
         {
             pauseButton.onClick.AddListener(OnPauseButtonClicked);
-            volumeButton.onClick.AddListener(OnVolumeButtonClicked);
 
             toggleActionsRecordingButton.onClick.AddListener(OnToggleActionsRecordingButtonClicked);
             playRecordedActionsButton.onClick.AddListener(OnPlayRecordedActionsButtonClicked);
@@ -67,7 +65,6 @@ namespace Game
         private void OnDisable()
         {
             pauseButton.onClick.RemoveListener(OnPauseButtonClicked);
-            volumeButton.onClick.RemoveListener(OnVolumeButtonClicked);
 
             toggleActionsRecordingButton.onClick.RemoveListener(OnToggleActionsRecordingButtonClicked);
             playRecordedActionsButton.onClick.RemoveListener(OnPlayRecordedActionsButtonClicked);
@@ -85,16 +82,7 @@ namespace Game
 
             Manager.Instance.GetManager<AudioManager>().PlayButtonClickSound();
 
-            Manager.Instance.GetManager<PopupsManager>().GetPopup<PopupSettings>().Show();
-        }
-
-        private void OnVolumeButtonClicked()
-        {
-            Debug.Log("Volume button clicked");
-
-            Manager.Instance.GetManager<AudioManager>().PlayButtonClickSound();
-
-            Manager.Instance.GetManager<AudioManager>().IsMuted = !Manager.Instance.GetManager<AudioManager>().IsMuted;
+            Manager.Instance.GetManager<PopupsManager>().GetPopup<PopupPause>().Show();
         }
 
         private void OnToggleActionsRecordingButtonClicked()

@@ -5,36 +5,39 @@ using UnityEngine.UI;
 public class PopupSettings : BasePopup
 {
     [Header("References")]
+    [SerializeField] private Slider volumeSlider = null;
+    [SerializeField] private TextMeshProUGUI volumeValueTMP = null;
     [SerializeField] private Slider musicVolumeSlider = null;
     [SerializeField] private TextMeshProUGUI musicVolumeValueTMP = null;
     [SerializeField] private Slider soundVolumeSlider = null;
     [SerializeField] private TextMeshProUGUI soundVolumeValueTMP = null;
-    [SerializeField] private Button mainMenuButton = null;
-    [SerializeField] private Button quitButton = null;
 
     protected override void OnEnable()
     {
         base.OnEnable();
 
+        volumeSlider.onValueChanged.AddListener(OnVolumeSliderChanged);
         musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeSliderChanged);
         soundVolumeSlider.onValueChanged.AddListener(OnSoundVolumeSliderChanged);
-        mainMenuButton.onClick.AddListener(OnMainMenuButtonClicked);
-        quitButton.onClick.AddListener(OnQuitButtonClicked);
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
 
+        volumeSlider.onValueChanged.RemoveListener(OnVolumeSliderChanged);
         musicVolumeSlider.onValueChanged.RemoveListener(OnMusicVolumeSliderChanged);
         soundVolumeSlider.onValueChanged.RemoveListener(OnSoundVolumeSliderChanged);
-        mainMenuButton.onClick.RemoveListener(OnMainMenuButtonClicked);
-        quitButton.onClick.RemoveListener(OnQuitButtonClicked);
     }
 
     public override void Show()
     {
         base.Show();
+
+        volumeSlider.wholeNumbers = true;
+        volumeSlider.maxValue = 100;
+        volumeSlider.minValue = 0;
+        volumeSlider.value = Manager.Instance.GetManager<AudioManager>().Volume;
 
         musicVolumeSlider.wholeNumbers = true;
         musicVolumeSlider.maxValue = 100;
@@ -45,15 +48,14 @@ public class PopupSettings : BasePopup
         soundVolumeSlider.maxValue = 100;
         soundVolumeSlider.minValue = 0;
         soundVolumeSlider.value = Manager.Instance.GetManager<AudioManager>().SoundVolume;
-
-        Manager.Instance.GetManager<PauseManager>().Pause();
     }
 
-    public override void Hide()
+    private void OnVolumeSliderChanged(float value)
     {
-        base.Hide();
+        Debug.Log($"Volume Changed: {value}");
 
-        Manager.Instance.GetManager<PauseManager>().Resume();
+        Manager.Instance.GetManager<AudioManager>().Volume = (int)value;
+        volumeValueTMP.text = $"{value}%";
     }
 
     private void OnMusicVolumeSliderChanged(float value)
@@ -70,27 +72,5 @@ public class PopupSettings : BasePopup
 
         Manager.Instance.GetManager<AudioManager>().SoundVolume = (int)value;
         soundVolumeValueTMP.text = $"{value}%";
-    }
-
-    private async void OnMainMenuButtonClicked()
-    {
-        Debug.Log("Returning to Main Menu");
-
-        Manager.Instance.GetManager<AudioManager>().PlayButtonClickSound();
-
-        Hide();
-
-        await Manager.Instance.GetManager<ScenesManager>().LoadMainMenuAsync();
-    }
-
-    private void OnQuitButtonClicked()
-    {
-        Debug.Log("Quitting Game");
-
-        Manager.Instance.GetManager<AudioManager>().PlayButtonClickSound();
-
-        Hide();
-
-        Application.Quit();
     }
 }

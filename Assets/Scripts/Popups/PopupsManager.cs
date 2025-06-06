@@ -6,12 +6,29 @@ public class PopupsManager : BaseManager
 
     public void Register(BasePopup popup)
     {
+        popup.OnShowed += OnPopupShowed;
+        popup.OnHidden += OnPopupHidden;
+
         popups.Add(popup);
     }
 
     public void Unregister(BasePopup popup)
     {
+        popup.OnShowed -= OnPopupShowed;
+        popup.OnHidden -= OnPopupHidden;
+
         popups.Remove(popup);
+    }
+
+    private void OnPopupShowed(BasePopup popup)
+    {
+        popup.transform.SetParent(transform);
+        popup.transform.SetAsLastSibling();
+    }
+
+    private void OnPopupHidden(BasePopup popup)
+    {
+        popup.transform.SetParent(popup.DefaultParent);
     }
 
     public T GetPopup<T>() where T : BasePopup

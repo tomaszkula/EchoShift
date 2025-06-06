@@ -4,6 +4,7 @@ using UnityEngine.Audio;
 public class AudioManager : BaseManager
 {
     [Header("Settings")]
+    [SerializeField] private int defaultVolume = 50;
     [SerializeField] private int defaultMusicVolume = 50;
     [SerializeField] private int defaultSoundVolume = 50;
     [SerializeField] private AudioClip musicAC = null;
@@ -18,16 +19,17 @@ public class AudioManager : BaseManager
     private const string AUDIO_MIXER_MUSIC_VOLUME_KEY = "MusicVolume";
     private const string AUDIO_MIXER_SOUND_VOLUME_KEY = "SoundVolume";
 
-    private const string IS_MUTED_KEY = "IsMuted";
+    private const string VOLUME_KEY = "Volume";
     private const string MUSIC_VOLUME_KEY = "MusicVolume";
     private const string SOUND_VOLUME_KEY = "SoundVolume";
-    public bool IsMuted
+
+    public int Volume
     {
-        get => PlayerPrefs.GetInt(IS_MUTED_KEY, 0) == 1;
+        get => PlayerPrefs.GetInt(VOLUME_KEY, defaultVolume);
         set
         {
-            PlayerPrefs.SetInt(IS_MUTED_KEY, value ? 1 : 0);
-            audioMixer.SetFloat(AUDIO_MIXER_VOLUME_KEY, value ? -80f : 0f);
+            PlayerPrefs.SetInt(VOLUME_KEY, value);
+            audioMixer.SetFloat(AUDIO_MIXER_VOLUME_KEY, LinearToDecibel(value, 0, 100));
         }
     }
 
@@ -55,7 +57,7 @@ public class AudioManager : BaseManager
     {
         base.InitializeInternal();
 
-        audioMixer.SetFloat(AUDIO_MIXER_VOLUME_KEY, IsMuted ? -80f : 0f);
+        audioMixer.SetFloat(AUDIO_MIXER_VOLUME_KEY, LinearToDecibel(Volume, 0, 100));
         audioMixer.SetFloat(AUDIO_MIXER_MUSIC_VOLUME_KEY, LinearToDecibel(MusicVolume, 0, 100));
         audioMixer.SetFloat(AUDIO_MIXER_SOUND_VOLUME_KEY, LinearToDecibel(SoundVolume, 0, 100));
 
