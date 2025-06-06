@@ -24,7 +24,10 @@ public class MoveInput : MonoBehaviour
 
     private void OnDisable()
     {
-        Manager.Instance.GetManager<InputsManager>().OnMove -= OnMoveAction;
+        if (Manager.IsInitialized)
+        {
+            Manager.Instance.GetManager<InputsManager>().OnMove -= OnMoveAction;
+        }
     }
 
     private void OnMoveAction(Vector2 direction)

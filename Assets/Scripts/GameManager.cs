@@ -45,8 +45,11 @@ public class GameManager : MonoBehaviour
         if (Instance != this)
             return;
 
-        Manager.Instance.GetManager<GhostsManager>().ResetManager();
-        Manager.Instance.GetManager<TimeManager>().ResetManager();
+        if (Manager.IsInitialized)
+        {
+            Manager.Instance.GetManager<GhostsManager>().ResetManager();
+            Manager.Instance.GetManager<TimeManager>().ResetManager();
+        }
 
         DeinitializeManagers();
 

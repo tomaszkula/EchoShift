@@ -23,7 +23,10 @@ public class ActivatorInput : MonoBehaviour
 
     private void OnDisable()
     {
-        Manager.Instance.GetManager<InputsManager>().OnActivate -= OnActivateAction;
+        if (Manager.IsInitialized)
+        {
+            Manager.Instance.GetManager<InputsManager>().OnActivate -= OnActivateAction;
+        }
     }
 
     private void OnActivateAction()

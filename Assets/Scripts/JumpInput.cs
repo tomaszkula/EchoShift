@@ -23,7 +23,10 @@ public class JumpInput : MonoBehaviour
 
     private void OnDisable()
     {
-        Manager.Instance.GetManager<InputsManager>().OnJump -= OnJumpAction;
+        if (Manager.IsInitialized)
+        {
+            Manager.Instance.GetManager<InputsManager>().OnJump -= OnJumpAction;
+        }
     }
 
     private void OnJumpAction()

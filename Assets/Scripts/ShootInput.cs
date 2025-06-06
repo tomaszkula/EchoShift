@@ -29,8 +29,11 @@ public class ShootInput : MonoBehaviour
 
     private void OnDisable()
     {
-        Manager.Instance.GetManager<InputsManager>().OnShootStart -= OnShootActionStarted;
-        Manager.Instance.GetManager<InputsManager>().OnShootEnd -= OnShootActionCanceled;
+        if (Manager.IsInitialized)
+        {
+            Manager.Instance.GetManager<InputsManager>().OnShootStart -= OnShootActionStarted;
+            Manager.Instance.GetManager<InputsManager>().OnShootEnd -= OnShootActionCanceled;
+        }
     }
 
     private void OnShootActionStarted()
