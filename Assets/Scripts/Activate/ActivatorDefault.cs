@@ -9,7 +9,10 @@ public class ActivatorDefault : MonoBehaviour, IActivator
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        collision.TryGetComponent(out iActivatable);
+        if(iActivatable == null && collision.TryGetComponent(out IActivatable activatable))
+        {
+            iActivatable = activatable;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
