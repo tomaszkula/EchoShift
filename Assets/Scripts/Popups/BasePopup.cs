@@ -16,11 +16,6 @@ public class BasePopup : MonoBehaviour
         popupsManager.Register(this);
     }
 
-    private void OnDestroy()
-    {
-        popupsManager.Unregister(this);
-    }
-
     protected virtual void OnEnable()
     {
         fullScreenCloseButton?.onClick.AddListener(Hide);
@@ -29,6 +24,11 @@ public class BasePopup : MonoBehaviour
     protected virtual void OnDisable()
     {
         fullScreenCloseButton?.onClick.RemoveListener(Hide);
+    }
+
+    private void OnDestroy()
+    {
+        popupsManager.Unregister(this);
     }
 
     public virtual void Show()

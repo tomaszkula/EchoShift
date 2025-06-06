@@ -14,11 +14,11 @@ public class TimeManager : BaseManager
         CountTime();
     }
 
-    protected override async void InitializeInternal()
+    protected override void InitializeInternal()
     {
         base.InitializeInternal();
 
-        ResetTimer();
+        ResetManager();
     }
 
     protected override void DeinitializeInternal()
@@ -46,7 +46,7 @@ public class TimeManager : BaseManager
         }
     }
 
-    public void ResetTimer()
+    public void ResetManager()
     {
         IsCounting = false;
         GameTimeDelay = 0f;

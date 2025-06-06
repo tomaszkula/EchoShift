@@ -2,20 +2,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GhostsManager : BaseGameManager
+public class GhostsManager : BaseManager
 {
     [Header("Settings")]
     [SerializeField] private int maxGhostsCount = 5;
     [SerializeField] private float recordingDuration = 5f;
 
     private EchoData echoData = new EchoData();
-    public int MaxGhostsCount => maxGhostsCount;
-    public int GhostsCount { get; private set; } = 0;
-    public bool IsRecording { get; private set; } = false;
-    public bool IsRecorded {  get; private set; } = false;
-    public bool IsPlaying { get; private set; } = false;
-    public bool IsPlayed { get; private set; } = false;
-
     private Vector2 lastDirection = Vector2.zero;
 
     private Ghost ghost = null;
@@ -24,11 +17,22 @@ public class GhostsManager : BaseGameManager
     private IShoot iShoot = null;
     private IActivator iActivator = null;
 
-    public event Action<int> onGhostsCountChanged = null;
-    public event Action<float, float> onRecordingStarted = null;
-    public event Action onRecordingStopped = null;
-    public event Action<float, float> onPlayingStarted = null;
-    public event Action onPlayingStopped = null;
+    private PlayerManager playerManager = null;
+    private TimeManager timeManager = null;
+
+    public int MaxGhostsCount => maxGhostsCount;
+    public float RecordingDuration => recordingDuration;
+    public int GhostsCount { get; private set; } = 0;
+    public bool IsRecording { get; private set; } = false;
+    public bool IsRecorded { get; private set; } = false;
+    public bool IsPlaying { get; private set; } = false;
+    public bool IsPlayed { get; private set; } = false;
+
+    public event Action<int> OnGhostsCountChanged = null;
+    public event Action<float, float> OnRecordingStarted = null;
+    public event Action OnRecordingStopped = null;
+    public event Action<float, float> OnPlayingStarted = null;
+    public event Action OnPlayingStopped = null;
 
     private void Update()
     {
@@ -36,14 +40,34 @@ public class GhostsManager : BaseGameManager
         Play();
     }
 
+    protected override void InitializeInternal()
+    {
+        base.InitializeInternal();
+
+        ResetManager();
+
+        playerManager = Manager.Instance.GetManager<PlayerManager>();
+        timeManager = Manager.Instance.GetManager<TimeManager>();
+    }
+
     protected override void DeinitializeInternal()
     {
         base.DeinitializeInternal();
 
-        onRecordingStarted = null;
-        onRecordingStopped = null;
-        onPlayingStarted = null;
-        onPlayingStopped = null;
+        OnGhostsCountChanged = null;
+        OnRecordingStarted = null;
+        OnRecordingStopped = null;
+        OnPlayingStarted = null;
+        OnPlayingStopped = null;
+    }
+
+    public void ResetManager()
+    {
+        GhostsCount = 0;
+        IsRecording = false;
+        IsRecorded = false;
+        IsPlaying = false;
+        IsPlayed = false;
     }
 
     public void Setup(IMove iMove, IJump iJump, IShoot iShoot, IActivator iActivator)
@@ -119,19 +143,19 @@ public class GhostsManager : BaseGameManager
         IsPlayed = false;
 
         echoData = new EchoData();
-        echoData.recordPosition = Manager.Instance.GetManager<PlayerManager>().player.transform.position;
-        echoData.recordFaceDirection = Manager.Instance.GetManager<PlayerManager>().player.iFace.FaceDirection;
-        echoData.recordStartTime = Manager.Instance.GetManager<TimeManager>().GameTime;
+        echoData.recordPosition = playerManager.Player.transform.position;
+        echoData.recordFaceDirection = playerManager.Player.iFace.FaceDirection;
+        echoData.recordStartTime = timeManager.GameTime;
         echoData.frames = new List<EchoFrameData>()
         {
             new EchoFrameData
             {
-                time = Manager.Instance.GetManager<TimeManager>().GameTime,
+                time = timeManager.GameTime,
                 moveDirection = lastDirection,
             }
         };
 
-        onRecordingStarted?.Invoke(recordingDuration, echoData.recordStartTime);
+        OnRecordingStarted?.Invoke(recordingDuration, echoData.recordStartTime);
     }
 
     public void StopRecording()
@@ -145,9 +169,9 @@ public class GhostsManager : BaseGameManager
         IsRecording = false;
         IsRecorded = true;
 
-        echoData.recordStopTime = Manager.Instance.GetManager<TimeManager>().GameTime;
+        echoData.recordStopTime = timeManager.GameTime;
 
-        onRecordingStopped?.Invoke();
+        OnRecordingStopped?.Invoke();
     }
 
     public void PlayRecording()
@@ -159,7 +183,7 @@ public class GhostsManager : BaseGameManager
 
         IsRecorded = false;
         IsPlaying = true;
-        echoData.playStartTime = Manager.Instance.GetManager<TimeManager>().GameTime;
+        echoData.playStartTime = timeManager.GameTime;
 
         ObjectsPoolType ghostOPT = Manager.Instance.GetManager<ObjectsPoolsManager>().GhostOPT;
         GameObject ghostGo = Manager.Instance.GetManager<ObjectsPoolsManager>().GetPool(ghostOPT).Get();
@@ -171,7 +195,7 @@ public class GhostsManager : BaseGameManager
             iFace.FaceDirection = echoData.recordFaceDirection;
         }
 
-        onPlayingStarted?.Invoke(recordingDuration, echoData.playStartTime);
+        OnPlayingStarted?.Invoke(recordingDuration, echoData.playStartTime);
     }
 
     private void OnMove(Vector2 direction)
@@ -183,7 +207,7 @@ public class GhostsManager : BaseGameManager
 
         EchoFrameData frame = new EchoFrameData
         {
-            time = Manager.Instance.GetManager<TimeManager>().GameTime,
+            time = timeManager.GameTime,
             moveDirection = direction
         };
 
@@ -199,7 +223,7 @@ public class GhostsManager : BaseGameManager
 
         EchoFrameData frame = new EchoFrameData
         {
-            time = Manager.Instance.GetManager<TimeManager>().GameTime,
+            time = timeManager.GameTime,
             moveDirection = lastDirection,
             isJumping = true
         };
@@ -216,7 +240,7 @@ public class GhostsManager : BaseGameManager
 
         EchoFrameData frame = new EchoFrameData
         {
-            time = Manager.Instance.GetManager<TimeManager>().GameTime,
+            time = timeManager.GameTime,
             moveDirection = lastDirection,
             isShooting = true
         };
@@ -233,7 +257,7 @@ public class GhostsManager : BaseGameManager
 
         EchoFrameData frame = new EchoFrameData
         {
-            time = Manager.Instance.GetManager<TimeManager>().GameTime,
+            time = timeManager.GameTime,
             moveDirection = lastDirection,
             isActivating = true
         };
@@ -247,7 +271,7 @@ public class GhostsManager : BaseGameManager
         if (!IsRecording)
             return;
 
-        if (Manager.Instance.GetManager<TimeManager>().GameTime - echoData.recordStartTime >= recordingDuration)
+        if (timeManager.GameTime - echoData.recordStartTime >= recordingDuration)
         {
             StopRecording();
             Debug.Log("Recording duration reached. Stopping recording.");
@@ -262,7 +286,7 @@ public class GhostsManager : BaseGameManager
         }
 
         float offset = echoData.playStartTime - echoData.recordStartTime;
-        if(echoData.recordStopTime < Manager.Instance.GetManager<TimeManager>().GameTime - offset)
+        if(echoData.recordStopTime < timeManager.GameTime - offset)
         {
             IsPlaying = false;
             IsPlayed = true;
@@ -277,13 +301,13 @@ public class GhostsManager : BaseGameManager
             }
             ghost = null;
 
-            onPlayingStopped?.Invoke();
+            OnPlayingStopped?.Invoke();
         }
         else
         {
             for (int i = 0; i < echoData.frames.Count; i++)
             {
-                if (echoData.frames[0].time < Manager.Instance.GetManager<TimeManager>().GameTime - offset)
+                if (echoData.frames[0].time < timeManager.GameTime - offset)
                 {
                     ghost.SetEchoFrameData(echoData.frames[0]);
                     echoData.frames.RemoveAt(0);

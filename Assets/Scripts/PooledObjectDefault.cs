@@ -12,9 +12,14 @@ public class PooledObjectDefault : MonoBehaviour, IPooledObject
 
     public bool IsInPool { get; private set; } = false;
 
+    private void OnDestroy()
+    {
+        ObjectsPool.OnUnregistered -= OnPoolUnregistered;
+    }
+
     public void Create()
     {
-        ObjectsPool.onUnregister += OnPoolUnregister;
+        ObjectsPool.OnUnregistered += OnPoolUnregistered;
 
         IsInPool = true;
     }
@@ -33,9 +38,11 @@ public class PooledObjectDefault : MonoBehaviour, IPooledObject
         OnRelease?.Invoke(gameObject);
     }
 
-    private void OnPoolUnregister()
+    private void OnPoolUnregistered()
     {
-        if(gameObject != null && !IsInPool)
+        if (gameObject != null && !IsInPool)
+        {
             Destroy(gameObject);
+        }
     }
 }

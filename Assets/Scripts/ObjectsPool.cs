@@ -9,9 +9,9 @@ public class ObjectsPool : MonoBehaviour
 
     private ObjectsPoolsManager objectsPoolsManager = null;
 
-    public event Action onUnregister = null;
-
     public List<ObjectsPoolsManager.Data> ObjectsPoolsData => objectsPoolsData;
+
+    public event Action OnUnregistered = null;
 
     private void Awake()
     {
@@ -34,6 +34,6 @@ public class ObjectsPool : MonoBehaviour
     {
         objectsPoolsManager.Unregister(this);
 
-        onUnregister?.Invoke();
+        OnUnregistered?.Invoke();
     }
 }

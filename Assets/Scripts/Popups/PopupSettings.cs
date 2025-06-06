@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class PopupSettings : BasePopup
 {
-    [Header("Settings Popup")]
+    [Header("References")]
     [SerializeField] private Slider musicVolumeSlider = null;
     [SerializeField] private TextMeshProUGUI musicVolumeValueTMP = null;
     [SerializeField] private Slider soundVolumeSlider = null;

@@ -9,26 +9,27 @@ public class GhostIndicators : MonoBehaviour
 
     private List<GhostIndicatorEntry> ghostIndicatorEntries = new List<GhostIndicatorEntry>();
 
-    private async void OnEnable()
-    {
-        await new WaitUntil(() => GameManager.IsInitialized);
+    private GhostsManager ghostsManager = null;
 
-        GameManager.Instance.GetManager<GhostsManager>().onRecordingStarted += OnRecordingStarted;
-        GameManager.Instance.GetManager<GhostsManager>().onRecordingStopped += OnRecordingStopped;
-        GameManager.Instance.GetManager<GhostsManager>().onPlayingStarted += OnPlayingStarted;
-        GameManager.Instance.GetManager<GhostsManager>().onPlayingStopped += OnPlayingStopped;
+    private void Awake()
+    {
+        ghostsManager = Manager.Instance.GetManager<GhostsManager>();
+    }
+
+    private void OnEnable()
+    {
+        ghostsManager.OnRecordingStarted += OnRecordingStarted;
+        ghostsManager.OnRecordingStopped += OnRecordingStopped;
+        ghostsManager.OnPlayingStarted += OnPlayingStarted;
+        ghostsManager.OnPlayingStopped += OnPlayingStopped;
     }
 
     private void OnDisable()
     {
-        if (GameManager.Instance != null
-            && GameManager.Instance.GetManager<GhostsManager>().IsInitialized)
-        {
-            GameManager.Instance.GetManager<GhostsManager>().onRecordingStarted -= OnRecordingStarted;
-            GameManager.Instance.GetManager<GhostsManager>().onRecordingStopped -= OnRecordingStopped;
-            GameManager.Instance.GetManager<GhostsManager>().onPlayingStarted -= OnPlayingStarted;
-            GameManager.Instance.GetManager<GhostsManager>().onPlayingStopped -= OnPlayingStopped;
-        }
+        ghostsManager.OnRecordingStarted -= OnRecordingStarted;
+        ghostsManager.OnRecordingStopped -= OnRecordingStopped;
+        ghostsManager.OnPlayingStarted -= OnPlayingStarted;
+        ghostsManager.OnPlayingStopped -= OnPlayingStopped;
     }
 
     private void OnRecordingStarted(float duration, float startTime)
@@ -53,7 +54,7 @@ public class GhostIndicators : MonoBehaviour
 
     public void Init()
     {
-        for (int i = 0; i < GameManager.Instance.GetManager<GhostsManager>().MaxGhostsCount; i++)
+        for (int i = 0; i < ghostsManager.MaxGhostsCount; i++)
         {
             ObjectsPoolType uiGhostIndicatorEntryOPT = Manager.Instance.GetManager<ObjectsPoolsManager>().UiGhostIndicatorEntryOPT;
             GameObject ghostIndicatorEntryGo = Manager.Instance.GetManager<ObjectsPoolsManager>().GetPool(uiGhostIndicatorEntryOPT).Get();
@@ -69,10 +70,10 @@ public class GhostIndicators : MonoBehaviour
 
     private void RefreshGhostIndicatorEntries()
     {
-        int ghostId = GameManager.Instance.GetManager<GhostsManager>().GhostsCount - 1;
-        ghostIndicatorEntries[ghostId].isRecording = GameManager.Instance.GetManager<GhostsManager>().IsRecording;
-        ghostIndicatorEntries[ghostId].isRecorded = GameManager.Instance.GetManager<GhostsManager>().IsRecorded;
-        ghostIndicatorEntries[ghostId].isPlaying = GameManager.Instance.GetManager<GhostsManager>().IsPlaying;
-        ghostIndicatorEntries[ghostId].isPlayed = GameManager.Instance.GetManager<GhostsManager>().IsPlayed;
+        int ghostId = ghostsManager.GhostsCount - 1;
+        ghostIndicatorEntries[ghostId].isRecording = ghostsManager.IsRecording;
+        ghostIndicatorEntries[ghostId].isRecorded = ghostsManager.IsRecorded;
+        ghostIndicatorEntries[ghostId].isPlaying = ghostsManager.IsPlaying;
+        ghostIndicatorEntries[ghostId].isPlayed = ghostsManager.IsPlayed;
     }
 }

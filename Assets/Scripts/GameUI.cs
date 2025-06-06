@@ -1,5 +1,3 @@
-using Cysharp.Threading.Tasks;
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +6,7 @@ namespace Game
 {
     public class GameUI : MonoBehaviour
     {
+        [Header("References")]
         [SerializeField] private Button pauseButton = null;
         [SerializeField] private TextMeshProUGUI timeTMP = null;
         [SerializeField] private Button volumeButton = null;
@@ -23,7 +22,16 @@ namespace Game
 
         private float gameTime = 0f;
 
-        private async void OnEnable()
+        private GhostsManager ghostsManager = null;
+        private TimeManager timeManager = null;
+
+        private void Awake()
+        {
+            ghostsManager = Manager.Instance.GetManager<GhostsManager>();
+            timeManager = Manager.Instance.GetManager<TimeManager>();
+        }
+
+        private void OnEnable()
         {
             pauseButton.onClick.AddListener(OnPauseButtonClicked);
             volumeButton.onClick.AddListener(OnVolumeButtonClicked);
@@ -31,28 +39,23 @@ namespace Game
             toggleActionsRecordingButton.onClick.AddListener(OnToggleActionsRecordingButtonClicked);
             playRecordedActionsButton.onClick.AddListener(OnPlayRecordedActionsButtonClicked);
 
-            Manager.Instance.GetManager<TimeManager>().OnGameTimeUpdated += OnGameTimeUpdated;
-
-            await new WaitUntil(() => GameManager.IsInitialized);
-
-            GameManager.Instance.GetManager<GhostsManager>().onRecordingStarted += OnRecordingStarted;
-            GameManager.Instance.GetManager<GhostsManager>().onRecordingStopped += OnRecordingStopped;
-            GameManager.Instance.GetManager<GhostsManager>().onPlayingStarted += OnPlayingStarted;
-            GameManager.Instance.GetManager<GhostsManager>().onPlayingStopped += OnPlayingStopped;
+            ghostsManager.OnRecordingStarted += OnRecordingStarted;
+            ghostsManager.OnRecordingStopped += OnRecordingStopped;
+            ghostsManager.OnPlayingStarted += OnPlayingStarted;
+            ghostsManager.OnPlayingStopped += OnPlayingStopped;
+            timeManager.OnGameTimeUpdated += OnGameTimeUpdated;
         }
 
-        private async void Start()
+        private void Start()
         {
-            OnGameTimeUpdated(Manager.Instance.GetManager<TimeManager>().GameTime);
-
-            await new WaitUntil(() => GameManager.Instance.AreAllManagersInitialized());
-
             RefreshRecordingSlider();
             RefreshPlayingSlider();
             RefreshToggleActionsRecordingButton();
             RefreshPlayRecordedActionsButton();
 
             ghostIndicators.Init();
+
+            OnGameTimeUpdated(timeManager.GameTime);
         }
 
         private void Update()
@@ -69,16 +72,11 @@ namespace Game
             toggleActionsRecordingButton.onClick.RemoveListener(OnToggleActionsRecordingButtonClicked);
             playRecordedActionsButton.onClick.RemoveListener(OnPlayRecordedActionsButtonClicked);
 
-            Manager.Instance.GetManager<TimeManager>().OnGameTimeUpdated -= OnGameTimeUpdated;
-
-            if (GameManager.IsInitialized &&
-                GameManager.Instance.GetManager<GhostsManager>().IsInitialized)
-            {
-                GameManager.Instance.GetManager<GhostsManager>().onRecordingStarted -= OnRecordingStarted;
-                GameManager.Instance.GetManager<GhostsManager>().onRecordingStopped -= OnRecordingStopped;
-                GameManager.Instance.GetManager<GhostsManager>().onPlayingStarted -= OnPlayingStarted;
-                GameManager.Instance.GetManager<GhostsManager>().onPlayingStopped -= OnPlayingStopped;
-            }
+            ghostsManager.OnRecordingStarted -= OnRecordingStarted;
+            ghostsManager.OnRecordingStopped -= OnRecordingStopped;
+            ghostsManager.OnPlayingStarted -= OnPlayingStarted;
+            ghostsManager.OnPlayingStopped -= OnPlayingStopped;
+            timeManager.OnGameTimeUpdated -= OnGameTimeUpdated;
         }
 
         private void OnPauseButtonClicked()
@@ -105,13 +103,13 @@ namespace Game
 
             Manager.Instance.GetManager<AudioManager>().PlayButtonClickSound();
 
-            if (GameManager.Instance.GetManager<GhostsManager>().IsRecording)
+            if (ghostsManager.IsRecording)
             {
-                GameManager.Instance.GetManager<GhostsManager>().StopRecording();
+                ghostsManager.StopRecording();
             }
             else
             {
-                GameManager.Instance.GetManager<GhostsManager>().StartRecording();
+                ghostsManager.StartRecording();
             }
         }
 
@@ -121,7 +119,7 @@ namespace Game
 
             Manager.Instance.GetManager<AudioManager>().PlayButtonClickSound();
 
-            GameManager.Instance.GetManager<GhostsManager>().PlayRecording();
+            ghostsManager.PlayRecording();
         }
 
         private void OnGameTimeUpdated(float gameTime)
@@ -195,7 +193,7 @@ namespace Game
 
         private void RefreshRecordingSlider()
         {
-            if (!GameManager.Instance.GetManager<GhostsManager>().IsRecording)
+            if (!ghostsManager.IsRecording)
                 return;
 
             recordingSlider.value = Manager.Instance.GetManager<TimeManager>().GameTime;
@@ -203,7 +201,7 @@ namespace Game
 
         private void RefreshPlayingSlider()
         {
-            if (!GameManager.Instance.GetManager<GhostsManager>().IsPlaying)
+            if (!ghostsManager.IsPlaying)
                 return;
 
             playingSlider.value = Manager.Instance.GetManager<TimeManager>().GameTime;
@@ -211,8 +209,8 @@ namespace Game
 
         private void RefreshToggleActionsRecordingButton()
         {
-            if (GameManager.Instance.GetManager<GhostsManager>().IsRecorded
-                || GameManager.Instance.GetManager<GhostsManager>().IsPlaying)
+            if (ghostsManager.IsRecorded
+                || ghostsManager.IsPlaying)
             {
                 toggleActionsRecordingButton.interactable = false;
             }
@@ -221,7 +219,7 @@ namespace Game
                 toggleActionsRecordingButton.interactable = true;
             }
 
-            if (GameManager.Instance.GetManager<GhostsManager>().IsRecording)
+            if (ghostsManager.IsRecording)
             {
                 toggleActionsRecordingIconImage.sprite =
                     Manager.Instance.GetManager<SpriteAtlasesManager>().GetUiSprite(SpriteAtlasesManager.UI_SPRITE_ICON_STOP_NAME);
@@ -235,8 +233,8 @@ namespace Game
 
         private void RefreshPlayRecordedActionsButton()
         {
-            if (!GameManager.Instance.GetManager<GhostsManager>().IsRecorded
-                || GameManager.Instance.GetManager<GhostsManager>().IsPlaying || GameManager.Instance.GetManager<GhostsManager>().IsPlayed)
+            if (!ghostsManager.IsRecorded
+                || ghostsManager.IsPlaying || ghostsManager.IsPlayed)
             {
                 playRecordedActionsButton.interactable = false;
             }

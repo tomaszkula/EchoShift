@@ -26,7 +26,8 @@ public class GameManager : MonoBehaviour
 
     private async void Start()
     {
-        Manager.Instance.GetManager<TimeManager>().ResetTimer();
+        Manager.Instance.GetManager<GhostsManager>().ResetManager();
+        Manager.Instance.GetManager<TimeManager>().ResetManager();
 
         InitializeManagers();
         await new WaitUntil(() => AreAllManagersInitialized());
@@ -43,6 +44,9 @@ public class GameManager : MonoBehaviour
     {
         if (Instance != this)
             return;
+
+        Manager.Instance.GetManager<GhostsManager>().ResetManager();
+        Manager.Instance.GetManager<TimeManager>().ResetManager();
 
         DeinitializeManagers();
 
