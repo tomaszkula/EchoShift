@@ -2,8 +2,12 @@ using UnityEngine;
 
 public class Lever : MonoBehaviour, IActivatable
 {
+    [Header("Settings")]
+    [SerializeField] private Interactable target = null;
+
     [Header("References")]
     [SerializeField] private Animator animator = null;
+    [SerializeField] private BoxCollider2D collider = null;
 
     private bool isActivated = false;
 
@@ -26,10 +30,14 @@ public class Lever : MonoBehaviour, IActivatable
         if (isActivated)
         {
             animator.SetBool(ANIMATOR_IS_ACTIVATED_BOOL_KEY, true);
+
+            target?.Interact();
         }
         else
         {
             animator.SetBool(ANIMATOR_IS_ACTIVATED_BOOL_KEY, false);
+
+            target?.Deinteract();
         }
     }
 }

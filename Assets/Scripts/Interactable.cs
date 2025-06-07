@@ -1,7 +1,21 @@
 using UnityEngine;
 
-public abstract class Interactable : MonoBehaviour, IInteractable
+public class Interactable : MonoBehaviour
 {
-    public abstract void Interact();
-    public abstract void Deinteract();
+    private IInteractable iInteractable = null;
+
+    private void Awake()
+    {
+        iInteractable = GetComponent<IInteractable>();
+    }
+
+    public void Interact()
+    {
+        iInteractable?.Interact();
+    }
+
+    public void Deinteract()
+    {
+        iInteractable?.Deinteract();
+    }
 }

@@ -298,17 +298,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1297901334 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7859735854573038281, guid: 7dd06f7cf1ecac84d93a5f969bd7a182, type: 3}
-  m_PrefabInstance: {fileID: 5361436681616114177}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edff7493e42abda47861398f8d5970a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1004153197929598774
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -319,7 +308,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4845435754247067211, guid: 1b9d7fddc0882004a86b514c8ffddcb5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 4845435754247067211, guid: 1b9d7fddc0882004a86b514c8ffddcb5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -357,6 +346,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6515581728617693322, guid: 1b9d7fddc0882004a86b514c8ffddcb5, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 4189047971981982299}
     - target: {fileID: 7216210662142721002, guid: 1b9d7fddc0882004a86b514c8ffddcb5, type: 3}
       propertyPath: m_Name
       value: pf_Lever
@@ -427,6 +420,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 91ae95a66f1345c418c8f1ce006e88bc, type: 3}
+--- !u!114 &4189047971981982299 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9066376882762366582, guid: 91ae95a66f1345c418c8f1ce006e88bc, type: 3}
+  m_PrefabInstance: {fileID: 4189047971981982298}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93fc667b2214aea4b8ea0c1ea94527f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5361436681616114177
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -441,7 +445,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4481382900015834508, guid: 7dd06f7cf1ecac84d93a5f969bd7a182, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4481382900015834508, guid: 7dd06f7cf1ecac84d93a5f969bd7a182, type: 3}
       propertyPath: m_LocalPosition.y
@@ -484,6 +488,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7dd06f7cf1ecac84d93a5f969bd7a182, type: 3}
+--- !u!114 &5361436681616114178 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6003679650492542168, guid: 7dd06f7cf1ecac84d93a5f969bd7a182, type: 3}
+  m_PrefabInstance: {fileID: 5361436681616114177}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93fc667b2214aea4b8ea0c1ea94527f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5882342861025939033
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -494,7 +509,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 139389562456015667, guid: cf011f38a9d3be245959a7b0b6e94e37, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 139389562456015667, guid: cf011f38a9d3be245959a7b0b6e94e37, type: 3}
       propertyPath: m_LocalPosition.y
@@ -535,7 +550,7 @@ PrefabInstance:
     - target: {fileID: 1762629820128461059, guid: cf011f38a9d3be245959a7b0b6e94e37, type: 3}
       propertyPath: target
       value: 
-      objectReference: {fileID: 1297901334}
+      objectReference: {fileID: 5361436681616114178}
     - target: {fileID: 1762629820128461059, guid: cf011f38a9d3be245959a7b0b6e94e37, type: 3}
       propertyPath: ttt.m_ClassName
       value: Door
@@ -559,7 +574,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 967485534}
   - {fileID: 932690067}
+  - {fileID: 4189047971981982298}
+  - {fileID: 1004153197929598774}
   - {fileID: 5882342861025939033}
   - {fileID: 5361436681616114177}
-  - {fileID: 1004153197929598774}
-  - {fileID: 4189047971981982298}

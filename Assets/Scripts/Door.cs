@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Door : Interactable
+public class Door : MonoBehaviour, IInteractable
 {
     [Header("References")]
     [SerializeField] private Animator animator = null;
@@ -8,14 +8,14 @@ public class Door : Interactable
 
     private const string ANIMATOR_IS_OPENED_BOOL_KEY = "IsOpened";
 
-    public override void Interact()
+    public void Interact()
     {
         animator.SetBool(ANIMATOR_IS_OPENED_BOOL_KEY, true);
 
         collider.enabled = false;
     }
 
-    public override void Deinteract()
+    public void Deinteract()
     {
         animator.SetBool(ANIMATOR_IS_OPENED_BOOL_KEY, false);
 

@@ -9,17 +9,31 @@ public class ActivatorDefault : MonoBehaviour, IActivator
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(iActivatable == null && collision.TryGetComponent(out IActivatable activatable))
+        GameObject target = collision.gameObject;
+        if(collision.TryGetComponent(out IOwner iOwner))
         {
-            iActivatable = activatable;
+            target = iOwner.Owner;
+        }
+
+        if (this.iActivatable == null
+            && target.TryGetComponent(out IActivatable iActivatable))
+        {
+            this.iActivatable = iActivatable;
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.TryGetComponent(out IActivatable activatable) && activatable == iActivatable)
+        GameObject target = collision.gameObject;
+        if (collision.TryGetComponent(out IOwner iOwner))
         {
-            iActivatable = null;
+            target = iOwner.Owner;
+        }
+
+        if (target.TryGetComponent(out IActivatable iActivatable) &&
+            iActivatable == this.iActivatable)
+        {
+            this.iActivatable = null;
         }
     }
 

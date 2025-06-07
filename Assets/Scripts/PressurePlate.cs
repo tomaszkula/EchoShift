@@ -8,6 +8,7 @@ public class PressurePlate : MonoBehaviour, ITriggerable
 
     [Header("References")]
     [SerializeField] private Animator animator = null;
+    [SerializeField] private BoxCollider2D collider = null;
 
     private const string ANIMATOR_IS_PRESSED_BOOL_KEY = "IsPressed";
 
