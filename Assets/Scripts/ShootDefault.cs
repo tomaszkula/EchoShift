@@ -48,7 +48,7 @@ public class ShootDefault : MonoBehaviour, IShoot
                 Direction.Left => Quaternion.Euler(0, 180, 0),
                 _ => Quaternion.identity
             };
-            projectile.GetComponent<IOwner>().Owner = gameObject;
+            projectile.GetComponent<IAttacker>().Attacker = gameObject;
         }
 
         OnShoot?.Invoke();
