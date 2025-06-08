@@ -47,9 +47,9 @@ public class LevelSelectScreenUI : BaseScreen
 
     private void ClearLevelEntries()
     {
-        for(int i = 0; levelEntries.Count > i; i++)
+        for(int i = 0; i < levelEntries.Count; i++)
         {
-            Destroy(levelEntries[i]);
+            Destroy(levelEntries[i].gameObject);
         }
         levelEntries.Clear();
     }
