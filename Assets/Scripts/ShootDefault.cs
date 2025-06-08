@@ -7,7 +7,7 @@ public class ShootDefault : MonoBehaviour, IShoot
     [SerializeField] private bool skipCooldown = false; // TODO: improve ghost frame shooting logic
 
     [Header("Settings")]
-    [SerializeField] private float projectileCooldown = 0.5f;
+    [SerializeField] private WeaponData weaponData = null;
 
     private float shootDelay = 0f;
 
@@ -35,7 +35,7 @@ public class ShootDefault : MonoBehaviour, IShoot
         if (!skipCooldown && shootDelay > 0f)
             return;
 
-        shootDelay = projectileCooldown;
+        shootDelay = weaponData.ProjectileCooldown;
 
         ObjectsPoolType projectileOPT = Manager.Instance.GetManager<ObjectsPoolsManager>().ProjectileOPT;
         GameObject projectileGo = Manager.Instance.GetManager<ObjectsPoolsManager>().GetPool(projectileOPT).Get();

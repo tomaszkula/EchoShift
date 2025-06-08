@@ -448,7 +448,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skipCooldown: 1
-  projectileCooldown: 0.5
+  weaponData: {fileID: 11400000, guid: 9ae2fb7a919ae0e47a3a1b03c4917266, type: 2}
 --- !u!114 &2808939330338235006
 MonoBehaviour:
   m_ObjectHideFlags: 0
