@@ -7,12 +7,14 @@ public class ShootDefault : MonoBehaviour, IShoot
     [SerializeField] private bool skipCooldown = false; // TODO: improve ghost frame shooting logic
 
     [Header("Settings")]
-    [SerializeField] private WeaponData weaponData = null;
+    [SerializeField] private WeaponData defaultWeaponData = null;
 
+    private WeaponData weaponData = null;
     private float shootDelay = 0f;
 
     private IHand iHand = null;
     private IFace iFace = null;
+    private IPicker iPicker = null;
 
     public event Action OnShoot = null;
 
@@ -20,6 +22,17 @@ public class ShootDefault : MonoBehaviour, IShoot
     {
         iHand = GetComponent<IHand>();
         iFace = GetComponent<IFace>();
+        iPicker = GetComponent<IPicker>();
+    }
+
+    private void OnEnable()
+    {
+        iPicker.OnPicked += OnPicked;
+    }
+
+    private void Start()
+    {
+        weaponData = defaultWeaponData;
     }
 
     private void Update()
@@ -30,8 +43,24 @@ public class ShootDefault : MonoBehaviour, IShoot
         }
     }
 
+    private void OnDisable()
+    {
+        iPicker.OnPicked -= OnPicked;
+    }
+
+    private void OnPicked(IPickable iPickable)
+    {
+        if ((iPickable as MonoBehaviour).TryGetComponent(out Weapon weapon))
+        {
+            weaponData = weapon.WeaponData;
+        }
+    }
+
     public void Shoot()
     {
+        if (weaponData == null)
+            return;
+
         if (!skipCooldown && shootDelay > 0f)
             return;
 
