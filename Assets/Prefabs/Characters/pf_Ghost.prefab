@@ -289,6 +289,7 @@ GameObject:
   - component: {fileID: 2808939330338235006}
   - component: {fileID: 1604210386223206049}
   - component: {fileID: 3460919062926368027}
+  - component: {fileID: 6879271487710498369}
   - component: {fileID: 7894739752959219404}
   - component: {fileID: 8367858467182832507}
   - component: {fileID: 1422658258474958244}
@@ -431,11 +432,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skipGroundCheck: 1
   jumpForce: 350
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 133
-  groundCheck: {fileID: 874185462584392933}
-  groundCheckRadius: 0.2
 --- !u!114 &3435827324896039572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -461,7 +457,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skipCooldown: 1
-  weaponData: {fileID: 11400000, guid: 9ae2fb7a919ae0e47a3a1b03c4917266, type: 2}
+  defaultWeaponData: {fileID: 0}
 --- !u!114 &2808939330338235006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -503,6 +499,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flipOnRight: 1
   characterSR: {fileID: 60490914904161552}
+--- !u!114 &6879271487710498369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8454032129097840581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e56a88ffeb3694ebd89aee6c5a7d7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 133
+  groundCheckRadius: 0.2
+  feet: {fileID: 874185462584392933}
 --- !u!114 &7894739752959219404
 MonoBehaviour:
   m_ObjectHideFlags: 0
