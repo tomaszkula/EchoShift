@@ -2,14 +2,15 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [Header("Settings")]
-    [SerializeField] private float speed = 10f;
-    [SerializeField] private float lifetime = 5f;
+    [Header("References")]
+    [SerializeField] private ProjectileData projectileData = null;
 
     private float timer = 0f;
 
     private IPooledObject iPooledObject = null;
     private Rigidbody2D rigidbody = null;
+
+    public ProjectileData ProjectileData => projectileData;
 
     private void Awake()
     {
@@ -41,13 +42,13 @@ public class Projectile : MonoBehaviour
 
     private void Move()
     {
-        rigidbody.linearVelocity = transform.right * speed;
+        rigidbody.linearVelocity = transform.right * projectileData.Speed;
     }
 
     private void CheckLifeime()
     {
         timer += Time.deltaTime;
-        if (timer >= lifetime)
+        if (timer >= projectileData.Lifetime)
         {
             iPooledObject.Pool.Release(gameObject);
         }

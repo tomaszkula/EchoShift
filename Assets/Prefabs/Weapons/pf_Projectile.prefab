@@ -247,8 +247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cadf035715059a34989d79229cad51a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7.5
-  lifetime: 3
+  projectileData: {fileID: 11400000, guid: 4f426ccf6e5e8fa49b9990539dd76872, type: 2}
 --- !u!114 &2497414407146638690
 MonoBehaviour:
   m_ObjectHideFlags: 0
