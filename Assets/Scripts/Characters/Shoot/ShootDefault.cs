@@ -66,7 +66,7 @@ public class ShootDefault : MonoBehaviour, IShoot
 
         shootDelay = weaponData.ProjectileCooldown;
 
-        ObjectsPoolType projectileOPT = Manager.Instance.GetManager<ObjectsPoolsManager>().ProjectileOPT;
+        ObjectsPoolType projectileOPT = weaponData.ProjectileData.ObjectsPoolType;
         GameObject projectileGo = Manager.Instance.GetManager<ObjectsPoolsManager>().GetPool(projectileOPT).Get();
         if (projectileGo.TryGetComponent(out Projectile projectile))
         {

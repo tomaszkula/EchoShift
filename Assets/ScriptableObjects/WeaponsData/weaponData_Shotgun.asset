@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53b81eb1e02d44348a8d80a6daad1953, type: 3}
   m_Name: weaponData_Shotgun
   m_EditorClassIdentifier: 
+  projectileData: {fileID: 11400000, guid: 4f426ccf6e5e8fa49b9990539dd76872, type: 2}
   projectileCooldown: 2

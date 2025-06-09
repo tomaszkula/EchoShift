@@ -17,7 +17,6 @@ public class ObjectsPoolsManager : BaseManager
     [Header("References")]
     [SerializeField] private ObjectsPoolType ghostOPT = null;
     [SerializeField] private ObjectsPoolType playerOPT = null;
-    [SerializeField] private ObjectsPoolType projectileOPT = null;
     [SerializeField] private ObjectsPoolType uiGhostIndicatorEntryOPT = null;
 
     private List<ObjectsPool> objectsPools = new List<ObjectsPool>();
@@ -25,7 +24,6 @@ public class ObjectsPoolsManager : BaseManager
 
     public ObjectsPoolType GhostOPT => ghostOPT;
     public ObjectsPoolType PlayerOPT => playerOPT;
-    public ObjectsPoolType ProjectileOPT => projectileOPT;
     public ObjectsPoolType UiGhostIndicatorEntryOPT => uiGhostIndicatorEntryOPT;
 
     public void Register(ObjectsPool objectsPool)
