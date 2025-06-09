@@ -33,6 +33,8 @@ public class ObjectsPoolsManager : BaseManager
         {
             Data poolData = poolsData[i];
             poolData.pool = new ObjectPool<GameObject>(() => OnCreatePool(objectsPool, poolData), OnGetPooledObject, OnReleasePooledObject);
+            for (int j = 0; j < poolData.type.SpawnCount; j++)
+                poolData.pool.Release(poolData.pool.Get());
             pools.Add(poolData.type, poolData);
         }
 
