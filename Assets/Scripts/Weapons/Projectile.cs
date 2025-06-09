@@ -25,8 +25,12 @@ public class Projectile : MonoBehaviour
 
     private void Update()
     {
-        Move();
         CheckLifeime();
+    }
+
+    private void FixedUpdate()
+    {
+        Move();
     }
 
     private void OnDisable()
