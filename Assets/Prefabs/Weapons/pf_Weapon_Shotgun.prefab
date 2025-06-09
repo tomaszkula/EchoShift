@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 2559692914361578701}
   - component: {fileID: 8035701490411458260}
   m_Layer: 0
-  m_Name: pf_Weapon_Pistol
+  m_Name: pf_Weapon_Shotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df7dfe58218155942955ab7c1267a3a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponData: {fileID: 11400000, guid: 9ae2fb7a919ae0e47a3a1b03c4917266, type: 2}
+  weaponData: {fileID: 11400000, guid: 1b3dd621d1c32cb4c8dfecbdc27b632e, type: 2}
 --- !u!1 &6306792147253087848
 GameObject:
   m_ObjectHideFlags: 0
@@ -146,7 +146,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.025, y: 0.25}
+  m_Offset: {x: 0, y: 0.2}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -156,7 +156,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.6, y: 0.5}
+  m_Size: {x: 1.2, y: 0.4}
   m_EdgeRadius: 0
 --- !u!114 &1498275099793706464
 MonoBehaviour:
@@ -197,7 +197,7 @@ Transform:
   m_GameObject: {fileID: 7507537414598462015}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.2, z: 0}
+  m_LocalPosition: {x: 0, y: 0.175, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -247,7 +247,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6c9572cf4333f544aa135dad1f6ada8f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c44ad31dbb7fe154cb9166e0525619f3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
