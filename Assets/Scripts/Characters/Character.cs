@@ -2,20 +2,22 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    public IMove iMove { get; private set; }
-    public IJump iJump { get; private set; }
-    public IShoot iShoot { get; private set; }
-    public IActivator iActivator { get; private set; }
+    public IMove IMove { get; private set; }
+    public IJump IJump { get; private set; }
+    public IShoot IShoot { get; private set; }
+    public IClimb IClimb { get; private set; }
+    public IActivator IActivator { get; private set; }
 
-    public IFace iFace { get; private set; }
+    public IFace IFace { get; private set; }
 
     private void Awake()
     {
-        iMove = GetComponent<IMove>();
-        iJump = GetComponent<IJump>();
-        iShoot = GetComponent<IShoot>();
-        iActivator = GetComponent<IActivator>();
+        IMove = GetComponent<IMove>();
+        IJump = GetComponent<IJump>();
+        IShoot = GetComponent<IShoot>();
+        IClimb = GetComponent<IClimb>();
+        IActivator = GetComponent<IActivator>();
 
-        iFace = GetComponent<IFace>();
+        IFace = GetComponent<IFace>();
     }
 }

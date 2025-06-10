@@ -20,6 +20,7 @@ public class EchoFrameData
     public Vector2 moveDirection = Vector2.zero;
     public bool isJumping = false;
     public bool isShooting = false;
+    public Vector2 climbDirection = Vector2.zero;
     public bool isActivating = false;
     public bool isDeactivating = false;
 }

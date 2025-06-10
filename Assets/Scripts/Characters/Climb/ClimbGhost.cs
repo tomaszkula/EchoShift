@@ -1,16 +1,16 @@
 using System;
 using UnityEngine;
 
-public class MoveGhost : MonoBehaviour
+public class ClimbGhost : MonoBehaviour
 {
-    private IMove iMove = null;
+    private IClimb iClimb = null;
     private Ghost ghost = null;
 
-    public Action<Vector2> OnMove { get; set; }
+    public Action<Vector2> OnClimb { get; set; }
 
     private void Awake()
     {
-        iMove = GetComponent<IMove>();
+        iClimb = GetComponent<IClimb>();
         ghost = GetComponent<Ghost>();
     }
 
@@ -28,14 +28,14 @@ public class MoveGhost : MonoBehaviour
 
     private void OnFrameUpdated(EchoFrameData frameData)
     {
-        Move();
+        Climb();
     }
 
-    public void Move()
+    public void Climb()
     {
         if (ghost?.currentFrame == null)
             return;
 
-        iMove?.Move(ghost.currentFrame.moveDirection);
+        iClimb?.Climb(ghost.currentFrame.climbDirection);
     }
 }

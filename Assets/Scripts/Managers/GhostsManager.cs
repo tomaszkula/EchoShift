@@ -9,12 +9,14 @@ public class GhostsManager : BaseManager
     [SerializeField] private float recordingDuration = 5f;
 
     private EchoData echoData = new EchoData();
-    private Vector2 lastDirection = Vector2.zero;
+    private Vector2 lastMoveDirection = Vector2.zero;
+    private Vector2 lastClimbDirection = Vector2.zero;
 
     private Ghost ghost = null;
     private IMove iMove = null;
     private IJump iJump = null;
     private IShoot iShoot = null;
+    private IClimb iClimb = null;
     private IActivator iActivator = null;
 
     private PlayerManager playerManager = null;
@@ -70,52 +72,43 @@ public class GhostsManager : BaseManager
         IsPlayed = false;
     }
 
-    public void Setup(IMove iMove, IJump iJump, IShoot iShoot, IActivator iActivator)
+    public void Setup(IMove iMove, IJump iJump, IShoot iShoot, IClimb iClimb, IActivator iActivator)
     {
         if (this.iMove != null)
-        {
             this.iMove.OnMove -= OnMove;
-        }
 
         if (this.iJump != null)
-        {
             this.iJump.OnJump -= OnJump;
-        }
 
         if (this.iShoot != null)
-        {
             this.iShoot.OnShoot -= OnShoot;
-        }
+
+        if (this.iClimb != null)
+            this.iClimb.OnClimb -= OnClimb;
 
         if (this.iActivator != null)
-        {
             this.iActivator.OnActivate -= OnActivate;
-        }
 
         this.iMove = iMove;
         this.iJump = iJump;
         this.iShoot = iShoot;
+        this.iClimb = iClimb;
         this.iActivator = iActivator;
 
         if (this.iMove != null)
-        {
             this.iMove.OnMove += OnMove;
-        }
 
         if (this.iJump != null)
-        {
             this.iJump.OnJump += OnJump;
-        }
 
         if (this.iShoot != null)
-        {
             this.iShoot.OnShoot += OnShoot;
-        }
+
+        if (this.iClimb != null)
+            this.iClimb.OnClimb += OnClimb;
 
         if (this.iActivator != null)
-        {
             this.iActivator.OnActivate += OnActivate;
-        }
     }
 
     public void StartRecording()
@@ -144,14 +137,15 @@ public class GhostsManager : BaseManager
 
         echoData = new EchoData();
         echoData.recordPosition = playerManager.Player.transform.position;
-        echoData.recordFaceDirection = playerManager.Player.iFace.FaceDirection;
+        echoData.recordFaceDirection = playerManager.Player.IFace.FaceDirection;
         echoData.recordStartTime = timeManager.GameTime;
         echoData.frames = new List<EchoFrameData>()
         {
             new EchoFrameData
             {
                 time = timeManager.GameTime,
-                moveDirection = lastDirection,
+                moveDirection = lastMoveDirection,
+                climbDirection = lastClimbDirection,
             }
         };
 
@@ -200,7 +194,7 @@ public class GhostsManager : BaseManager
 
     private void OnMove(Vector2 direction)
     {
-        lastDirection = direction;
+        lastMoveDirection = direction;
 
         if (!IsRecording)
             return;
@@ -208,7 +202,7 @@ public class GhostsManager : BaseManager
         EchoFrameData frame = new EchoFrameData
         {
             time = timeManager.GameTime,
-            moveDirection = direction
+            moveDirection = direction,
         };
 
         echoData.frames.Add(frame);
@@ -224,8 +218,9 @@ public class GhostsManager : BaseManager
         EchoFrameData frame = new EchoFrameData
         {
             time = timeManager.GameTime,
-            moveDirection = lastDirection,
-            isJumping = true
+            moveDirection = lastMoveDirection,
+            isJumping = true,
+            climbDirection = lastClimbDirection,
         };
 
         echoData.frames.Add(frame);
@@ -241,13 +236,32 @@ public class GhostsManager : BaseManager
         EchoFrameData frame = new EchoFrameData
         {
             time = timeManager.GameTime,
-            moveDirection = lastDirection,
-            isShooting = true
+            moveDirection = lastMoveDirection,
+            isShooting = true,
+            climbDirection = lastClimbDirection,
         };
 
         echoData.frames.Add(frame);
 
         Debug.Log($"Recorded frame at time {frame.time}: Shoot = {frame.isShooting}");
+    }
+
+    private void OnClimb(Vector2 direction)
+    {
+        lastClimbDirection = direction;
+
+        if (!IsRecording)
+            return;
+
+        EchoFrameData frame = new EchoFrameData
+        {
+            time = timeManager.GameTime,
+            climbDirection = direction,
+        };
+
+        echoData.frames.Add(frame);
+
+        Debug.Log($"Recorded frame at time {frame.time}: Move Direction = {frame.moveDirection}");
     }
 
     private void OnActivate()
@@ -258,7 +272,8 @@ public class GhostsManager : BaseManager
         EchoFrameData frame = new EchoFrameData
         {
             time = timeManager.GameTime,
-            moveDirection = lastDirection,
+            moveDirection = lastMoveDirection,
+            climbDirection = lastClimbDirection,
             isActivating = true
         };
         echoData.frames.Add(frame);

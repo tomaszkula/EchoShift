@@ -33,6 +33,6 @@ public class PlayerManager : BaseManager
         playerGo.transform.SetParent(null);
         playerGo.transform.SetPositionAndRotation(SpawnPosition, Quaternion.identity);
 
-        Manager.Instance.GetManager<GhostsManager>().Setup(Player.iMove, Player.iJump, Player.iShoot, Player.iActivator);
+        Manager.Instance.GetManager<GhostsManager>().Setup(Player.IMove, Player.IJump, Player.IShoot, Player.IClimb, Player.IActivator);
     }
 }

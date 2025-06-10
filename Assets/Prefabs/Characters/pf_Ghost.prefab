@@ -286,6 +286,8 @@ GameObject:
   - component: {fileID: 8429240603288315744}
   - component: {fileID: 3435827324896039572}
   - component: {fileID: 5485739287888833526}
+  - component: {fileID: 2791580190217715308}
+  - component: {fileID: 4882324558788996203}
   - component: {fileID: 2808939330338235006}
   - component: {fileID: 1604210386223206049}
   - component: {fileID: 3460919062926368027}
@@ -294,7 +296,6 @@ GameObject:
   - component: {fileID: 8367858467182832507}
   - component: {fileID: 1422658258474958244}
   - component: {fileID: 7927676438297714001}
-  - component: {fileID: 4882324558788996203}
   m_Layer: 6
   m_Name: pf_Ghost
   m_TagString: Untagged
@@ -459,6 +460,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skipCooldown: 1
   defaultWeaponData: {fileID: 0}
+--- !u!114 &2791580190217715308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8454032129097840581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 082575a45de5555478544c71f6259e5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4882324558788996203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8454032129097840581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73d49711c46881a4c86cdf573fdffcbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  climbSpeed: 3
 --- !u!114 &2808939330338235006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -565,19 +591,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8f41973a08c8b54fad34408bad2b816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4882324558788996203
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8454032129097840581}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73d49711c46881a4c86cdf573fdffcbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  climbSpeed: 3
 --- !u!1 &8937262351222869387
 GameObject:
   m_ObjectHideFlags: 0
