@@ -8,12 +8,14 @@ public class MoveDefault : MonoBehaviour, IMove
 
     private Vector2 moveDirection = Vector2.zero;
 
+    private IClimb iClimb = null;
     private Rigidbody2D rigidbody = null;
 
     public event Action<Vector2> OnMove = null;
 
     private void Awake()
     {
+        iClimb = GetComponent<IClimb>();
         rigidbody = GetComponent<Rigidbody2D>();
     }
 
@@ -29,10 +31,12 @@ public class MoveDefault : MonoBehaviour, IMove
 
     private void ApplyMovement()
     {
-        Vector2 velocity = moveDirection * speed;
-        velocity.y = rigidbody.linearVelocity.y;
+        if (iClimb.IsClimbing)
+            return;
 
-        rigidbody.linearVelocity = velocity;
+        Vector2 moveVelocity = moveDirection * speed;
+        moveVelocity.y = rigidbody.linearVelocity.y;
+        rigidbody.linearVelocity = moveVelocity;
 
         OnMove?.Invoke(moveDirection);
     }

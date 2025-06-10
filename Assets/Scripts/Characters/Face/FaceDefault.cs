@@ -7,6 +7,7 @@ public class FaceDefault : MonoBehaviour, IFace
     [SerializeField] private Direction defaultDirection = Direction.Right;
 
     private IMove iMove = null;
+    private IClimb iClimb = null;
 
     public Direction FaceDirection { get; set; } = Direction.Right;
 
@@ -15,6 +16,7 @@ public class FaceDefault : MonoBehaviour, IFace
     private void Awake()
     {
         iMove = GetComponent<IMove>();
+        iClimb = GetComponent<IClimb>();
 
         FaceDirection = defaultDirection;
     }
@@ -27,27 +29,39 @@ public class FaceDefault : MonoBehaviour, IFace
     private void OnEnable()
     {
         if (iMove != null)
-        {
             iMove.OnMove += OnMove;
-        }
+
+        if (iClimb != null)
+            iClimb.OnClimb += OnClimb;
     }
 
     private void OnDisable()
     {
         if (iMove != null)
-        {
             iMove.OnMove -= OnMove;
-        }
+
+        if (iClimb != null)
+            iClimb.OnClimb -= OnClimb;
     }
 
-    private void OnMove(Vector2 moveDirection)
+    private void OnMove(Vector2 direction)
     {
-        if (moveDirection.x > 0)
+        RefreshFace(direction);
+    }
+
+    private void OnClimb(Vector2 direction)
+    {
+        RefreshFace(direction);
+    }
+
+    private void RefreshFace(Vector2 direction)
+    {
+        if (direction.x > 0)
         {
             FaceDirection = Direction.Right;
             OnFaceDirectionChanged?.Invoke(FaceDirection);
         }
-        else if (moveDirection.x < 0)
+        else if (direction.x < 0)
         {
             FaceDirection = Direction.Left;
             OnFaceDirectionChanged?.Invoke(FaceDirection);

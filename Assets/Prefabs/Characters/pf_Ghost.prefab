@@ -294,6 +294,7 @@ GameObject:
   - component: {fileID: 8367858467182832507}
   - component: {fileID: 1422658258474958244}
   - component: {fileID: 7927676438297714001}
+  - component: {fileID: 4882324558788996203}
   m_Layer: 6
   m_Name: pf_Ghost
   m_TagString: Untagged
@@ -564,6 +565,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8f41973a08c8b54fad34408bad2b816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4882324558788996203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8454032129097840581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73d49711c46881a4c86cdf573fdffcbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  climbSpeed: 3
 --- !u!1 &8937262351222869387
 GameObject:
   m_ObjectHideFlags: 0

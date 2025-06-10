@@ -19,7 +19,7 @@ public class PressurePlate : MonoBehaviour, ITriggerable
         target?.Interact();
     }
 
-    public void UnTrigger()
+    public void Untrigger()
     {
         animator.SetBool(ANIMATOR_IS_PRESSED_BOOL_KEY, false);
 
