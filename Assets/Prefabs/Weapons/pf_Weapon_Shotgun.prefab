@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7558919563225478509}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: go_Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2559692914361578701}
   - component: {fileID: 8035701490411458260}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: pf_Weapon_Shotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 1627938673326397317}
   - component: {fileID: 5011846247686597708}
   - component: {fileID: 1498275099793706464}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: collider_Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,7 +181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2506812167205339147}
   - component: {fileID: 86642298938588125}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: sr_Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
