@@ -4,7 +4,18 @@ using UnityEngine;
 public class HealthDefault : MonoBehaviour, IHealth
 {
     [Header("Settings")]
-    [SerializeField] private float maxHealth = 100f;
+    [SerializeField] private float defaultMaxHealth = 100f;
+
+    private float maxHealth = 0f;
+    public float MaxHealth
+    {
+        get => maxHealth;
+        set
+        {
+            maxHealth = value;
+            OnMaxHealthChanged?.Invoke(maxHealth);
+        }
+    }
 
     private float health = 0f;
     public float Health
@@ -18,9 +29,11 @@ public class HealthDefault : MonoBehaviour, IHealth
     }
 
     public event Action<float> OnHealthChanged = null;
+    public event Action<float> OnMaxHealthChanged = null;
 
     private void Start()
     {
-        health = maxHealth;
+        MaxHealth = defaultMaxHealth;
+        Health = MaxHealth;
     }
 }

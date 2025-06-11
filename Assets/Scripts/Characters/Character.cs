@@ -9,6 +9,7 @@ public class Character : MonoBehaviour
     public IActivator IActivator { get; private set; }
 
     public IFace IFace { get; private set; }
+    public IHealth IHealth { get; private set; }
 
     private void Awake()
     {
@@ -19,5 +20,6 @@ public class Character : MonoBehaviour
         IActivator = GetComponent<IActivator>();
 
         IFace = GetComponent<IFace>();
+        IHealth = GetComponent<IHealth>();
     }
 }
