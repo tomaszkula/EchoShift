@@ -173,7 +173,7 @@ GameObject:
   - component: {fileID: 5033765663787090225}
   - component: {fileID: 3427069210703465297}
   m_Layer: 10
-  m_Name: pf_Projectile_Default
+  m_Name: pf_Projectile_Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

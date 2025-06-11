@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53b81eb1e02d44348a8d80a6daad1953, type: 3}
   m_Name: weaponData_Shotgun
   m_EditorClassIdentifier: 
-  projectileData: {fileID: 11400000, guid: 4f426ccf6e5e8fa49b9990539dd76872, type: 2}
+  objectsPoolType: {fileID: 11400000, guid: 09845779a4bc98743bec93342af4c24f, type: 2}
+  projectileData: {fileID: 11400000, guid: c38eca0bd61ef09448e22b1125f70430, type: 2}
   projectileCooldown: 2
+  projectilesCount: 3
+  projectilesSpawnRange: {x: -7.5, y: 7.5}

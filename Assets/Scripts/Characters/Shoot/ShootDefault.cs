@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class ShootDefault : MonoBehaviour, IShoot
 {
@@ -67,17 +68,28 @@ public class ShootDefault : MonoBehaviour, IShoot
         shootDelay = weaponData.ProjectileCooldown;
 
         ObjectsPoolType projectileOPT = weaponData.ProjectileData.ObjectsPoolType;
-        GameObject projectileGo = Manager.Instance.GetManager<ObjectsPoolsManager>().GetPool(projectileOPT).Get();
-        if (projectileGo.TryGetComponent(out Projectile projectile))
+        ObjectPool<GameObject> projectileObjectsPool = Manager.Instance.GetManager<ObjectsPoolsManager>().GetPool(projectileOPT);
+        for (int i = 0; i < weaponData.ProjectilesCount; i++)
         {
-            projectile.transform.position = iHand.Hand.position;
-            projectile.transform.rotation = iFace.FaceDirection switch
+            GameObject projectileGo = projectileObjectsPool.Get();
+            if (projectileGo.TryGetComponent(out Projectile projectile))
             {
-                Direction.Right => Quaternion.Euler(0, 0, 0),
-                Direction.Left => Quaternion.Euler(0, 180, 0),
-                _ => Quaternion.identity
-            };
-            projectile.GetComponent<IAttacker>().Attacker = gameObject;
+                float zRotation = 0f;
+                if (weaponData.ProjectilesCount > 1)
+                {
+                    float t = i / (float)(weaponData.ProjectilesCount - 1);
+                    zRotation = Mathf.Lerp(weaponData.ProjectilesSpawnRange.x, weaponData.ProjectilesSpawnRange.y, t);
+                }
+
+                projectile.transform.position = iHand.Hand.position;
+                projectile.transform.rotation = iFace.FaceDirection switch
+                {
+                    Direction.Right => Quaternion.Euler(0, 0, zRotation),
+                    Direction.Left => Quaternion.Euler(0, 180, zRotation),
+                    _ => Quaternion.identity
+                };
+                projectile.GetComponent<IAttacker>().Attacker = gameObject;
+            }
         }
 
         OnShoot?.Invoke();

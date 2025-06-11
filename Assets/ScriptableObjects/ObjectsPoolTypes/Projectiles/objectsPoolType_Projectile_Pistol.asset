@@ -9,9 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6df43f260741d8440a1332fdd3744c14, type: 3}
-  m_Name: projectileData_Default
+  m_Script: {fileID: 11500000, guid: e4766704b1d03e945a18afd586fdb5a6, type: 3}
+  m_Name: objectsPoolType_Projectile_Pistol
   m_EditorClassIdentifier: 
-  objectsPoolType: {fileID: 11400000, guid: d6c38a3a99052c14da479b4bba7e61f0, type: 2}
-  speed: 10
-  lifetime: 5
