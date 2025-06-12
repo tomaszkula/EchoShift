@@ -21,7 +21,7 @@ public class PickerDefault : MonoBehaviour, IPicker
 
     public void Pick(IPickable iPickable)
     {
-        iPickable.Pick();
+        iPickable.Pick(this);
 
         OnPicked?.Invoke(iPickable);
     }

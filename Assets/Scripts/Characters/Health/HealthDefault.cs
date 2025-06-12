@@ -10,7 +10,7 @@ public class HealthDefault : MonoBehaviour, IHealth
     public float MaxHealth
     {
         get => maxHealth;
-        set
+        private set
         {
             maxHealth = value;
             OnMaxHealthChanged?.Invoke(maxHealth);
@@ -21,7 +21,7 @@ public class HealthDefault : MonoBehaviour, IHealth
     public float Health
     {
         get => health;
-        set
+        private set
         {
             health = value;
             OnHealthChanged?.Invoke(health);
@@ -35,5 +35,29 @@ public class HealthDefault : MonoBehaviour, IHealth
     {
         MaxHealth = defaultMaxHealth;
         Health = MaxHealth;
+    }
+
+    public void Heal(float healthToHeal)
+    {
+        if (Health + healthToHeal > MaxHealth)
+        {
+            Health = MaxHealth;
+        }
+        else
+        {
+            Health += healthToHeal;
+        }
+    }
+
+    public void TakeHealth(float healthToTake)
+    {
+        if(Health - healthToTake < 0)
+        {
+            Health = 0;
+        }
+        else
+        {
+            Health -= healthToTake;
+        }
     }
 }

@@ -13,7 +13,7 @@ public class DamageableDefault : MonoBehaviour, IDamageable
     {
         if (iHealth != null)
         {
-            iHealth.Health -= damage;
+            iHealth.TakeHealth(damage);
         }
     }
 }

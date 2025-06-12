@@ -1,4 +1,4 @@
 public interface IPickable
 {
-    void Pick();
+    void Pick(IPicker iPicker);
 }

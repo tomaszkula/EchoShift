@@ -41,6 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2559692914361578701}
+  - component: {fileID: 7071239680559659688}
   - component: {fileID: 8035701490411458260}
   m_Layer: 11
   m_Name: pf_Weapon_Pistol
@@ -66,6 +67,18 @@ Transform:
   - {fileID: 1627938673326397317}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7071239680559659688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5764001043472314189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7f754b96136ce43b4517f95a1eab03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8035701490411458260
 MonoBehaviour:
   m_ObjectHideFlags: 0

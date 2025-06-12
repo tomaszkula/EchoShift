@@ -5,10 +5,17 @@ public class Weapon : MonoBehaviour, IPickable
     [Header("References")]
     [SerializeField] private WeaponData weaponData = null;
 
+    private IKillable iKillable = null;
+
     public WeaponData WeaponData => weaponData;
 
-    public void Pick()
+    private void Awake()
     {
-        Destroy(gameObject);
+        iKillable = GetComponent<IKillable>();
+    }
+
+    public void Pick(IPicker iPicker)
+    {
+        iKillable?.Kill();
     }
 }
