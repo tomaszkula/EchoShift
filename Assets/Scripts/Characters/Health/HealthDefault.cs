@@ -37,8 +37,13 @@ public class HealthDefault : MonoBehaviour, IHealth
         Health = MaxHealth;
     }
 
-    public void Heal(float healthToHeal)
+    public bool Heal(float healthToHeal)
     {
+        if(Health >= MaxHealth)
+        {
+            return false;
+        }
+
         if (Health + healthToHeal > MaxHealth)
         {
             Health = MaxHealth;
@@ -47,11 +52,18 @@ public class HealthDefault : MonoBehaviour, IHealth
         {
             Health += healthToHeal;
         }
+
+        return true;
     }
 
-    public void TakeHealth(float healthToTake)
+    public bool TakeHealth(float healthToTake)
     {
-        if(Health - healthToTake < 0)
+        if (Health <= 0)
+        {
+            return false;
+        }
+
+        if (Health - healthToTake < 0)
         {
             Health = 0;
         }
@@ -59,5 +71,7 @@ public class HealthDefault : MonoBehaviour, IHealth
         {
             Health -= healthToTake;
         }
+
+        return true;
     }
 }

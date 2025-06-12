@@ -2,12 +2,19 @@ using UnityEngine;
 
 public class HealthItem : MonoBehaviour, IPickable
 {
+    public enum ActionType
+    {
+        Heal,
+        TakeHealth,
+    }
+
     [Header("Settings")]
-    [SerializeField] private float healthToHeal = 10f;
+    [SerializeField] private ActionType actionType = ActionType.Heal;
+    [SerializeField] private float healthValue = 10f;
 
     private IKillable iKillable = null;
 
-    public float HealthToHeal => healthToHeal;
+    public float HealthValue => healthValue;
 
     private void Awake()
     {
@@ -16,11 +23,22 @@ public class HealthItem : MonoBehaviour, IPickable
 
     public void Pick(IPicker iPicker)
     {
+        bool result = false;
         if((iPicker as MonoBehaviour).TryGetComponent(out IHealth iHealth))
         {
-            iHealth.Heal(HealthToHeal);
+            switch(actionType)
+            {
+                case ActionType.Heal:
+                    result = iHealth.Heal(HealthValue);
+                    break;
+
+                case ActionType.TakeHealth:
+                    result = iHealth.TakeHealth(HealthValue);
+                    break;
+            }
         }
 
-        iKillable?.Kill();
+        if(result)
+            iKillable?.Kill();
     }
 }

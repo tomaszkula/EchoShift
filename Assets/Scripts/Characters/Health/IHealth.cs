@@ -6,6 +6,6 @@ public interface IHealth
     float Health { get; }
     event Action<float> OnHealthChanged;
     event Action<float> OnMaxHealthChanged;
-    void Heal(float healthToHeal);
-    void TakeHealth(float healthToTake);
+    bool Heal(float healthToHeal);
+    bool TakeHealth(float healthToTake);
 }

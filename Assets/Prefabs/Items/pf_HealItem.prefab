@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4293612504120230565}
   - component: {fileID: 7299353318404755476}
   m_Layer: 11
-  m_Name: pf_HealthItem
+  m_Name: pf_HealItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,7 +59,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7e156d3b70185948950f73043d36b66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthToHeal: 10
+  actionType: 0
+  healthValue: 10
 --- !u!1 &6289221624247385582
 GameObject:
   m_ObjectHideFlags: 0
@@ -71,7 +72,7 @@ GameObject:
   - component: {fileID: 6569881324829853184}
   - component: {fileID: 9203039171625207368}
   m_Layer: 11
-  m_Name: sr_HealthItem
+  m_Name: sr_Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -159,7 +160,7 @@ GameObject:
   - component: {fileID: 259573598773585763}
   - component: {fileID: 7795652167404499678}
   m_Layer: 11
-  m_Name: collider_HealthItem
+  m_Name: collider_Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
