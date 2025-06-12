@@ -9,7 +9,7 @@ public class MoveDefault : MonoBehaviour, IMove
     private Vector2 moveDirection = Vector2.zero;
 
     private IClimb iClimb = null;
-    private Rigidbody2D rigidbody = null;
+    new private Rigidbody2D rigidbody = null;
 
     public event Action<Vector2> OnMove = null;
 

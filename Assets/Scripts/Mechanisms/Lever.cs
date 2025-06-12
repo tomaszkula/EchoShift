@@ -7,7 +7,7 @@ public class Lever : MonoBehaviour, IActivatable
 
     [Header("References")]
     [SerializeField] private Animator animator = null;
-    [SerializeField] private BoxCollider2D collider = null;
+    [SerializeField] new private BoxCollider2D collider = null;
 
     private bool isActivated = false;
 

@@ -10,7 +10,7 @@ public class JumpDefault : MonoBehaviour, IJump
     [SerializeField] private float jumpForce = 5f;
 
     private IFeet iFeet = null;
-    private Rigidbody2D rigidbody = null;
+    new private Rigidbody2D rigidbody = null;
 
     public event Action OnJump = null;
 

@@ -4,7 +4,7 @@ public class Door : MonoBehaviour, IInteractable
 {
     [Header("References")]
     [SerializeField] private Animator animator = null;
-    [SerializeField] private Collider2D collider = null;
+    [SerializeField] new private Collider2D collider = null;
 
     private const string ANIMATOR_IS_OPENED_BOOL_KEY = "IsOpened";
 

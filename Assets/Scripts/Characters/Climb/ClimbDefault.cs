@@ -11,7 +11,7 @@ public class ClimbDefault : MonoBehaviour, IClimb
     private Vector2 climbDirection = Vector2.zero;
 
     private ITriggerer iTriggerer = null;
-    private Rigidbody2D rigidbody = null;
+    new private Rigidbody2D rigidbody = null;
 
     public event Action<Vector2> OnClimb = null;
 

@@ -7,7 +7,7 @@ public class Elevator : MonoBehaviour, IInteractable
     [SerializeField] private float speed = 1f;
 
     [Header("References")]
-    [SerializeField] private BoxCollider2D collider = null;
+    [SerializeField] new private BoxCollider2D collider = null;
     [SerializeField] private Transform startPosition = null;
     [SerializeField] private Transform endPosition = null;
     [SerializeField] private Transform elevatorPlatform = null;

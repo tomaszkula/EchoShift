@@ -9,7 +9,7 @@ public class Projectile : MonoBehaviour
 
     private IAttacker iAttacker = null;
     private IPooledObject iPooledObject = null;
-    private Rigidbody2D rigidbody = null;
+    new private Rigidbody2D rigidbody = null;
 
     public ProjectileData ProjectileData => projectileData;
 
