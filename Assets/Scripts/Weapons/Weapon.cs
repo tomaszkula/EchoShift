@@ -16,6 +16,11 @@ public class Weapon : MonoBehaviour, IPickable
 
     public void Pick(IPicker iPicker)
     {
+        if((iPicker as MonoBehaviour).TryGetComponent(out IWeaponKeeper iWeaponKeeper))
+        {
+            iWeaponKeeper.SetWeapon(weaponData);
+        }
+
         iKillable?.Kill();
     }
 }

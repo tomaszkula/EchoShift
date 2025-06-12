@@ -155,6 +155,7 @@ GameObject:
   - component: {fileID: 3791588127691864723}
   - component: {fileID: 3784037053303781860}
   - component: {fileID: 3741094159163700812}
+  - component: {fileID: 4744950625423791216}
   m_Layer: 6
   m_Name: pf_Player
   m_TagString: Untagged
@@ -307,7 +308,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skipCooldown: 0
-  defaultWeaponData: {fileID: 0}
 --- !u!114 &5590372015212778655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -452,6 +452,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultMaxHealth: 100
+--- !u!114 &4744950625423791216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4478354276051356151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62a50f129fc6f5f4eb61be86d241dfd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultWeaponData: {fileID: 0}
 --- !u!1 &4699923026289590795
 GameObject:
   m_ObjectHideFlags: 0

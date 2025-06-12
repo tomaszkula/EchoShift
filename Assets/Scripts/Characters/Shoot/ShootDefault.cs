@@ -7,15 +7,11 @@ public class ShootDefault : MonoBehaviour, IShoot
     [Header("Temporary Settings")]
     [SerializeField] private bool skipCooldown = false; // TODO: improve ghost frame shooting logic
 
-    [Header("Settings")]
-    [SerializeField] private WeaponData defaultWeaponData = null;
-
-    private WeaponData weaponData = null;
     private float shootDelay = 0f;
 
     private IHand iHand = null;
     private IFace iFace = null;
-    private IPicker iPicker = null;
+    private IWeaponKeeper iWeaponKeeper = null;
 
     public event Action OnShoot = null;
 
@@ -23,17 +19,7 @@ public class ShootDefault : MonoBehaviour, IShoot
     {
         iHand = GetComponent<IHand>();
         iFace = GetComponent<IFace>();
-        iPicker = GetComponent<IPicker>();
-    }
-
-    private void OnEnable()
-    {
-        iPicker.OnPicked += OnPicked;
-    }
-
-    private void Start()
-    {
-        weaponData = defaultWeaponData;
+        iWeaponKeeper = GetComponent<IWeaponKeeper>();
     }
 
     private void Update()
@@ -44,41 +30,28 @@ public class ShootDefault : MonoBehaviour, IShoot
         }
     }
 
-    private void OnDisable()
-    {
-        iPicker.OnPicked -= OnPicked;
-    }
-
-    private void OnPicked(IPickable iPickable)
-    {
-        if ((iPickable as MonoBehaviour).TryGetComponent(out Weapon weapon))
-        {
-            weaponData = weapon.WeaponData;
-        }
-    }
-
     public void Shoot()
     {
-        if (weaponData == null)
+        if (iWeaponKeeper.WeaponData == null)
             return;
 
         if (!skipCooldown && shootDelay > 0f)
             return;
 
-        shootDelay = weaponData.ProjectileCooldown;
+        shootDelay = iWeaponKeeper.WeaponData.ProjectileCooldown;
 
-        ObjectsPoolType projectileOPT = weaponData.ProjectileData.ObjectsPoolType;
+        ObjectsPoolType projectileOPT = iWeaponKeeper.WeaponData.ProjectileData.ObjectsPoolType;
         ObjectPool<GameObject> projectileObjectsPool = Manager.Instance.GetManager<ObjectsPoolsManager>().GetPool(projectileOPT);
-        for (int i = 0; i < weaponData.ProjectilesCount; i++)
+        for (int i = 0; i < iWeaponKeeper.WeaponData.ProjectilesCount; i++)
         {
             GameObject projectileGo = projectileObjectsPool.Get();
             if (projectileGo.TryGetComponent(out Projectile projectile))
             {
                 float zRotation = 0f;
-                if (weaponData.ProjectilesCount > 1)
+                if (iWeaponKeeper.WeaponData.ProjectilesCount > 1)
                 {
-                    float t = i / (float)(weaponData.ProjectilesCount - 1);
-                    zRotation = Mathf.Lerp(weaponData.ProjectilesSpawnRange.x, weaponData.ProjectilesSpawnRange.y, t);
+                    float t = i / (float)(iWeaponKeeper.WeaponData.ProjectilesCount - 1);
+                    zRotation = Mathf.Lerp(iWeaponKeeper.WeaponData.ProjectilesSpawnRange.x, iWeaponKeeper.WeaponData.ProjectilesSpawnRange.y, t);
                 }
 
                 projectile.transform.position = iHand.Hand.position;
