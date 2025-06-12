@@ -10,5 +10,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea3ea485d204bdd4088830871feecaaa, type: 3}
-  m_Name: damageType_Default
+  m_Name: damageType_Projectile
   m_EditorClassIdentifier: 

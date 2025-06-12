@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: projectileData_Pistol
   m_EditorClassIdentifier: 
   objectsPoolType: {fileID: 11400000, guid: d6c38a3a99052c14da479b4bba7e61f0, type: 2}
+  damageType: {fileID: 11400000, guid: 37a664122a044dc40a39a3e3e22284c1, type: 2}
+  damage: 10
   speed: 10
   lifetime: 2.5

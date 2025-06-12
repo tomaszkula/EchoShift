@@ -9,11 +9,13 @@ public class DamageableDefault : MonoBehaviour, IDamageable
         iHealth = GetComponent<IHealth>();
     }
 
-    public void Damage(DamageType damageType, float damage)
+    public bool Damage(DamageType damageType, float damage)
     {
         if (iHealth != null)
         {
-            iHealth.TakeHealth(damage);
+            return iHealth.TakeHealth(damage);
         }
+
+        return false;
     }
 }

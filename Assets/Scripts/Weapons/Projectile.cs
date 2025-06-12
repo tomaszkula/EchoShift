@@ -7,6 +7,7 @@ public class Projectile : MonoBehaviour
 
     private float timer = 0f;
 
+    private IAttacker iAttacker = null;
     private IPooledObject iPooledObject = null;
     private Rigidbody2D rigidbody = null;
 
@@ -14,6 +15,7 @@ public class Projectile : MonoBehaviour
 
     private void Awake()
     {
+        iAttacker = GetComponent<IAttacker>();
         iPooledObject = GetComponent<IPooledObject>();
         rigidbody = GetComponent<Rigidbody2D>();
     }
@@ -31,6 +33,24 @@ public class Projectile : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        GameObject target = collision.gameObject;
+        if (target.TryGetComponent(out IOwner iOwner))
+            target = iOwner.Owner;
+
+        if (target == gameObject)
+            return;
+
+        if (target == iAttacker.Attacker)
+            return;
+
+        if(target.TryGetComponent(out IDamageable iDamageable))
+        {
+            iDamageable.Damage(projectileData.DamageType, projectileData.Damage);
+        }
     }
 
     private void OnDisable()
