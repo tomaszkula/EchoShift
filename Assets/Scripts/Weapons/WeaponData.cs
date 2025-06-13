@@ -14,4 +14,18 @@ public class WeaponData : ScriptableObject
     public float ProjectileCooldown => projectileCooldown;
     public int ProjectilesCount => projectilesCount;
     public Vector2 ProjectilesSpawnRange => projectilesSpawnRange;
+
+    [Header("Weapon In Hand")]
+    [SerializeField] private ObjectsPoolType_WeaponInHand wihOPT = null;
+    [SerializeField] private Vector3 wihPivot = Vector3.zero;
+    [SerializeField] private Vector3 wihMufflePosition = Vector3.zero;
+
+    public ObjectsPoolType_WeaponInHand WihOPT => wihOPT;
+    public Vector3 WihPivot => wihPivot;
+    public Vector3 WihMufflePosition => wihMufflePosition;
+
+    [Header("Debug")]
+    [SerializeField] private float wihMuffleGizmoRadius = 0.05f;
+
+    public float WihMuffleGizmoRadius => wihMuffleGizmoRadius;
 }

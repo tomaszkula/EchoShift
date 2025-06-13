@@ -17,3 +17,7 @@ MonoBehaviour:
   projectileCooldown: 0.5
   projectilesCount: 1
   projectilesSpawnRange: {x: 0, y: 0}
+  wihOPT: {fileID: 11400000, guid: f234354e51311da428e3f640b0a66a81, type: 2}
+  wihPivot: {x: 0.25, y: -0.5, z: 0}
+  wihMufflePosition: {x: 0.275, y: 0.39, z: 0}
+  wihMuffleGizmoRadius: 0.01

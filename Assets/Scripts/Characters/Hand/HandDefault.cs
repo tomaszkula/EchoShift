@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class HandDefault : MonoBehaviour, IHand
@@ -8,7 +9,18 @@ public class HandDefault : MonoBehaviour, IHand
 
     private IFace iFace = null;
 
-    public Transform Hand { get; private set; }
+    private Transform hand = null;
+    public Transform Hand
+    {
+        get => hand;
+        set
+        {
+            hand = value;
+            OnHandChanged?.Invoke(hand);
+        }
+    }
+
+    public event Action<Transform> OnHandChanged = null;
 
     private void Awake()
     {
@@ -18,17 +30,13 @@ public class HandDefault : MonoBehaviour, IHand
     private void OnEnable()
     {
         if (iFace != null)
-        {
             iFace.OnFaceDirectionChanged += OnFaceDirectionChanged;
-        }
     }
 
     private void OnDisable()
     {
         if (iFace != null)
-        {
             iFace.OnFaceDirectionChanged -= OnFaceDirectionChanged;
-        }
     }
 
     private void OnFaceDirectionChanged(Direction direction)

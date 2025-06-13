@@ -44,5 +44,8 @@ TagManager:
   - name: Player
     uniqueID: 994328841
     locked: 0
+  - name: PlayerWearables
+    uniqueID: 1269864015
+    locked: 0
   m_RenderingLayers:
   - Default
