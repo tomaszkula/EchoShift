@@ -9,12 +9,14 @@ public class ShootDefault : MonoBehaviour, IShoot
 
     private float shootDelay = 0f;
 
+    private IHand iHand = null;
     private IWeaponKeeper iWeaponKeeper = null;
 
     public event Action OnShoot = null;
 
     private void Awake()
     {
+        iHand = GetComponent<IHand>();
         iWeaponKeeper = GetComponent<IWeaponKeeper>();
     }
 
@@ -50,8 +52,8 @@ public class ShootDefault : MonoBehaviour, IShoot
                     zRotation = Mathf.Lerp(iWeaponKeeper.WeaponData.ProjectilesSpawnRange.x, iWeaponKeeper.WeaponData.ProjectilesSpawnRange.y, t);
                 }
 
-                projectile.transform.position = iWeaponKeeper.WeaponInHand.transform.TransformPoint(iWeaponKeeper.WeaponData.WihMufflePosition);
-                projectile.transform.rotation = Quaternion.Euler(0, 0, zRotation) * iWeaponKeeper.WeaponInHand.transform.rotation;
+                projectile.transform.position = iWeaponKeeper.BarrelPosition;
+                projectile.transform.rotation = Quaternion.Euler(0, 0, zRotation) * iHand.Hand.transform.rotation;
                 projectile.GetComponent<IAttacker>().Attacker = gameObject;
             }
         }

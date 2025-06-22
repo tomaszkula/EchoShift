@@ -4,7 +4,7 @@ using UnityEngine;
 public interface IWeaponKeeper
 {
     WeaponData WeaponData { get; }
-    GameObject WeaponInHand { get; }
+    Vector3 BarrelPosition { get; }
     void SetWeapon(WeaponData weapon);
     event Action<WeaponData> OnWeaponChanged;
 }

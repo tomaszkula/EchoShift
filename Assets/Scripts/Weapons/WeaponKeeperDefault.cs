@@ -18,6 +18,8 @@ public class WeaponKeeperDefault : MonoBehaviour, IWeaponKeeper
         }
     }
 
+    public Vector3 BarrelPosition => WeaponInHand != null ? WeaponInHand.transform.TransformPoint(WeaponData.WihMufflePosition) : Vector3.zero;
+
     public GameObject WeaponInHand { get; private set; }
 
     private IHand iHand = null;
