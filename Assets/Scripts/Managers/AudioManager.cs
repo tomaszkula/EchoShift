@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -25,37 +26,39 @@ public class AudioManager : BaseManager
 
     public int Volume
     {
-        get => PlayerPrefs.GetInt(VOLUME_KEY, defaultVolume);
+        get => Manager.Instance.GetManager<SaveManager>().GetValue(VOLUME_KEY, defaultVolume);
         set
         {
-            PlayerPrefs.SetInt(VOLUME_KEY, value);
+            Manager.Instance.GetManager<SaveManager>().SetValue(VOLUME_KEY, value);
             audioMixer.SetFloat(AUDIO_MIXER_VOLUME_KEY, LinearToDecibel(value, 0, 100));
         }
     }
 
     public int MusicVolume
     {
-        get => PlayerPrefs.GetInt(MUSIC_VOLUME_KEY, defaultMusicVolume);
+        get => Manager.Instance.GetManager<SaveManager>().GetValue(MUSIC_VOLUME_KEY, defaultMusicVolume);
         set 
         {
-            PlayerPrefs.SetInt(MUSIC_VOLUME_KEY, value);
+            Manager.Instance.GetManager<SaveManager>().SetValue(MUSIC_VOLUME_KEY, value);
             audioMixer.SetFloat(AUDIO_MIXER_MUSIC_VOLUME_KEY, LinearToDecibel(value, 0, 100));
         }
     }
 
     public int SoundVolume
     {
-        get => PlayerPrefs.GetInt(SOUND_VOLUME_KEY, defaultSoundVolume);
+        get => Manager.Instance.GetManager<SaveManager>().GetValue(SOUND_VOLUME_KEY, defaultSoundVolume);
         set 
         {
-            PlayerPrefs.SetInt(SOUND_VOLUME_KEY, value);
+            Manager.Instance.GetManager<SaveManager>().SetValue(SOUND_VOLUME_KEY, value);
             audioMixer.SetFloat(AUDIO_MIXER_SOUND_VOLUME_KEY, LinearToDecibel(value, 0, 100));
         }
     }
 
-    protected override void InitializeInternal()
+    protected override async void InitializeInternal()
     {
         base.InitializeInternal();
+
+        await new WaitUntil(() => Manager.Instance.GetManager<SaveManager>().IsInitialized);
 
         audioMixer.SetFloat(AUDIO_MIXER_VOLUME_KEY, LinearToDecibel(Volume, 0, 100));
         audioMixer.SetFloat(AUDIO_MIXER_MUSIC_VOLUME_KEY, LinearToDecibel(MusicVolume, 0, 100));
