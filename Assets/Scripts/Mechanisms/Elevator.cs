@@ -12,11 +12,15 @@ public class Elevator : MonoBehaviour, IInteractable
     [SerializeField] private Transform endPosition = null;
     [SerializeField] private Transform elevatorPlatform = null;
 
+    [Header("Ground Check")]
+    [SerializeField] private LayerMask groundLayer = default;
+
     private Vector3 startPos = Vector3.zero;
     private Vector3 endPos = Vector3.zero;
     private float timer = 0f;
 
     public bool IsMoving { get; private set; }
+    public bool IsGrounded { get; private set; }
 
     private void Awake()
     {
@@ -63,10 +67,33 @@ public class Elevator : MonoBehaviour, IInteractable
         if (!IsMoving)
             return;
 
-        timer += Time.deltaTime * speed;
+        float timer = this.timer + Time.deltaTime * speed;
 
         float t = Mathf.PingPong(timer, 1f);
         Vector3 targetPosition = Vector3.Lerp(startPos, endPos, t);
+        CheckGround(targetPosition);
+
+        if (IsGrounded)
+            return;
+
+        this.timer = timer;
         elevatorPlatform.position = targetPosition;
+    }
+
+    public void CheckGround(Vector3 position)
+    {
+        Collider2D targetCollider = Physics2D.OverlapBox(position, collider.size, 0, groundLayer);
+        if(targetCollider != null)
+        {
+            GameObject target = targetCollider.gameObject;
+            if(targetCollider.TryGetComponent(out IOwner iOwner))
+                target = iOwner.Owner;
+
+            IsGrounded = target != gameObject;
+        }
+        else
+        {
+            IsGrounded = false;
+        }
     }
 }

@@ -269,6 +269,9 @@ MonoBehaviour:
   startPosition: {fileID: 4350900711209453860}
   endPosition: {fileID: 3151610291265295334}
   elevatorPlatform: {fileID: 1127584590485391618}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 197
 --- !u!114 &9066376882762366582
 MonoBehaviour:
   m_ObjectHideFlags: 0
