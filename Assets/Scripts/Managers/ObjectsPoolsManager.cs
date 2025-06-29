@@ -18,6 +18,7 @@ public class ObjectsPoolsManager : BaseManager
     [SerializeField] private ObjectsPoolType ghostOPT = null;
     [SerializeField] private ObjectsPoolType playerOPT = null;
     [SerializeField] private ObjectsPoolType uiGhostIndicatorEntryOPT = null;
+    [SerializeField] private ObjectsPoolType mainMenuLevelStarEntryOPT = null;
 
     private List<ObjectsPool> objectsPools = new List<ObjectsPool>();
     private Dictionary<ObjectsPoolType, Data> pools = new Dictionary<ObjectsPoolType, Data>();
@@ -25,6 +26,7 @@ public class ObjectsPoolsManager : BaseManager
     public ObjectsPoolType GhostOPT => ghostOPT;
     public ObjectsPoolType PlayerOPT => playerOPT;
     public ObjectsPoolType UiGhostIndicatorEntryOPT => uiGhostIndicatorEntryOPT;
+    public ObjectsPoolType MainMenuLevelStarEntryOPT => mainMenuLevelStarEntryOPT;
 
     public void Register(ObjectsPool objectsPool)
     {

@@ -233,7 +233,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe881a97a383e924b991008856fbdd0c, type: 3}
---- !u!1001 &4966685091391395898
+--- !u!1001 &9087134516586053145
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -241,59 +241,59 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5569957536501925955, guid: 7007657707e5c1c49a993bfd0305c150, type: 3}
-      propertyPath: m_Name
-      value: pf_MainMenuUI
-      objectReference: {fileID: 0}
-    - target: {fileID: 8384371711441051167, guid: 7007657707e5c1c49a993bfd0305c150, type: 3}
+    - target: {fileID: 3451364687609113526, guid: e485f09f35cf8874eacef2267c9cd212, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8384371711441051167, guid: 7007657707e5c1c49a993bfd0305c150, type: 3}
+    - target: {fileID: 3451364687609113526, guid: e485f09f35cf8874eacef2267c9cd212, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8384371711441051167, guid: 7007657707e5c1c49a993bfd0305c150, type: 3}
+    - target: {fileID: 3451364687609113526, guid: e485f09f35cf8874eacef2267c9cd212, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8384371711441051167, guid: 7007657707e5c1c49a993bfd0305c150, type: 3}
+    - target: {fileID: 3451364687609113526, guid: e485f09f35cf8874eacef2267c9cd212, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8384371711441051167, guid: 7007657707e5c1c49a993bfd0305c150, type: 3}
+    - target: {fileID: 3451364687609113526, guid: e485f09f35cf8874eacef2267c9cd212, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8384371711441051167, guid: 7007657707e5c1c49a993bfd0305c150, type: 3}
+    - target: {fileID: 3451364687609113526, guid: e485f09f35cf8874eacef2267c9cd212, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8384371711441051167, guid: 7007657707e5c1c49a993bfd0305c150, type: 3}
+    - target: {fileID: 3451364687609113526, guid: e485f09f35cf8874eacef2267c9cd212, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8384371711441051167, guid: 7007657707e5c1c49a993bfd0305c150, type: 3}
+    - target: {fileID: 3451364687609113526, guid: e485f09f35cf8874eacef2267c9cd212, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8384371711441051167, guid: 7007657707e5c1c49a993bfd0305c150, type: 3}
+    - target: {fileID: 3451364687609113526, guid: e485f09f35cf8874eacef2267c9cd212, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8384371711441051167, guid: 7007657707e5c1c49a993bfd0305c150, type: 3}
+    - target: {fileID: 3451364687609113526, guid: e485f09f35cf8874eacef2267c9cd212, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9056668812857452268, guid: e485f09f35cf8874eacef2267c9cd212, type: 3}
+      propertyPath: m_Name
+      value: pf_MainMenuManager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 7007657707e5c1c49a993bfd0305c150, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: e485f09f35cf8874eacef2267c9cd212, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 400547857}
   - {fileID: 140567190}
-  - {fileID: 4966685091391395898}
+  - {fileID: 9087134516586053145}
