@@ -263,8 +263,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81d3630bb37914747ac64b24c6463048, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultIIsMoving: 1
-  speed: 1
+  moveOnStart: 0
+  speed: 0.5
   collider: {fileID: 1496331131957706181}
   startPosition: {fileID: 4350900711209453860}
   endPosition: {fileID: 3151610291265295334}

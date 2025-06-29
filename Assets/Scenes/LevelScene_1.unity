@@ -807,8 +807,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4481667155088456305, guid: 91ae95a66f1345c418c8f1ce006e88bc, type: 3}
-      propertyPath: speed
-      value: 0.5
+      propertyPath: moveOnStart
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5439621370166600771, guid: 91ae95a66f1345c418c8f1ce006e88bc, type: 3}
       propertyPath: m_Name

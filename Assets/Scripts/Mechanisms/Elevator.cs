@@ -3,7 +3,7 @@ using UnityEngine;
 public class Elevator : MonoBehaviour, IInteractable
 {
     [Header("Settings")]
-    [SerializeField] private bool defaultIIsMoving = true;
+    [SerializeField] private bool moveOnStart = false;
     [SerializeField] private float speed = 1f;
 
     [Header("References")]
@@ -26,11 +26,8 @@ public class Elevator : MonoBehaviour, IInteractable
     {
         startPos = startPosition.position;
         endPos = endPosition.position;
-    }
+        IsMoving = moveOnStart;
 
-    private void Start()
-    {
-        IsMoving = defaultIIsMoving;
         elevatorPlatform.position = startPos;
     }
 

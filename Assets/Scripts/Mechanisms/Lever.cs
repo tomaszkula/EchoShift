@@ -3,6 +3,7 @@ using UnityEngine;
 public class Lever : MonoBehaviour, IActivatable
 {
     [Header("Settings")]
+    [SerializeField] private bool isActivatedOnStart = false;
     [SerializeField] private Interactable target = null;
 
     [Header("References")]
@@ -12,6 +13,29 @@ public class Lever : MonoBehaviour, IActivatable
     private bool isActivated = false;
 
     private const string ANIMATOR_IS_ACTIVATED_BOOL_KEY = "IsActivated";
+
+    private void Awake()
+    {
+        if (isActivatedOnStart)
+        {
+            isActivated = true;
+            animator.SetBool(ANIMATOR_IS_ACTIVATED_BOOL_KEY, true);
+            
+        }
+        else
+        {
+            isActivated = false;
+            animator.SetBool(ANIMATOR_IS_ACTIVATED_BOOL_KEY, false);
+        }
+    }
+
+    private void Start()
+    {
+        if(isActivated)
+            target?.Interact();
+        else
+            target?.Deinteract();
+    }
 
     public void Activate()
     {
