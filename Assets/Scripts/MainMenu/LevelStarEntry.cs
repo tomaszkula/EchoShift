@@ -25,6 +25,7 @@ public class LevelStarEntry : MonoBehaviour
 
     private void RefreshIconImage()
     {
+        iconImage.sprite = Manager.Instance.GetManager<SpriteAtlasesManager>().GetUiSprite(SpriteAtlasesManager.UI_SPRITE_ICON_STAR_NAME);
         iconImage.color = CurrentData.IsUnlocked ? Color.yellow : Color.white;
     }
 }

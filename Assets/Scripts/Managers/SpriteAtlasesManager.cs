@@ -43,6 +43,7 @@ public class SpriteAtlasesManager : BaseManager
     public const string UI_SPRITE_ICON_RECORD_NAME = "sp_Icon_Record";
     public const string UI_SPRITE_ICON_STOP_NAME = "sp_Icon_Stop";
     public const string UI_SPRITE_ICON_VOLUME_NAME = "sp_Icon_Volume";
+    public const string UI_SPRITE_ICON_STAR_NAME = "sp_Icon_Star";
     public Sprite GetUiSprite(string spriteName)
     {
         return spriteAtlases[uiSAT].spriteAtlas.GetSprite(spriteName);
