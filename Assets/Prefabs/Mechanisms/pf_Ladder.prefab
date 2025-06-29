@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6323102046455700832}
   - component: {fileID: 5478763956014654101}
   - component: {fileID: 5105070502601806856}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: collider_Ladder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6606483696386700517}
   - component: {fileID: 3683974172759355910}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: pf_Ladder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6373039418218366047}
   - component: {fileID: 1776559815678144312}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: sr_Ladder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

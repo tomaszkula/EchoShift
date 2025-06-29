@@ -1,13 +1,15 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ClimbDefault : MonoBehaviour, IClimb
 {
     [Header("Settings")]
     [SerializeField] private float climbSpeed = 5f;
+    [SerializeField] private float applyClimbingSpeed = 10f;
 
     public bool IsClimbing { get; private set; }
-    private ITriggerable iTriggerable = null;
+    private List<Ladder> ladders = new List<Ladder>();
     private Vector2 climbDirection = Vector2.zero;
 
     private ITriggerer iTriggerer = null;
@@ -40,26 +42,22 @@ public class ClimbDefault : MonoBehaviour, IClimb
 
     private void OnTriggered(ITriggerable iTriggerable)
     {
-        if (iTriggerable is not Ladder)
+        if (iTriggerable is not Ladder ladder)
             return;
 
-        IsClimbing = true;
-        this.iTriggerable = iTriggerable;
+        ladders.Add(ladder);
 
-        rigidbody.gravityScale = 0f;
+        RefreshClimbingMovement();
     }
 
     private void OnUntriggered(ITriggerable iTriggerable)
     {
-        if (iTriggerable != this.iTriggerable)
+        if (iTriggerable is not Ladder ladder)
             return;
 
-        IsClimbing = false;
-        this.iTriggerable = null;
+        ladders.Remove(ladder);
 
-        rigidbody.gravityScale = 1f;
-
-        StopClimbing();
+        RefreshClimbingMovement();
     }
 
     public void Climb(Vector2 direction)
@@ -73,16 +71,33 @@ public class ClimbDefault : MonoBehaviour, IClimb
             return;
 
         Vector2 climbVelocity = climbDirection * climbSpeed;
-        rigidbody.linearVelocity = climbVelocity;
+        rigidbody.linearVelocity = Vector2.MoveTowards(rigidbody.linearVelocity, climbVelocity, applyClimbingSpeed * Time.fixedDeltaTime);
 
         OnClimb?.Invoke(climbDirection);
     }
 
+    private void RefreshClimbingMovement()
+    {
+        if (ladders.Count > 0)
+        {
+            IsClimbing = true;
+            rigidbody.gravityScale = 0f;
+        }
+        else
+        {
+            IsClimbing = false;
+            rigidbody.gravityScale = 1f;
+            StopClimbing();
+        }
+    }
+
     private void StopClimbing()
     {
-        Vector2 noVelocity = Vector2.zero;
-        rigidbody.linearVelocity = noVelocity;
+        //Vector2 noVelocity = Vector2.zero;
+        //rigidbody.linearVelocity = noVelocity;
 
-        OnClimb?.Invoke(noVelocity);
+        //OnClimb?.Invoke(noVelocity);
+
+        OnClimb?.Invoke(rigidbody.linearVelocity);
     }
 }

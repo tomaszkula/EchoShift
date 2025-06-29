@@ -489,6 +489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   climbSpeed: 3
+  applyClimbingSpeed: 25
 --- !u!114 &2808939330338235006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -544,7 +545,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundLayer:
     serializedVersion: 2
-    m_Bits: 133
+    m_Bits: 4225
   groundCheckRadius: 0.2
   feet: {fileID: 874185462584392933}
 --- !u!114 &7894739752959219404
